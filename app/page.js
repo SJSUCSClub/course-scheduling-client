@@ -1,10 +1,13 @@
 'use client'
-import { Input } from "@/components/ui/input"
-import GoogleButton from "react-google-button";
+import { Input } from "@/components/ui/input";
+import Login from "@/components/login";
+import { SessionProvider } from "next-auth/react";
 export default function Home() {
   return (
     <div className="flex h-full w-full justify-center">
-      <GoogleButton/>
+      <SessionProvider>
+        <Login/>
+      </SessionProvider> 
       {/* <Input/> */}
     </div>
   );
