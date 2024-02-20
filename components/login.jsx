@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 
 const Login = () =>{
     const { data: session, status } = useSession();
+    console.log(session);
+
     return(
         <div>
             <GoogleButton onClick={()=>{signIn("google",undefined,{
