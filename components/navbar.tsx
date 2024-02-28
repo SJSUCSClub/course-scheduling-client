@@ -83,7 +83,7 @@ export default function Navbar() {
             <div className="h-[45px] w-[45px] lg:hidden" />
             <div className="flex items-center gap-[16px]">
               <Button
-                variant="ghost"
+                variant="primary"
                 onClick={() =>
                   signIn('google', undefined, { prompt: 'select_account' })
                 }
