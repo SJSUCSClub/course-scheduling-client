@@ -48,14 +48,14 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main className="mx-auto flex max-w-[1076px] flex-col gap-[10px] p-[10px]">
       {/* Rating Summary */}
       <Breadcrumb className="flex py-[10px]" />
-      <div className="flex gap-[10px]">
+      <div className="flex gap-[10px] max-lg:flex-col">
         <RatingSummary
           reviewCount={reviewCount}
           name={name}
           rating={rating}
           className="flex-1"
         />
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex gap-[10px] lg:flex-col">
           <InfoCard
             type="good"
             icon={<ClipboardDocumentListIcon />}
