@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 241 185 71;
+    --color-secondary: 119 164 215;
+    --color-accent: 183 208 237;
+    --color-background: 255 255 255;
+    --color-text: 20 16 12;
+    --color-neutral: 164 164 164;
+    --color-important: 166 0 0;
+    --color-highlight: 241 241 241;
+    --color-good: 18 218 169;
+    --color-ok: 253 159 30;
+    --color-bad: 255 83 83;
+    --color-border: 229 229 229;
+    --color-hovered-border: 255 255 255;
+  }
+}
+
+::selection {
+  background: rgb(var(--color-accent));
+}
