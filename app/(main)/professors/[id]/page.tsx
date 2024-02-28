@@ -97,6 +97,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
       {/* Statistics */}
       <SectionLabel info="Statistics">Statistics</SectionLabel>
+
+      {/* Schedule */}
+      <SectionLabel info="Statistics">Schedule</SectionLabel>
+
+      {/* Reviews */}
+      <SectionLabel info="Statistics">{reviewCount} Reviews</SectionLabel>
     </main>
   );
 }
