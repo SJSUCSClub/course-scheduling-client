@@ -46,7 +46,7 @@ export default function Button({
       <BaseButton
         {...props}
         className={twMerge(
-          'animation flex h-[30px] w-[30px] items-center justify-center text-primary hover:opacity-50 active:opacity-25 disabled:text-neutral',
+          'flex h-[30px] w-[30px] items-center justify-center text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral',
           props.className,
         )}
       >
@@ -60,22 +60,24 @@ export default function Button({
       className={twMerge(
         clsx(
           {
-            'default-border animation flex h-fit items-center justify-center gap-[10px] rounded-lg bg-primary px-[20px] py-[5px] text-button text-background hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-primary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
               variant === 'primary',
-            'default-border animation flex h-fit items-center justify-center gap-[10px] rounded-lg bg-secondary px-[20px] py-[5px] text-button text-background hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-secondary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
               variant === 'secondary',
-            'animation flex  h-fit items-center justify-center gap-[10px] px-[20px] py-[5px] text-button text-primary hover:opacity-50 active:opacity-25 disabled:text-neutral':
+            'flex h-fit  items-center justify-center gap-[5px] px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral':
               variant === 'tertiary',
-            'animation flex h-fit items-center justify-center gap-[10px] rounded-lg border-2 border-primary px-[20px] py-[5px] text-button text-primary hover:opacity-50 active:opacity-25 disabled:border-neutral disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg border-2 border-primary px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:border-neutral disabled:text-neutral':
               variant === 'ghost',
           },
           props.className,
         ),
       )}
     >
-      {prefix ? <Icon icon={prefix} w="14px" h="14px" /> : null}
+      {prefix ? <Icon icon={prefix} w="16px" h="16px" /> : null}
       {children}
-      {postfix ? <Icon icon={postfix} w="14px" h="14px" /> : null}
+      {postfix ? (
+        <Icon icon={postfix} w="16px" h="16px" strokeWidth={3} />
+      ) : null}
     </BaseButton>
   );
 }
