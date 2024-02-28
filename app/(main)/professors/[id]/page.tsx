@@ -1,13 +1,18 @@
 import {
   ArrowPathIcon,
+  ArrowTopRightOnSquareIcon,
+  ChevronRightIcon,
   ClipboardDocumentListIcon,
+  InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
 import RatingSummary from '@/components/rating-summary';
+import SectionLabel from '@/components/section-label';
 import Breadcrumb from '@/components/breadcrumb';
 import InfoCard from '@/components/info-card';
+import Button from '@/components/button';
 import Tag from '@/components/tag';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -79,6 +84,19 @@ export default async function Page({ params }: { params: { id: string } }) {
           </Tag>
         ))}
       </div>
+
+      {/* Actions */}
+      <div className="flex flex-wrap justify-center gap-[10px] pt-[10px] text-button">
+        <Button variant="primary" postfix={<ChevronRightIcon />}>
+          Rate
+        </Button>
+        <Button variant="secondary" postfix={<ArrowTopRightOnSquareIcon />}>
+          Compare Professor
+        </Button>
+      </div>
+
+      {/* Statistics */}
+      <SectionLabel info="Statistics">Statistics</SectionLabel>
     </main>
   );
 }
