@@ -1,17 +1,17 @@
-import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import clsx from 'clsx';
 
-interface TagProps extends Omit<React.HTMLProps<HTMLDivElement>, 'size'> {
+interface TagProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size: 'sm' | 'lg';
   count?: number;
 }
 
 export default function Tag({ size, count, children, ...props }: TagProps) {
   return (
-    <span
+    <button
       {...props}
       className={twMerge(
-        clsx('flex gap-[5px] rounded-lg bg-border', {
+        clsx('flex gap-[5px] rounded-lg bg-border hover:opacity-50 active:opacity-25', {
           'px-[15px] py-[5px] text-caption': size === 'sm',
           'px-[20px] py-[10px] text-tag text-neutral': size === 'lg',
         }),
@@ -29,6 +29,6 @@ export default function Tag({ size, count, children, ...props }: TagProps) {
           {count}
         </span>
       ) : null}
-    </span>
+    </button>
   );
 }
