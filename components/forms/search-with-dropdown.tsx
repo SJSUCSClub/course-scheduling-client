@@ -13,7 +13,7 @@ export default function SearchWithDropdown(
     >
       <input
         type="text"
-        className="animation h-full w-0 flex-1 rounded-l-[12px] default-border bg-border pr-10 focus:border-primary focus:ring-0"
+        className="h-full w-0 flex-1 rounded-l-md bg-border pr-10 animation default-border focus:border-primary focus:ring-0"
         placeholder="Search"
       />
       <div className="relative h-full">
@@ -21,7 +21,7 @@ export default function SearchWithDropdown(
           <Icon icon={<MagnifyingGlassIcon />} w="16px" h="16px" />
         </div>
       </div>
-      <select className="animation flex h-full w-fit appearance-none items-center rounded-r-[12px] default-border bg-background py-[5px] pl-[16px] pr-[38px] focus:border-primary focus:ring-0">
+      <select className="flex h-full w-fit appearance-none items-center rounded-r-md bg-background py-[5px] pl-[16px] pr-[38px] animation default-border focus:border-primary focus:ring-0">
         <option value="courses">Courses</option>
         <option value="professors">Professors</option>
       </select>
