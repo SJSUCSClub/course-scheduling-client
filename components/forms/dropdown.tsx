@@ -30,12 +30,10 @@ export default function Dropdown({
       )}
     >
       <div className="flex items-center justify-between gap-[32px]">
-        {label ? (
-          <label className="flex gap-[3px] text-heading text-neutral">
-            {label}
-            {required ? <span className="text-important">*</span> : null}
-          </label>
-        ) : null}
+        <label className="flex gap-[3px] text-heading text-neutral">
+          {label}
+          {required ? <span className="text-important">*</span> : null}
+        </label>
         {error ? (
           <p className="flex text-subheading italic text-important">{error}</p>
         ) : null}
