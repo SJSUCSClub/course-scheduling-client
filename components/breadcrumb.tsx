@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import clsx from 'clsx';
 
-export default function Breadcrumb(props: React.HTMLProps<HTMLDivElement>) {
+const Breadcrumb: React.FC<React.HTMLProps<HTMLDivElement>> = (props) => {
   const pathname = usePathname();
   const paths = pathname.substring(1).split('/');
   const breadcrumbs = paths.map((path, i) => {
@@ -39,4 +39,6 @@ export default function Breadcrumb(props: React.HTMLProps<HTMLDivElement>) {
       </ul>
     </nav>
   );
-}
+};
+
+export default Breadcrumb;

@@ -6,7 +6,7 @@ interface TagProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   count?: number;
 }
 
-export default function Tag({ size, count, children, ...props }: TagProps) {
+const Tag: React.FC<TagProps> = ({ size, count, children, ...props }) => {
   return (
     <button
       {...props}
@@ -31,4 +31,6 @@ export default function Tag({ size, count, children, ...props }: TagProps) {
       ) : null}
     </button>
   );
-}
+};
+
+export default Tag;

@@ -11,7 +11,7 @@ interface DropdownProps extends React.HTMLProps<HTMLDivElement> {
   values: string[];
 }
 
-export default function Dropdown({
+const Dropdown: React.FC<DropdownProps> = ({
   label,
   error,
   helper,
@@ -20,7 +20,7 @@ export default function Dropdown({
   options,
   values,
   ...props
-}: DropdownProps) {
+}) => {
   return (
     <div
       {...props}
@@ -59,4 +59,6 @@ export default function Dropdown({
       ) : null}
     </div>
   );
-}
+};
+
+export default Dropdown;

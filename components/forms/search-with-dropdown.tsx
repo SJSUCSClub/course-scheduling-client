@@ -3,9 +3,9 @@ import { twMerge } from 'tailwind-merge';
 
 import Icon from '@/components/icon';
 
-export default function SearchWithDropdown(
-  props: React.HTMLProps<HTMLDivElement>,
-) {
+const SearchWithDropdown: React.FC<React.HTMLProps<HTMLDivElement>> = (
+  props,
+) => {
   return (
     <div
       {...props}
@@ -27,4 +27,6 @@ export default function SearchWithDropdown(
       </select>
     </div>
   );
-}
+};
+
+export default SearchWithDropdown;

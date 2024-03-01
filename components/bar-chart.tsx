@@ -77,7 +77,7 @@ interface BarChartProps extends React.HTMLProps<HTMLDivElement> {
   chartData: number[];
 }
 
-export default function BarChart({ chartData, ...props }: BarChartProps) {
+const BarChart: React.FC<BarChartProps> = ({ chartData, ...props }) => {
   return (
     <div {...props}>
       <Chart
@@ -91,4 +91,6 @@ export default function BarChart({ chartData, ...props }: BarChartProps) {
       />
     </div>
   );
-}
+};
+
+export default BarChart;

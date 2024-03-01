@@ -10,7 +10,7 @@ interface NavlinkProps extends React.HTMLProps<HTMLSpanElement> {
   href: string;
 }
 
-export default function Navlink({ href, children, ...props }: NavlinkProps) {
+const Navlink: React.FC<NavlinkProps> = ({ href, children, ...props }) => {
   const pathname = usePathname();
   React.useEffect(() => {
     setLoading(false);
@@ -35,4 +35,6 @@ export default function Navlink({ href, children, ...props }: NavlinkProps) {
       </Link>
     </span>
   );
-}
+};
+
+export default Navlink;

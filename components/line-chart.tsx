@@ -77,7 +77,7 @@ interface LineChartProps extends React.HTMLProps<HTMLDivElement> {
   chartData: number[];
 }
 
-export default function LineChart({ chartData, ...props }: LineChartProps) {
+const LineChart: React.FC<LineChartProps> = ({ chartData, ...props }) => {
   return (
     <div {...props}>
       <Chart
@@ -91,4 +91,6 @@ export default function LineChart({ chartData, ...props }: LineChartProps) {
       />
     </div>
   );
-}
+};
+
+export default LineChart;

@@ -1,4 +1,4 @@
-export default function LoadingSpinner(props: React.HTMLProps<HTMLDivElement>) {
+const LoadingSpinner: React.FC<React.HTMLProps<HTMLDivElement>> = (props) => {
   return (
     <div {...props}>
       <div className="h-5 w-5 ">
@@ -25,4 +25,6 @@ export default function LoadingSpinner(props: React.HTMLProps<HTMLDivElement>) {
       </div>
     </div>
   );
-}
+};
+
+export default LoadingSpinner;

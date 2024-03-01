@@ -17,7 +17,7 @@ interface ButtonProps
   children?: React.ReactNode;
 }
 
-export default function Button({
+const Button: React.FC<ButtonProps> = ({
   variant,
   prefix,
   postfix,
@@ -25,8 +25,10 @@ export default function Button({
   loading,
   children,
   ...props
-}: ButtonProps) {
-  function BaseButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}) => {
+  const BaseButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = (
+    props,
+  ) => {
     return (
       <button {...props} disabled={disabled}>
         {loading ? (
@@ -39,7 +41,7 @@ export default function Button({
         )}
       </button>
     );
-  }
+  };
 
   if (React.isValidElement(variant)) {
     return (
@@ -80,4 +82,6 @@ export default function Button({
       ) : null}
     </BaseButton>
   );
-}
+};
+
+export default Button;
