@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     'Tough grader',
   ];
   const ratingDistribution = [11, 5, 1, 7, 23];
-  const gradeDistribution = [2, 15, 11, 20, 7];
+  const gradeDistribution = [2, 15, 11, 20, 9];
 
   return (
     <main className="mx-auto flex max-w-[1076px] flex-col gap-[10px] p-[10px]">
