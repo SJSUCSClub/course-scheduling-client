@@ -5,7 +5,7 @@ import Icon from '@/components/icon';
 import Button from '@/components/button';
 import { useRouter } from 'next/navigation';
 
-export default function PageNotFound() {
+const PageNotFound: React.FC = () => {
   const router = useRouter();
   return (
     <main className="flex flex-col items-center gap-[20px] p-20 text-text">
@@ -19,4 +19,6 @@ export default function PageNotFound() {
       </Button>
     </main>
   );
-}
+};
+
+export default PageNotFound;

@@ -17,11 +17,15 @@ import BarChart from '@/components/bar-chart';
 import LineChart from '@/components/line-chart';
 import Dropdown from '@/components/forms/dropdown';
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
   return {
     title: params.id,
   };
-}
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;

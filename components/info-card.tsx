@@ -10,13 +10,13 @@ interface InfoCardProps extends React.HTMLProps<HTMLDivElement> {
   subtitle: string;
 }
 
-export default function InfoCard({
+const InfoCard: React.FC<InfoCardProps> = ({
   type = 'default',
   icon,
   title,
   subtitle,
   ...props
-}: InfoCardProps) {
+}) => {
   const [good, ok, bad, default_] = [
     type === 'good',
     type === 'ok',
@@ -63,4 +63,6 @@ export default function InfoCard({
       </div>
     </div>
   );
-}
+};
+
+export default InfoCard;

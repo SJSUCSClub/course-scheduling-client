@@ -20,7 +20,7 @@ const links = [
   { name: 'Professors', href: '/professors' },
 ];
 
-export default function Navbar() {
+const Navbar: React.FC = () => {
   const [showMenu, setShowMenu] = React.useState(false);
   const toggleMenu = () => setShowMenu(!showMenu);
   const [showSearch, setShowSearch] = React.useState(false);
@@ -104,4 +104,6 @@ export default function Navbar() {
       </nav>
     </header>
   );
-}
+};
+
+export default Navbar;

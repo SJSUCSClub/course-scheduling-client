@@ -66,7 +66,7 @@ const config: Config = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    plugin(function ({ addUtilities }) {
+    plugin(({ addUtilities }) => {
       addUtilities({
         '.animation': {
           '@apply transition-all duration-100 ease-in-out': {},

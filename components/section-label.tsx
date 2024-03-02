@@ -2,13 +2,12 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 import Button from '@/components/button';
 
-export default function SectionLabel({
-  info,
-  children,
-}: {
+interface SectionLabelProps {
   info: string;
   children: React.ReactNode;
-}) {
+}
+
+const SectionLabel: React.FC<SectionLabelProps> = ({ info, children }) => {
   return (
     <div className="flex items-center gap-[5px] pt-[20px]">
       <h3>{children}</h3>
@@ -20,4 +19,6 @@ export default function SectionLabel({
       ) : null}
     </div>
   );
-}
+};
+
+export default SectionLabel;

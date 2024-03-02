@@ -7,10 +7,12 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
   h: string;
 }
 
-export default function Icon({ icon, w, h, ...props }: IconProps) {
+const Icon: React.FC<IconProps> = ({ icon, w, h, ...props }) => {
   return React.cloneElement(icon, {
     strokeWidth: 2,
     ...props,
     style: { ...icon.props.style, width: w, height: h },
   });
-}
+};
+
+export default Icon;

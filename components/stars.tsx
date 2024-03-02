@@ -2,7 +2,11 @@
 
 import { useLottie } from 'lottie-react';
 
-export default function Stars({ rating }: { rating: number }) {
+interface StarsProps {
+  rating: number;
+}
+
+const Stars: React.FC<StarsProps> = ({ rating }) => {
   const { View } = useLottie({
     animationData:
       rating >= 0.5 && rating < 1
@@ -29,4 +33,6 @@ export default function Stars({ rating }: { rating: number }) {
   });
 
   return View;
-}
+};
+
+export default Stars;

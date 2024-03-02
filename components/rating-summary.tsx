@@ -13,12 +13,12 @@ interface RatingSummaryProps extends React.HTMLProps<HTMLDivElement> {
   rating: number;
 }
 
-export default function RatingSummary({
+const RatingSummary: React.FC<RatingSummaryProps> = ({
   reviewCount,
   name,
   rating,
   ...props
-}: RatingSummaryProps) {
+}) => {
   return (
     <div className="flex flex-1 items-end rounded-lg bg-background p-[32px] default-border">
       <p className="flex-1 text-caption text-text">{reviewCount} Reviews</p>
@@ -36,4 +36,6 @@ export default function RatingSummary({
       </div>
     </div>
   );
-}
+};
+
+export default RatingSummary;
