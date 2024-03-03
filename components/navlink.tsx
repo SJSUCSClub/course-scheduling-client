@@ -22,7 +22,7 @@ const Navlink: React.FC<NavlinkProps> = ({ href, children, ...props }) => {
       {...props}
       className={twMerge(
         clsx(
-          'animation rounded-sm px-3 py-1 hover:bg-[rgb(var(--color-primary)/0.25)]',
+          'rounded-sm px-3 py-1 animation hover:bg-[rgb(var(--color-primary)/0.25)]',
           {
             'animate-pulse bg-[rgb(var(--color-primary)/0.1)]': loading,
           },
