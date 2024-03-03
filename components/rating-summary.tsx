@@ -1,9 +1,13 @@
+'use client';
+
 import {
   BookmarkIcon,
   EnvelopeIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
+import { Popover } from '@/components/popover';
 import Button from '@/components/button';
 import Stars from '@/components/stars';
 
@@ -12,6 +16,16 @@ interface RatingSummaryProps extends React.HTMLProps<HTMLDivElement> {
   name: string;
   rating: number;
 }
+
+const Options: React.FC = () => {
+  return (
+    <>
+      <Button variant={<EnvelopeIcon />} className="text-text" />
+      <Button variant={<ShareIcon />} className="text-text" />
+      <Button variant={<BookmarkIcon />} className="text-text" />
+    </>
+  );
+};
 
 const RatingSummary: React.FC<RatingSummaryProps> = ({
   reviewCount,
@@ -29,10 +43,18 @@ const RatingSummary: React.FC<RatingSummaryProps> = ({
           <Stars rating={rating} />
         </div>
       </div>
-      <div className="flex flex-1 justify-end gap-[5px]">
-        <Button variant={<EnvelopeIcon />} className="text-text" />
-        <Button variant={<ShareIcon />} className="text-text" />
-        <Button variant={<BookmarkIcon />} className="text-text" />
+      <div className="flex flex-1 justify-end gap-[5px] max-lg:hidden">
+        <Options />
+      </div>
+      <div className="relative flex flex-1 items-start justify-end gap-[5px] lg:hidden">
+        <Popover>
+          <Popover.Trigger>
+            <Button variant={<EllipsisVerticalIcon />} className="text-text" />
+          </Popover.Trigger>
+          <Popover.Content className="left-5 top-8 rounded-lg p-[32px] default-border">
+            <Options />
+          </Popover.Content>
+        </Popover>
       </div>
     </div>
   );
