@@ -62,13 +62,13 @@ const Button: React.FC<ButtonProps> = ({
       className={twMerge(
         clsx(
           {
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-primary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-primary px-[20px] py-[7.5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
               variant === 'primary',
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-secondary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-secondary px-[20px] py-[7.5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
               variant === 'secondary',
-            'flex h-fit  items-center justify-center gap-[5px] px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral':
+            'flex h-fit  items-center justify-center gap-[5px] px-[20px] py-[7.5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral':
               variant === 'tertiary',
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg border-2 border-primary px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:border-neutral disabled:text-neutral':
+            'flex h-fit items-center justify-center gap-[5px] rounded-lg border-2 border-primary px-[20px] py-[7.5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:border-neutral disabled:text-neutral':
               variant === 'ghost',
           },
           props.className,
