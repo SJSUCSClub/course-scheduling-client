@@ -11,10 +11,13 @@ const Tag: React.FC<TagProps> = ({ size, count, children, ...props }) => {
     <button
       {...props}
       className={twMerge(
-        clsx('flex gap-[5px] rounded-lg bg-border hover:opacity-50 active:opacity-25', {
-          'px-[15px] py-[5px] text-caption': size === 'sm',
-          'px-[20px] py-[10px] text-tag text-neutral': size === 'lg',
-        }),
+        clsx(
+          'flex gap-[5px] rounded-lg bg-border hover:opacity-50 active:opacity-25',
+          {
+            'px-[15px] py-[5px] text-caption': size === 'sm',
+            'px-[20px] py-[10px] text-tag text-neutral': size === 'lg',
+          },
+        ),
         props.className,
       )}
     >
