@@ -46,9 +46,12 @@ const config: Config = {
       subheading: ['15px', { lineHeight: '20px', fontWeight: 300 }],
       'body-bold': ['17px', { lineHeight: '22px', fontWeight: 700 }],
       body: ['17px', { lineHeight: '22px', fontWeight: 400 }],
-      button: ['16px', { letterSpacing: '-0.05em', fontWeight: 700 }],
-      tag: ['16px', { fontWeight: 400 }],
-      caption: ['12px', { fontWeight: 400 }],
+      button: [
+        '16px',
+        { letterSpacing: '-0.05em', lineHeight: '19.4px', fontWeight: 700 },
+      ],
+      tag: ['16px', { lineHeight: '19.4px', fontWeight: 400 }],
+      caption: ['12px', { lineHeight: '14.5px', fontWeight: 400 }],
     },
     borderRadius: {
       lg: '20px',
@@ -72,7 +75,7 @@ const config: Config = {
           '@apply transition-all duration-100 ease-in-out': {},
         },
         '.max-width': {
-          '@apply w-full max-w-[1076px]': {},
+          '@apply w-full max-w-[1076px] min-w-min': {},
         },
         '.default-border': {
           '@apply border-2 border-border': {},
