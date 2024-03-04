@@ -24,6 +24,28 @@ import Button from '@/components/button';
 import getColor from '@/utils/get-color';
 import Tag from '@/components/tag';
 
+const rating: RatingType = 2.6;
+const name = 'Jahan Ghofraniha';
+const reviewCount = 47;
+const email = 'YqVp3@example.com';
+const grade: GradeType = 'A-';
+const wouldTakeAgain: PercentageType = 52;
+const tags = [
+  'Hilarious',
+  'Respected',
+  'Caring',
+  'Amazing lectures',
+  'Inspirational',
+  'Accessible outside class',
+  'Participation matters',
+  'Graded by few things',
+  'Clear grading criteria',
+  'Get ready to read',
+  'Lots of homework',
+  'Tough grader',
+];
+const ratingDistribution = [11, 5, 1, 7, 23];
+const gradeDistribution = [2, 15, 11, 20, 9];
 
 export const generateMetadata = async ({
   params,
@@ -41,29 +63,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!id) {
     notFound();
   }
-
-  const rating = 2.6;
-  const name = 'Jahan Ghofraniha';
-  const reviewCount = 47;
-  const email = 'YqVp3@example.com';
-  const grade = 'A-';
-  const wouldTakeAgain = '39%';
-  const tags = [
-    'Hilarious',
-    'Respected',
-    'Caring',
-    'Amazing lectures',
-    'Inspirational',
-    'Accessible outside class',
-    'Participation matters',
-    'Graded by few things',
-    'Clear grading criteria',
-    'Get ready to read',
-    'Lots of homework',
-    'Tough grader',
-  ];
-  const ratingDistribution = [11, 5, 1, 7, 23];
-  const gradeDistribution = [2, 15, 11, 20, 9];
 
   return (
     <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
