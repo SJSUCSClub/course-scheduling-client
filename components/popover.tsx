@@ -11,19 +11,20 @@ const PopoverContext = React.createContext<PopoverContextType | undefined>(
   undefined,
 );
 
+interface Popover extends React.HTMLProps<HTMLDivElement> {}
 interface PopoverTriggerProps extends React.HTMLProps<HTMLDivElement> {}
 interface PopoverContentProps extends React.HTMLProps<HTMLDialogElement> {}
 
-const Popover: React.FC<{ children: React.ReactNode }> & {
+const Popover: React.FC<Popover> & {
   Trigger: React.FC<PopoverTriggerProps>;
   Content: React.FC<PopoverContentProps>;
-} = ({ children }) => {
+} = ({ children, ...props }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
     <PopoverContext.Provider value={{ isVisible, toggleVisibility }}>
-      {children}
+      <div {...props}>{children}</div>
     </PopoverContext.Provider>
   );
 };
@@ -52,7 +53,11 @@ const Content: React.FC<PopoverContentProps> = ({ children, ...props }) => {
   const { isVisible } = context;
 
   return (
-    <dialog open={isVisible} {...props}>
+    <dialog
+      open={isVisible}
+      {...props}
+      className={`-:rounded-lg -:p-[32px] -:shadow-paper -:default-border ${props.className}`}
+    >
       {children}
     </dialog>
   );
