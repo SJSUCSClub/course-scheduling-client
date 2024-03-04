@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { twMerge } from 'tailwind-merge';
 
 interface DropdownProps extends React.HTMLProps<HTMLDivElement> {
   label?: string;
@@ -24,8 +23,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       {...props}
-      className={twMerge(
-        clsx('flex flex-col gap-[10px]', { 'opacity-30': disabled }),
+      className={clsx(
+        '-:flex -:flex-col -:gap-[10px]',
+        { '-:opacity-30': disabled },
         props.className,
       )}
     >
@@ -40,12 +40,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
       <select
         disabled={disabled}
-        className={twMerge(
-          'flex h-[40px] w-fit min-w-full appearance-none items-center rounded-md bg-border py-[5px] pl-[16px] pr-[38px] animation focus:border-primary focus:ring-0',
-          clsx({
+        className={clsx(
+          '-:flex -:h-[40px] -:w-fit -:min-w-full -:appearance-none -:items-center -:rounded-md -:bg-border -:py-[5px] -:pl-[16px] -:pr-[38px] -:animation -:focus:border-primary -:focus:ring-0',
+          {
             'default-border': !error,
             'border-2 border-important': error,
-          }),
+          },
         )}
       >
         {options.map((option, index) => (

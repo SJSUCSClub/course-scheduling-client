@@ -1,4 +1,3 @@
-import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
 
 import Icon from '@/components/icon';
@@ -26,16 +25,14 @@ const InfoCard: React.FC<InfoCardProps> = ({
   return (
     <div
       {...props}
-      className={twMerge(
-        clsx(
-          'flex flex-1 items-center gap-[10px] rounded-lg p-[32px] opacity-75 default-border',
+      className={clsx(
+        '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:opacity-75 -:default-border',
           {
-            'bg-good': good,
-            'bg-ok': ok,
-            'bg-bad': bad,
-            'bg-border': default_,
+          '-:bg-good': good,
+          '-:bg-ok': ok,
+          '-:bg-bad': bad,
+          '-:bg-border': default_,
           },
-        ),
         props.className,
       )}
     >

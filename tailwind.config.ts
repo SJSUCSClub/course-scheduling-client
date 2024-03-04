@@ -69,6 +69,7 @@ const config: Config = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('tailwindcss-unimportant'),
     plugin(({ addUtilities }) => {
       addUtilities({
         '.animation': {
