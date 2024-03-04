@@ -11,9 +11,9 @@ import React from 'react';
 import clsx from 'clsx';
 
 import SearchWithDropdown from '@/components/forms/search-with-dropdown';
+import Navlink from '@/components/navlink';
 import Button from '@/components/button';
 import Logo from '@/components/logo';
-import Navlink from '@/components/navlink';
 
 const links = [
   { name: 'Courses', href: '/courses' },

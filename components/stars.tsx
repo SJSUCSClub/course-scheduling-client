@@ -1,7 +1,7 @@
 'use client';
 
-import { useLottie } from 'lottie-react';
 import { RatingType } from '@/utils/types';
+import { useLottie } from 'lottie-react';
 
 interface StarsProps {
   rating: RatingType;
