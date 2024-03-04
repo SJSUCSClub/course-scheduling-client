@@ -73,6 +73,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           reviewCount={reviewCount}
           name={name}
           rating={rating}
+          email={email}
           className="flex-1"
         />
         <div className="flex gap-[10px] lg:flex-col">
