@@ -58,10 +58,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   const gradeDistribution = [2, 15, 11, 20, 9];
 
   return (
-    <main className="mx-auto flex max-w-[1076px] flex-col gap-[10px] p-[10px]">
-      {/* Rating Summary */}
-      <Breadcrumb className="flex py-[10px]" />
-      <div className="flex gap-[10px] max-lg:flex-col">
+    <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
+      <Breadcrumb className="flex w-full min-w-min py-[10px]" />
+
+      <div className="flex min-w-min gap-[10px] max-lg:flex-col">
         <RatingSummary
           reviewCount={reviewCount}
           name={name}
@@ -84,8 +84,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* Tags */}
-      <div className="flex flex-wrap justify-center gap-[10px]">
+      <div className="flex min-w-min flex-wrap justify-center gap-[10px]">
         {tags.map((tag) => (
           <Tag key={tag} size="lg">
             {tag}
@@ -93,8 +92,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-      {/* Actions */}
-      <div className="flex flex-wrap justify-center gap-[10px] pt-[10px] text-button">
+      <div className="flex min-w-min flex-wrap justify-center gap-[10px] pt-[10px] text-button">
         <Button variant="primary" postfix={<ChevronRightIcon />}>
           Rate
         </Button>
@@ -103,9 +101,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </Button>
       </div>
 
-      {/* Statistics */}
       <SectionLabel info="Statistics">Statistics</SectionLabel>
-
       <div className="flex gap-[10px] max-lg:flex-col">
         <div className="flex min-h-[464px] flex-1 flex-col rounded-lg px-[32px] py-[20px] default-border">
           <div className="flex justify-between">
@@ -127,10 +123,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* Schedule */}
       <SectionLabel info="Statistics">Schedule</SectionLabel>
 
-      {/* Reviews */}
       <SectionLabel info="Statistics">{reviewCount} Reviews</SectionLabel>
     </main>
   );

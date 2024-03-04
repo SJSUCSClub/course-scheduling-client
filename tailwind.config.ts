@@ -76,7 +76,7 @@ const config: Config = {
           '@apply transition-all duration-100 ease-in-out': {},
         },
         '.max-width': {
-          '@apply w-full max-w-[1076px] min-w-min': {},
+          '@apply w-full max-w-[1076px]': {},
         },
         '.default-border': {
           '@apply border-2 border-border': {},
