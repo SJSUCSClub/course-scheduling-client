@@ -8,11 +8,18 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 import {
-  GradeType,
-  PercentageType,
-  RatingType,
-  ScheduleType,
-} from '@/utils/types';
+  email,
+  grade,
+  gradeDistribution,
+  name,
+  professorSchedules,
+  rating,
+  ratingDistribution,
+  reviewCount,
+  tags,
+  wouldTakeAgain,
+} from '@/data/professor';
+import { ScheduleType } from '@/utils/types';
 import RatingSummary from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
 import Schedule from '@/components/schedule/schedule';
@@ -24,82 +31,6 @@ import BarChart from '@/components/bar-chart';
 import Button from '@/components/button';
 import getColor from '@/utils/get-color';
 import Tag from '@/components/tag';
-
-const rating: RatingType = 2.6;
-const name = 'Jahan Ghofraniha';
-const reviewCount = 47;
-const email = 'YqVp3@example.com';
-const grade: GradeType = 'A-';
-const wouldTakeAgain: PercentageType = 52;
-const tags = [
-  'Hilarious',
-  'Respected',
-  'Caring',
-  'Amazing lectures',
-  'Inspirational',
-  'Accessible outside class',
-  'Participation matters',
-  'Graded by few things',
-  'Clear grading criteria',
-  'Get ready to read',
-  'Lots of homework',
-  'Tough grader',
-];
-const ratingDistribution = [11, 5, 1, 7, 23];
-const gradeDistribution = [2, 15, 11, 20, 9];
-const schedules: ScheduleType[] = [
-  {
-    course: 'CMPE 132',
-    section: '02',
-    name: 'Information Security',
-    enrollment: '10/34',
-    satisfies: 'GE: A',
-    units: 3,
-    type: 'Lab',
-    startDate: 'August 19, 2002',
-    endDate: 'Dec 20, 2002',
-    days: new Set(['M', 'W']),
-    times: '9:00 AM - 10:15 AM',
-    location: 'In Person - ENGR227',
-    avgGrade: 'C-',
-    avgOverallRating: 2,
-    number: '23105',
-  },
-  {
-    course: 'CMPE 180A',
-    section: '01',
-    name: 'Software Engineering I',
-    enrollment: '33/34',
-    satisfies: 'GE: A',
-    units: 3,
-    type: 'Lab',
-    startDate: 'August 19, 2002',
-    endDate: 'Dec 20, 2002',
-    days: new Set(['M', 'W']),
-    times: '9:00 AM - 10:15 AM',
-    location: 'In Person - ENGR227',
-    avgGrade: 'A+',
-    avgOverallRating: 4.5,
-    number: '23105',
-  },
-  {
-    course: 'CMPE 180B',
-    section: '01',
-    name: 'Software Engineering II',
-    enrollment: '34/34',
-    satisfies: 'GE: A',
-    units: 3,
-    type: 'Lab',
-    startDate: 'August 19, 2002',
-    endDate: 'Dec 20, 2002',
-    days: new Set(['M', 'W']),
-    times: '9:00 AM - 10:15 AM',
-    location: 'In Person - ENGR227',
-    avgGrade: 'F',
-    avgOverallRating: 1,
-    number: '23105',
-  },
-];
 
 export const generateMetadata = async ({
   params,
@@ -186,9 +117,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
 
       <SectionLabel info="Statistics">Schedule</SectionLabel>
-      {schedules.map((schedule, i) => (
-        <Schedule key={i} {...schedule} />
-      ))}
+      {professorSchedules.map((professorSchedule, i) => {
+        const { course, section, name, ...rest } = professorSchedule;
+        const schedule = {
+          heading: `${course} - ${section}`,
+          subheading: name,
+          ...rest,
+        } as ScheduleType;
+        return <Schedule key={i} {...schedule} />;
+      })}
 
       <SectionLabel info="Statistics">{reviewCount} Reviews</SectionLabel>
     </main>

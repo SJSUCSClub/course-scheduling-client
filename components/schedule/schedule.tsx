@@ -17,9 +17,8 @@ interface ScheduleProps
 const weekdays = ['M', 'T', 'W', 'R', 'F'];
 
 const Schedule: React.FC<ScheduleProps> = ({
-  course,
-  section,
-  name,
+  heading,
+  subheading,
   enrollment,
   satisfies,
   units,
@@ -41,10 +40,8 @@ const Schedule: React.FC<ScheduleProps> = ({
     >
       <div className="flex flex-1 flex-col items-start justify-between gap-[3.75px] p-[10px]">
         <div className="flex flex-col">
-          <h3 className="text-body-bold text-text">
-            {course} - {section}
-          </h3>
-          <p className="text-subheading italic text-neutral">{name}</p>
+          <h3 className="text-body-bold text-text">{heading}</h3>
+          <p className="text-subheading italic text-neutral">{subheading}</p>
         </div>
         <p className="text-caption text-neutral">
           <span style={{ color: `rgb(var(--color-${getColor(enrollment)}))` }}>
@@ -119,10 +116,10 @@ const Schedule: React.FC<ScheduleProps> = ({
                 Add to Schedule
               </Button>
               <Button variant="tertiary" className="w-max p-0 text-secondary">
-                Compare Course
+                Compare
               </Button>
               <Button variant="tertiary" className="w-max p-0 text-secondary">
-                View Course
+                View
               </Button>
             </div>
           </Popover.Content>
