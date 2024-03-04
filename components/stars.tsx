@@ -1,9 +1,10 @@
 'use client';
 
 import { useLottie } from 'lottie-react';
+import { RatingType } from '@/utils/types';
 
 interface StarsProps {
-  rating: number;
+  rating: RatingType;
 }
 
 const Stars: React.FC<StarsProps> = ({ rating }) => {

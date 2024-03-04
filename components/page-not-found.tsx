@@ -1,9 +1,10 @@
 'use client';
 
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
-import Icon from '@/components/icon';
-import Button from '@/components/button';
 import { useRouter } from 'next/navigation';
+
+import Button from '@/components/button';
+import Icon from '@/components/icon';
 
 const PageNotFound: React.FC = () => {
   const router = useRouter();

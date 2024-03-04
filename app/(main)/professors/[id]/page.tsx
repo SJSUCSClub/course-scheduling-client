@@ -7,15 +7,23 @@ import {
 import { notFound } from 'next/navigation';
 import React from 'react';
 
+import {
+  GradeType,
+  PercentageType,
+  RatingType,
+  ScheduleType,
+} from '@/utils/types';
 import RatingSummary from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
-import Breadcrumb from '@/components/breadcrumb';
-import InfoCard from '@/components/info-card';
-import Button from '@/components/button';
-import Tag from '@/components/tag';
-import BarChart from '@/components/bar-chart';
-import LineChart from '@/components/line-chart';
 import Dropdown from '@/components/forms/dropdown';
+import Breadcrumb from '@/components/breadcrumb';
+import LineChart from '@/components/line-chart';
+import InfoCard from '@/components/info-card';
+import BarChart from '@/components/bar-chart';
+import Button from '@/components/button';
+import getColor from '@/utils/get-color';
+import Tag from '@/components/tag';
+
 
 export const generateMetadata = async ({
   params,
@@ -70,15 +78,15 @@ export default async function Page({ params }: { params: { id: string } }) {
         />
         <div className="flex gap-[10px] lg:flex-col">
           <InfoCard
-            type="good"
+            type={getColor(grade)}
             icon={<ClipboardDocumentListIcon />}
             title={grade}
             subtitle="Average Grade"
           />
           <InfoCard
-            type="ok"
+            type={getColor(wouldTakeAgain)}
             icon={<ArrowPathIcon />}
-            title={wouldTakeAgain}
+            title={`${wouldTakeAgain}%`}
             subtitle="Would Take Again"
           />
         </div>

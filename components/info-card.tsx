@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 
+import { EvaluationType } from '@/utils/types';
 import Icon from '@/components/icon';
 
 interface InfoCardProps extends React.HTMLProps<HTMLDivElement> {
-  type: 'good' | 'ok' | 'bad' | 'default';
+  type: EvaluationType | 'default';
   icon: React.ReactElement;
   title: string;
   subtitle: string;
@@ -27,12 +28,12 @@ const InfoCard: React.FC<InfoCardProps> = ({
       {...props}
       className={clsx(
         '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:opacity-75 -:default-border',
-          {
+        {
           '-:bg-good': good,
           '-:bg-ok': ok,
           '-:bg-bad': bad,
           '-:bg-border': default_,
-          },
+        },
         props.className,
       )}
     >
