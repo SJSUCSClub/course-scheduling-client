@@ -6,16 +6,16 @@ import {
   ShareIcon,
 } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { twMerge } from 'tailwind-merge';
 
 import { Popover } from '@/components/popover';
+import { RatingType } from '@/utils/types';
 import Button from '@/components/button';
 import Stars from '@/components/stars';
 
 interface RatingSummaryProps extends React.HTMLProps<HTMLDivElement> {
   reviewCount: number;
   name: string;
-  rating: number;
+  rating: RatingType;
   email: string;
 }
 
@@ -39,10 +39,7 @@ const RatingSummary: React.FC<RatingSummaryProps> = ({
   return (
     <div
       {...props}
-      className={twMerge(
-        'flex gap-[32px] rounded-lg bg-background p-[32px] text-text default-border lg:items-end',
-        props.className,
-      )}
+      className={`-:flex -:gap-[32px] -:rounded-lg -:bg-background -:p-[32px] -:text-text -:default-border -:lg:items-end ${props.className}`}
     >
       <div className="flex flex-1 lg:hidden" />
       <p className="min-w-[100px] flex-1 text-caption max-lg:hidden">
@@ -58,16 +55,14 @@ const RatingSummary: React.FC<RatingSummaryProps> = ({
       <div className="flex flex-1 justify-end gap-[5px] max-lg:hidden">
         <Options />
       </div>
-      <div className="relative flex flex-1 items-start justify-end gap-[5px] lg:hidden">
-        <Popover>
-          <Popover.Trigger>
-            <Button variant={<EllipsisVerticalIcon />} className="text-text" />
-          </Popover.Trigger>
-          <Popover.Content className="left-5 top-8 rounded-lg p-[32px] default-border">
-            <Options />
-          </Popover.Content>
-        </Popover>
-      </div>
+      <Popover className="relative flex flex-1 items-start justify-end gap-[5px] lg:hidden">
+        <Popover.Trigger>
+          <Button variant={<EllipsisVerticalIcon />} className="text-text" />
+        </Popover.Trigger>
+        <Popover.Content className="left-5 top-8">
+          <Options />
+        </Popover.Content>
+      </Popover>
     </div>
   );
 };

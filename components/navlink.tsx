@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
 import React from 'react';
 import clsx from 'clsx';
@@ -20,13 +19,11 @@ const Navlink: React.FC<NavlinkProps> = ({ href, children, ...props }) => {
   return (
     <span
       {...props}
-      className={twMerge(
-        clsx(
-          'animation rounded-sm px-3 py-1 hover:bg-[rgb(var(--color-primary)/0.25)]',
-          {
-            'animate-pulse bg-[rgb(var(--color-primary)/0.1)]': loading,
-          },
-        ),
+      className={clsx(
+        '-:rounded-sm -:px-3 -:py-1 -:animation -:hover:bg-[rgb(var(--color-primary)/0.25)]',
+        {
+          '-:animate-pulse -:bg-[rgb(var(--color-primary)/0.1)]': loading,
+        },
         props.className,
       )}
     >

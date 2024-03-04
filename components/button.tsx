@@ -1,4 +1,3 @@
-import { twMerge } from 'tailwind-merge';
 import React from 'react';
 import clsx from 'clsx';
 
@@ -47,10 +46,7 @@ const Button: React.FC<ButtonProps> = ({
     return (
       <BaseButton
         {...props}
-        className={twMerge(
-          'flex h-[30px] w-[30px] items-center justify-center text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral',
-          props.className,
-        )}
+        className={`-:flex -:w-[30px] -:items-center -:justify-center -:text-primary -:animation -:hover:opacity-50 -:active:opacity-25 -:disabled:text-neutral -:h-[30px] ${props.className}`}
       >
         <Icon icon={variant} w="30px" h="30px" />
       </BaseButton>
@@ -59,20 +55,18 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <BaseButton
       {...props}
-      className={twMerge(
-        clsx(
-          {
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-primary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
-              variant === 'primary',
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg bg-secondary px-[20px] py-[5px] text-button text-background animation default-border hover:opacity-50 active:opacity-25 disabled:bg-border disabled:text-neutral':
-              variant === 'secondary',
-            'flex h-fit  items-center justify-center gap-[5px] px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:text-neutral':
-              variant === 'tertiary',
-            'flex h-fit items-center justify-center gap-[5px] rounded-lg border-2 border-primary px-[20px] py-[5px] text-button text-primary animation hover:opacity-50 active:opacity-25 disabled:border-neutral disabled:text-neutral':
-              variant === 'ghost',
-          },
-          props.className,
-        ),
+      className={clsx(
+        {
+          '-:flex -:h-fit -:items-center -:justify-center -:gap-[5px] -:rounded-lg -:bg-primary -:px-[20px] -:py-[7.5px] -:text-button -:text-background -:animation -:default-border -:hover:opacity-50 -:active:opacity-25 -:disabled:bg-border -:disabled:text-neutral':
+            variant === 'primary',
+          '-:flex -:h-fit -:items-center -:justify-center -:gap-[5px] -:rounded-lg -:bg-secondary -:px-[20px] -:py-[7.5px] -:text-button -:text-background -:animation -:default-border -:hover:opacity-50 -:active:opacity-25 -:disabled:bg-border -:disabled:text-neutral':
+            variant === 'secondary',
+          '-:flex -:h-fit  -:items-center -:justify-center -:gap-[5px] -:px-[20px] -:py-[7.5px] -:text-button -:text-primary -:animation -:hover:opacity-50 -:active:opacity-25 -:disabled:text-neutral':
+            variant === 'tertiary',
+          '-:flex -:h-fit -:items-center -:justify-center -:gap-[5px] -:rounded-lg -:border-2 -:border-primary -:px-[20px] -:py-[7.5px] -:text-button -:text-primary -:animation -:hover:opacity-50 -:active:opacity-25 -:disabled:border-neutral -:disabled:text-neutral':
+            variant === 'ghost',
+        },
+        props.className,
       )}
     >
       {prefix ? <Icon icon={prefix} w="16px" h="16px" /> : null}

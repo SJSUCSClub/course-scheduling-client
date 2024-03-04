@@ -1,5 +1,4 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { twMerge } from 'tailwind-merge';
 
 import Icon from '@/components/icon';
 
@@ -9,7 +8,7 @@ const SearchWithDropdown: React.FC<React.HTMLProps<HTMLDivElement>> = (
   return (
     <div
       {...props}
-      className={twMerge('h-[40px] text-body text-text', props.className)}
+      className={`-:h-[40px] -:text-body -:text-text ${props.className}`}
     >
       <input
         type="text"
