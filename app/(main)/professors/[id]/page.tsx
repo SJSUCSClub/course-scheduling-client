@@ -15,6 +15,7 @@ import {
 } from '@/utils/types';
 import RatingSummary from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
+import Schedule from '@/components/schedule/schedule';
 import Dropdown from '@/components/forms/dropdown';
 import Breadcrumb from '@/components/breadcrumb';
 import LineChart from '@/components/line-chart';
@@ -46,6 +47,59 @@ const tags = [
 ];
 const ratingDistribution = [11, 5, 1, 7, 23];
 const gradeDistribution = [2, 15, 11, 20, 9];
+const schedules: ScheduleType[] = [
+  {
+    course: 'CMPE 132',
+    section: '02',
+    name: 'Information Security',
+    enrollment: '10/34',
+    satisfies: 'GE: A',
+    units: 3,
+    type: 'Lab',
+    startDate: 'August 19, 2002',
+    endDate: 'Dec 20, 2002',
+    days: new Set(['M', 'W']),
+    times: '9:00 AM - 10:15 AM',
+    location: 'In Person - ENGR227',
+    avgGrade: 'C-',
+    avgOverallRating: 2,
+    number: '23105',
+  },
+  {
+    course: 'CMPE 180A',
+    section: '01',
+    name: 'Software Engineering I',
+    enrollment: '33/34',
+    satisfies: 'GE: A',
+    units: 3,
+    type: 'Lab',
+    startDate: 'August 19, 2002',
+    endDate: 'Dec 20, 2002',
+    days: new Set(['M', 'W']),
+    times: '9:00 AM - 10:15 AM',
+    location: 'In Person - ENGR227',
+    avgGrade: 'A+',
+    avgOverallRating: 4.5,
+    number: '23105',
+  },
+  {
+    course: 'CMPE 180B',
+    section: '01',
+    name: 'Software Engineering II',
+    enrollment: '34/34',
+    satisfies: 'GE: A',
+    units: 3,
+    type: 'Lab',
+    startDate: 'August 19, 2002',
+    endDate: 'Dec 20, 2002',
+    days: new Set(['M', 'W']),
+    times: '9:00 AM - 10:15 AM',
+    location: 'In Person - ENGR227',
+    avgGrade: 'F',
+    avgOverallRating: 1,
+    number: '23105',
+  },
+];
 
 export const generateMetadata = async ({
   params,
@@ -132,6 +186,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
 
       <SectionLabel info="Statistics">Schedule</SectionLabel>
+      {schedules.map((schedule, i) => (
+        <Schedule key={i} {...schedule} />
+      ))}
 
       <SectionLabel info="Statistics">{reviewCount} Reviews</SectionLabel>
     </main>
