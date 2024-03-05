@@ -31,8 +31,8 @@ import Breadcrumb from '@/components/breadcrumb';
 import LineChart from '@/components/line-chart';
 import InfoCard from '@/components/info-card';
 import BarChart from '@/components/bar-chart';
-import Button from '@/components/button';
 import getEvaluation from '@/utils/get-color';
+import Button from '@/components/button';
 import Tag from '@/components/tag';
 
 export const generateMetadata = async ({
