@@ -95,9 +95,10 @@ export const ScheduleBox: React.FC<React.HTMLProps<HTMLDivElement>> = (
             style={{ color: `rgb(var(--color-${getEvaluation(enrollment)}))` }}
           >
             {enrollment} Enrolled
-          </span>{' '}
-          • Satisfies {satisfies} • {units}
-          units • {type}
+          </span>
+          {satisfies ? ` • Satisfies ${satisfies}` : ''}
+          {units ? ` • ${units} units` : ''}
+          {type ? ` • ${type}` : ''}
         </p>
         <div className="flex w-full items-end justify-between gap-[10px] text-caption text-neutral">
           <div className="flex items-center gap-[10px]">
