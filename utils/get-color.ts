@@ -6,7 +6,7 @@ import {
   RatingType,
 } from './types';
 
-const getColor = (
+const getEvaluation = (
   input: GradeType | RatingType | PercentageType | FractionType,
 ): EvaluationType => {
   // Check if the input is a grade
@@ -78,4 +78,4 @@ const getColor = (
   }
 };
 
-export default getColor;
+export default getEvaluation;

@@ -1,111 +1,90 @@
+'use client';
+
+import React from 'react';
 import clsx from 'clsx';
 
-interface TagContainerFactoryProps {
+interface TagBoxContextType extends Omit<TagProps, 'children'> {}
+
+const TagBoxContext = React.createContext<TagBoxContextType | undefined>(
+  undefined,
+);
+
+interface TagBoxProviderProps extends TagProps {}
+
+/**
+ * This is the context provider for the `<Tag />` component. It is used to provide props to it's children.
+ * You can use this component along with `<TagBox />` to customize the attributes of the container.
+ * @component
+ * @example
+ * return (
+ *  <TagBoxProvider size={size} count={count}>
+ *    <TagBox className="w-full h-fit">
+ *      {children}
+ *    </TagBox>
+ *  </TagBoxProvider>
+ * )
+ */
+export const TagBoxProvider: React.FC<TagBoxProviderProps> = ({
+  children,
+  ...props
+}) => <TagBoxContext.Provider value={props}>{children}</TagBoxContext.Provider>;
+
+/**
+ * This is a styled button element for the `<Tag />` component.
+ * You can use this component along with `<TagBoxProvider />` to customize the attributes of the container.
+ * @component
+ * @example
+ * return (
+ *  <TagBoxProvider size={size} count={count}>
+ *    <TagBox className="w-full h-fit">
+ *      {children}
+ *    </TagBox>
+ *  </TagBoxProvider>
+ * )
+ */
+export const TagBox: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ children, ...props }) => {
+  const context = React.useContext(TagBoxContext);
+  if (!context) {
+    throw new Error('TagBox must be used within a TagBoxProvider');
+  }
+  const { size, count } = context;
+  return (
+    <button
+      {...props}
+      className={clsx(
+        '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:hover:opacity-50 -:active:opacity-25',
+        {
+          '-:px-[20px] -:py-[10px] -:text-tag -:text-neutral': size === 'lg',
+          '-:px-[15px] -:py-[5px] -:text-caption': size === 'sm',
+        },
+        props.className,
+      )}
+    >
+      {children}
+      {count ? (
+        <span
+          className={clsx({
+            'text-caption text-neutral': size === 'sm',
+            'text-tag text-text': size === 'lg',
+          })}
+        >
+          {count}
+        </span>
+      ) : null}
+    </button>
+  );
+};
+
+interface TagProps {
+  count?: number;
   size: 'sm' | 'lg';
   children: React.ReactNode;
 }
 
-const TagContainerFactory: React.FC<TagContainerFactoryProps> = ({
-  size,
-  children,
-}) =>
-  size === 'sm' ? (
-    <TagButtonElementSm>{children}</TagButtonElementSm>
-  ) : (
-    <TagButtonElementLg>{children}</TagButtonElementLg>
-  );
-
 /**
- * This is a styled button element for the large tag component.
- * You can use this component along with `<TagBase />` to customize the attributes of the container.
- * @component
- * @example
- * return (
- *  <TagButtonElementLg className="w-full h-fit">
- *    <TagBase size='lg' count={count}>
-        {children}
-      </TagBase>
- *  </TagButtonElementLg>
- * )
- */
-export const TagButtonElementLg: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => (
-  <button
-    {...props}
-    className={clsx(
-      '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:px-[20px] -:py-[10px] -:text-tag -:text-neutral -:hover:opacity-50 -:active:opacity-25',
-      props.className,
-    )}
-  >
-    {children}
-  </button>
-);
-
-/**
- * This is a styled button element for the small tag component.
- * You can use this component along with `<TagBase />` to customize the attributes of the container.
- * @component
- * @example
- * return (
- *  <TagButtonElementSm className="w-full h-fit">
- *    <TagBase size='sm' count={count}>
-        {children}
-      </TagBase>
- *  </TagButtonElementSm>
- * )
- */
-export const TagButtonElementSm: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => (
-  <button
-    {...props}
-    className={clsx(
-      '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:px-[15px] -:py-[5px] -:text-caption -:hover:opacity-50 -:active:opacity-25',
-      props.className,
-    )}
-  >
-    {children}
-  </button>
-);
-
-interface TagBaseProps extends TagContainerFactoryProps {
-  count?: number;
-}
-
-/**
- * This is the base tag component.
- * You can use this component along with `<TagButtonElementLg />` or `<TagButtonElementSm />` to customize the attributes of the container.
- * @component
- * @example
- * return (
- *  <TagButtonElementLg className="w-full h-fit">
- *   <TagBase size='lg' count={count}>
- *    {children}
- *   </TagBase>
- *  </TagButtonElementLg>
- * )
- */
-export const TagBase: React.FC<TagBaseProps> = ({ size, count, children }) => (
-  <>
-    {children}
-    {count ? (
-      <span
-        className={clsx({
-          'text-caption text-neutral': size === 'sm',
-          'text-tag text-text': size === 'lg',
-        })}
-      >
-        {count}
-      </span>
-    ) : null}
-  </>
-);
-
-interface TagProps extends TagBaseProps {}
-
-/**
- * This is the default tag component.
+ * This is the default `<Tag />` component.
  * @component
  * @example
  * return (
@@ -114,13 +93,11 @@ interface TagProps extends TagBaseProps {}
  *  </Tag>
  * )
  */
-const Tag: React.FC<TagProps> = ({ size, count, children }) => {
+const Tag: React.FC<TagProps> = ({ children, ...props }) => {
   return (
-    <TagContainerFactory size={size}>
-      <TagBase size={size} count={count}>
-        {children}
-      </TagBase>
-    </TagContainerFactory>
+    <TagBoxProvider {...props}>
+      <TagBox>{children}</TagBox>
+    </TagBoxProvider>
   );
 };
 

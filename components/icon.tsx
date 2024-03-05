@@ -11,11 +11,11 @@ const Icon: React.FC<IconProps> = ({ icon, w, h, ...props }) => {
     strokeWidth: 2,
     ...props,
     style: {
-      ...props.style,
       minWidth: w,
       minHeight: h,
       maxWidth: w,
       maxHeight: h,
+      ...props.style,
     },
   });
 };

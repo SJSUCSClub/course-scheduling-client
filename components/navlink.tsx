@@ -5,11 +5,58 @@ import Link from 'next/link';
 import React from 'react';
 import clsx from 'clsx';
 
-interface NavlinkProps extends React.HTMLProps<HTMLSpanElement> {
-  href: string;
-}
+interface NavlinkBoxContextType extends Omit<NavlinkProps, 'children'> {}
 
-const Navlink: React.FC<NavlinkProps> = ({ href, children, ...props }) => {
+const NavlinkBoxContext = React.createContext<
+  NavlinkBoxContextType | undefined
+>(undefined);
+
+interface NavlinkBoxProviderProps extends NavlinkProps {}
+
+/**
+ * This is the context provider for the `<Navlink />` component. It is used to provide props to it's children.
+ * You can use this component along with `<NavlinkBox />` to customize the attributes of the container.
+ * @component
+ * @example
+ * return (
+ *  <NavlinkBoxProvider href={href}>
+ *    <NavlinkBox className="w-full h-fit">
+ *      {children}
+ *    </NavlinkBox>
+ *  </NavlinkBoxProvider>
+ * )
+ */
+export const NavlinkBoxProvider: React.FC<NavlinkBoxProviderProps> = ({
+  children,
+  ...props
+}) => (
+  <NavlinkBoxContext.Provider value={props}>
+    {children}
+  </NavlinkBoxContext.Provider>
+);
+
+/**
+ * This is a styled span element for the `<Navlink />` component.
+ * You can use this component along with `<NavlinkBoxProvider />` to customize the attributes of the container.
+ * @component
+ * @example
+ * return (
+ *  <NavlinkBoxProvider href={href}>
+ *    <NavlinkBox className="w-full h-fit">
+ *      {children}
+ *    </NavlinkBox>
+ *  </NavlinkBoxProvider>
+ * )
+ */
+export const NavlinkBox: React.FC<React.HTMLProps<HTMLSpanElement>> = ({
+  children,
+  ...props
+}) => {
+  const context = React.useContext(NavlinkBoxContext);
+  if (!context) {
+    throw new Error('NavlinkBox must be used within a NavlinkProvider');
+  }
+  const { href } = context;
   const pathname = usePathname();
   React.useEffect(() => {
     setLoading(false);
@@ -33,5 +80,24 @@ const Navlink: React.FC<NavlinkProps> = ({ href, children, ...props }) => {
     </span>
   );
 };
+
+interface NavlinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
+/**
+ * This is the default `<Navlink />` component.
+ * @component
+ * @example
+ * return (
+ *  <Navlink href={href}>{name}</Navlink>
+ * )
+ */
+const Navlink: React.FC<NavlinkProps> = ({ children, ...props }) => (
+  <NavlinkBoxProvider {...props}>
+    <NavlinkBox>{children}</NavlinkBox>
+  </NavlinkBoxProvider>
+);
 
 export default Navlink;

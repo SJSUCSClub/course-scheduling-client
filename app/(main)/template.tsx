@@ -1,4 +1,4 @@
-import Navbar from '@/components/navbar';
+import Navbar from '@/app/(main)/navbar';
 import Session from '@/components/session-wrapper';
 
 export default function Template({ children }: { children: React.ReactNode }) {

@@ -1,10 +1,11 @@
+'use client';
+
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import React from 'react';
 
 import Icon from '@/components/icon';
 
-const SearchWithDropdown: React.FC<React.HTMLProps<HTMLDivElement>> = (
-  props,
-) => {
+const NavbarSearch: React.FC<React.HTMLProps<HTMLDivElement>> = (props) => {
   return (
     <div
       {...props}
@@ -28,4 +29,4 @@ const SearchWithDropdown: React.FC<React.HTMLProps<HTMLDivElement>> = (
   );
 };
 
-export default SearchWithDropdown;
+export default NavbarSearch;

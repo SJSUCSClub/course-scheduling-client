@@ -10,9 +10,9 @@ import Link from 'next/link';
 import React from 'react';
 import clsx from 'clsx';
 
-import SearchWithDropdown from '@/components/forms/search-with-dropdown';
+import Button, { ButtonBoxProvider, ButtonBox } from '@/components/button';
+import NavbarSearch from '@/app/(main)/navbar-search';
 import Navlink from '@/components/navlink';
-import Button from '@/components/button';
 import Logo from '@/components/logo';
 
 const links = [
@@ -29,16 +29,18 @@ const Navbar: React.FC = () => {
   return (
     <header className="border-b-2 border-border">
       <nav className="mx-auto box-border flex h-[73px] items-center justify-between px-[32px] animation max-width">
-        <Button
-          variant={<MagnifyingGlassIcon />}
-          className={clsx('lg:hidden', { hidden: showSearch })}
-          onClick={toggleSearch}
-        />
-        <Button
-          variant={<XMarkIcon />}
-          className={clsx('lg:hidden', { hidden: !showSearch })}
-          onClick={toggleSearch}
-        />
+        <ButtonBoxProvider variant={<MagnifyingGlassIcon />}>
+          <ButtonBox
+            className={clsx('lg:hidden', { hidden: showSearch })}
+            onClick={toggleSearch}
+          />
+        </ButtonBoxProvider>
+        <ButtonBoxProvider variant={<XMarkIcon />}>
+          <ButtonBox
+            className={clsx('lg:hidden', { hidden: !showSearch })}
+            onClick={toggleSearch}
+          />
+        </ButtonBoxProvider>
 
         {/* Logo */}
         <Link
@@ -49,17 +51,18 @@ const Navbar: React.FC = () => {
         </Link>
 
         {/* Search Bar */}
-        <SearchWithDropdown
+        <NavbarSearch
           className={clsx('flex flex-1 max-lg:pl-[32px]', {
             'max-lg:hidden': !showSearch,
           })}
         />
 
-        <Button
-          variant={<Bars3Icon />}
-          className={clsx('lg:hidden', { hidden: showSearch })}
-          onClick={toggleMenu}
-        />
+        <ButtonBoxProvider variant={<Bars3Icon />}>
+          <ButtonBox
+            className={clsx('lg:hidden', { hidden: showSearch })}
+            onClick={toggleMenu}
+          />
+        </ButtonBoxProvider>
         <div
           className={clsx(
             'flex items-center gap-[16px] text-button text-primary max-lg:fixed max-lg:left-0 max-lg:top-0 max-lg:h-full max-lg:w-full max-lg:flex-col-reverse max-lg:gap-[16px] max-lg:overflow-y-scroll max-lg:bg-background max-lg:p-[16px] lg:pl-[16px]',
@@ -94,11 +97,9 @@ const Navbar: React.FC = () => {
                 <p>Signed in as {session.user?.email}</p>
               ) : null}
             </div>
-            <Button
-              className="lg:hidden"
-              variant={<XMarkIcon />}
-              onClick={toggleMenu}
-            />
+            <ButtonBoxProvider variant={<XMarkIcon />}>
+              <ButtonBox className="lg:hidden" onClick={toggleMenu} />
+            </ButtonBoxProvider>
           </div>
         </div>
       </nav>

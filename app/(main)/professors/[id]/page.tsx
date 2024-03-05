@@ -20,7 +20,10 @@ import {
   wouldTakeAgain,
 } from '@/data/professor';
 import { ScheduleType } from '@/utils/types';
-import RatingSummary from '@/components/rating-summary';
+import {
+  RatingSummaryBox,
+  RatingSummaryBoxProvider,
+} from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
 import Schedule from '@/components/schedule/schedule';
 import Dropdown from '@/components/forms/dropdown';
@@ -29,7 +32,7 @@ import LineChart from '@/components/line-chart';
 import InfoCard from '@/components/info-card';
 import BarChart from '@/components/bar-chart';
 import Button from '@/components/button';
-import getColor from '@/utils/get-color';
+import getEvaluation from '@/utils/get-color';
 import Tag from '@/components/tag';
 
 export const generateMetadata = async ({
@@ -54,22 +57,23 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Breadcrumb className="flex w-full min-w-min py-[10px]" />
 
       <div className="flex min-w-min gap-[10px] max-lg:flex-col">
-        <RatingSummary
+        <RatingSummaryBoxProvider
           reviewCount={reviewCount}
           name={name}
           rating={rating}
           email={email}
-          className="flex-1"
-        />
+        >
+          <RatingSummaryBox className="flex-1" />
+        </RatingSummaryBoxProvider>
         <div className="flex gap-[10px] lg:flex-col">
           <InfoCard
-            type={getColor(grade)}
+            type={getEvaluation(grade)}
             icon={<ClipboardDocumentListIcon />}
             title={grade}
             subtitle="Average Grade"
           />
           <InfoCard
-            type={getColor(wouldTakeAgain)}
+            type={getEvaluation(wouldTakeAgain)}
             icon={<ArrowPathIcon />}
             title={`${wouldTakeAgain}%`}
             subtitle="Would Take Again"
@@ -106,13 +110,17 @@ export default async function Page({ params }: { params: { id: string } }) {
               values={['overall', 'quality', 'ease']}
             />
           </div>
-          <BarChart chartData={ratingDistribution} className="flex-1" />
+          <div className="flex-1">
+            <BarChart chartData={ratingDistribution} />
+          </div>
         </div>
         <div className="flex min-h-[464px] flex-1 flex-col rounded-lg px-[32px] py-[20px] default-border">
           <h3 className="flex h-[50px] items-center text-heading">
             Grading Distribution
           </h3>
-          <LineChart chartData={gradeDistribution} className="flex-1" />
+          <div className="flex-1">
+            <LineChart chartData={gradeDistribution} />
+          </div>
         </div>
       </div>
 

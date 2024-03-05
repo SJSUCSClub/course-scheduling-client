@@ -73,23 +73,21 @@ const chartConfig: Props = {
     },
   },
 };
-interface LineChartProps extends React.HTMLProps<HTMLDivElement> {
+interface LineChartProps {
   chartData: number[];
 }
 
-const LineChart: React.FC<LineChartProps> = ({ chartData, ...props }) => {
+const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
   return (
-    <div {...props}>
-      <Chart
-        series={[
-          {
-            name: 'Students',
-            data: chartData,
-          },
-        ]}
-        {...chartConfig}
-      />
-    </div>
+    <Chart
+      series={[
+        {
+          name: 'Students',
+          data: chartData,
+        },
+      ]}
+      {...chartConfig}
+    />
   );
 };
 
