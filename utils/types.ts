@@ -25,7 +25,7 @@ export interface ScheduleType {
   endDate: string;
   days: Set<string>;
   times: string;
-  location: string;
+  location?: string;
   avgGrade: GradeType;
   avgOverallRating: RatingType;
   number: string;

@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 import { ButtonBoxProvider, ButtonBox } from '@/components/button';
-import Icon from '@/components/icon';
+import { IconBox, IconBoxProvider } from '@/components/icon';
 
 interface SectionLabelProps {
   info: string;
@@ -26,12 +26,9 @@ const SectionLabel: React.FC<SectionLabelProps> = ({ info, children }) => {
       {info ? (
         <ButtonBoxProvider variant="tertiary">
           <ButtonBox className="h-[20px] w-[20px] p-0">
-            <Icon
-              icon={<InformationCircleIcon />}
-              h="20px"
-              w="20px"
-              className="text-neutral"
-            />
+            <IconBoxProvider icon={<InformationCircleIcon />} h="20px" w="20px">
+              <IconBox className="text-neutral" />
+            </IconBoxProvider>
           </ButtonBox>
         </ButtonBoxProvider>
       ) : null}
