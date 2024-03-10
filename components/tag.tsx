@@ -25,7 +25,7 @@ const {
       <button
         {...props}
         className={clsx(
-          '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:hover:opacity-50 -:active:opacity-25',
+          '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:hover:opacity-50 -:active:opacity-25 -:disabled:hover:opacity-100',
           {
             '-:px-[20px] -:py-[10px] -:text-tag -:text-neutral': size === 'lg',
             '-:px-[15px] -:py-[5px] -:text-caption': size === 'sm',
@@ -50,7 +50,7 @@ const {
     <button
       {...props}
       className={clsx(
-        '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:px-[20px] -:py-[10px] -:text-tag -:text-neutral -:hover:opacity-50 -:active:opacity-25',
+        '-:flex -:gap-[5px] -:rounded-lg -:bg-border -:px-[20px] -:py-[10px] -:text-tag -:text-neutral -:hover:opacity-50 -:active:opacity-25 -:disabled:hover:opacity-100',
         props.className,
       )}
     >

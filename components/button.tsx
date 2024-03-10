@@ -37,7 +37,7 @@ const {
           disabled={disabled || loading}
           {...props}
           className={clsx(
-            '-:flex -:items-center -:justify-center -:gap-[5px] -:animation -:hover:opacity-50 -:active:opacity-25 -:disabled:text-neutral',
+            '-:flex -:items-center -:justify-center -:gap-[5px] -:animation -:hover:opacity-50 -:active:opacity-25 -:disabled:text-neutral -:disabled:hover:opacity-100',
             {
               '-:h-fit -:rounded-lg -:bg-primary -:px-[20px] -:py-[7.5px] -:text-button -:text-background -:default-border -:disabled:bg-border':
                 variant === 'primary',
@@ -54,14 +54,30 @@ const {
         >
           {loading ? (
             <div className="relative">
-              <div className="opacity-0">{children}</div>
+              <div className="flex gap-[5px] opacity-0">
+                {prefix && !isIcon ? (
+                  <IconBoxProvider icon={prefix} w="16px" h="16px">
+                    <IconBox strokeWidth={3} />
+                  </IconBoxProvider>
+                ) : null}
+                {children}
+                {postfix && !isIcon ? (
+                  <IconBoxProvider icon={postfix} w="16px" h="16px">
+                    <IconBox strokeWidth={3} />
+                  </IconBoxProvider>
+                ) : null}
+              </div>
               <LoadingSpinner className="absolute top-0 flex h-full w-full items-center justify-center" />
             </div>
           ) : isIcon ? (
             <Icon icon={variant} w="30px" h="30px" />
           ) : (
             <>
-              {prefix ? <Icon icon={prefix} w="16px" h="16px" /> : null}
+              {prefix ? (
+                <IconBoxProvider icon={prefix} w="16px" h="16px">
+                  <IconBox strokeWidth={3} />
+                </IconBoxProvider>
+              ) : null}
               {children}
               {postfix ? (
                 <IconBoxProvider icon={postfix} w="16px" h="16px">

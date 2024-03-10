@@ -10,7 +10,7 @@ type BoxProviderProps<T> = T & { children: React.ReactNode };
  *
  * This utility provides a way to create reusable and customizable components, while encapsulating the custom props and the default props seperately.
  * @param box - A function that provides the component with the custom props from context, and returns a component with the default props.
- * @param fallback - A component that will be used if the context or box components are not provided. This should be used to provide a default container component. It is optional.
+ * @param fallback - A component that will be used if the context or box components are not provided. This should be used to provide only the container component. It is optional.
  * @returns An object containing the Default, Box, and BoxProvider components.
  *
  * Usage:

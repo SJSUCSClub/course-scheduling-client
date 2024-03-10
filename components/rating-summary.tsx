@@ -86,6 +86,17 @@ const {
         </div>
       </div>
     ),
+  fallback: ({ children, ...props }) => (
+    <div
+      {...props}
+      className={clsx(
+        '-:flex -:gap-[32px] -:rounded-lg -:bg-background -:p-[32px] -:text-text -:default-border -:lg:items-end',
+        props.className,
+      )}
+    >
+      {children}
+    </div>
+  ),
 });
 export { RatingSummaryBox, RatingSummaryBoxProvider };
 export default RatingSummary;

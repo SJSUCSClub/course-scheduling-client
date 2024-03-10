@@ -4,58 +4,40 @@ import {
   ChevronRightIcon,
   ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
-import { notFound } from 'next/navigation';
-import React from 'react';
-
-import {
-  email,
-  grade,
-  gradeDistribution,
-  name,
-  professorSchedules,
-  rating,
-  ratingDistribution,
-  reviewCount,
-  tags,
-  wouldTakeAgain,
-} from '@/data/professor';
-import { ScheduleType } from '@/utils/types';
 import {
   RatingSummaryBox,
   RatingSummaryBoxProvider,
 } from '@/components/rating-summary';
+import {
+  ProfessorSummaryRouteResponse,
+  response,
+} from '@/app/mock-api/professor-summary';
 import SectionLabel from '@/components/section-label';
-import Schedule from '@/components/schedule/schedule';
 import Dropdown from '@/components/forms/dropdown';
-import Breadcrumb from '@/components/breadcrumb';
 import LineChart from '@/components/line-chart';
-import InfoCard from '@/components/info-card';
-import BarChart from '@/components/bar-chart';
+import { fakeFetch } from '@/utils/fake-fetch';
 import getEvaluation from '@/utils/get-color';
+import BarChart from '@/components/bar-chart';
+import InfoCard from '@/components/info-card';
 import Button from '@/components/button';
 import Tag from '@/components/tag';
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { id: string };
-}) => {
-  return {
-    title: params.id,
-  };
-};
-
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
-
-  if (!id) {
-    notFound();
-  }
+export default async function Page() {
+  const {
+    rating,
+    reviewCount,
+    name,
+    email,
+    grade,
+    wouldTakeAgain,
+    tags,
+    ratingDistribution,
+    gradeDistribution,
+  }: ProfessorSummaryRouteResponse =
+    await fakeFetch<ProfessorSummaryRouteResponse>(response, 1000);
 
   return (
-    <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <Breadcrumb className="flex w-full min-w-min py-[10px]" />
-
+    <main className="flex flex-col gap-[10px] pb-[10px]">
       <div className="flex min-w-min gap-[10px] max-lg:flex-col">
         <RatingSummaryBoxProvider
           reviewCount={reviewCount}
@@ -123,19 +105,6 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
-
-      <SectionLabel info="Statistics">Schedule</SectionLabel>
-      {professorSchedules.map((professorSchedule, i) => {
-        const { course, section, name, ...rest } = professorSchedule;
-        const schedule = {
-          heading: `${course} - ${section}`,
-          subheading: name,
-          ...rest,
-        } as ScheduleType;
-        return <Schedule key={i} {...schedule} />;
-      })}
-
-      <SectionLabel info="Statistics">{reviewCount} Reviews</SectionLabel>
     </main>
   );
 }
