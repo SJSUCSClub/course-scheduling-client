@@ -16,6 +16,7 @@ import { TagBox } from '@/components/tag';
 export default function Loading() {
   return (
     <main className="flex flex-col gap-[10px] pb-[10px] opacity-30">
+      <SectionLabelBox className="mb-[10px] mt-[12px] h-[20px] w-[80px] flex-initial animate-pulse rounded-sm bg-neutral p-0" />
       <div className="flex min-w-min animate-pulse gap-[10px] max-lg:flex-col">
         <RatingSummaryBox className="flex-1 bg-border">
           <div className="flex flex-1 lg:hidden" />

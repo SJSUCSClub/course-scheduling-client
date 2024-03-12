@@ -32,11 +32,11 @@ const {
         <div
           {...props}
           className={clsx(
-            '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:opacity-75 -:default-border',
+            '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:default-border',
             {
-              '-:bg-good': good,
-              '-:bg-ok': ok,
-              '-:bg-bad': bad,
+              '-:bg-[rgb(var(--color-good)/0.75)] -:opacity-75': good,
+              '-:bg-[rgb(var(--color-ok)/0.75)] -:opacity-75': ok,
+              '-:bg-[rgb(var(--color-bad)/0.75)] -:opacity-75': bad,
               '-:bg-border': default_,
             },
             props.className,
@@ -44,7 +44,7 @@ const {
         >
           <IconBoxProvider icon={icon} h="45px" w="45px">
             <IconBox
-              className={clsx('text-text opacity-50 mix-blend-color-burn', {
+              className={clsx('text-text', {
                 'opacity-50 mix-blend-color-burn': good,
                 'opacity-75 mix-blend-color-burn': ok,
                 'opacity-100 mix-blend-color-burn': bad,
@@ -53,7 +53,7 @@ const {
             />
           </IconBoxProvider>
           <div
-            className={clsx('text-text opacity-50 mix-blend-color-burn', {
+            className={clsx('text-text', {
               'opacity-50 mix-blend-color-burn': good,
               'opacity-75 mix-blend-color-burn': ok,
               'opacity-100 mix-blend-color-burn': bad,

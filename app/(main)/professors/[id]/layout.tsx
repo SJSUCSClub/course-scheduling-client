@@ -1,5 +1,3 @@
-import Breadcrumb from '@/components/breadcrumb';
-
 export const generateMetadata = async ({
   params,
 }: {
@@ -21,7 +19,6 @@ export default function Layout({
 }) {
   return (
     <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <Breadcrumb className="flex w-full min-w-min py-[10px]" />
       {summary}
       {schedules}
       {reviews}

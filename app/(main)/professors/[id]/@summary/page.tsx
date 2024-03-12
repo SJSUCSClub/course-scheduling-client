@@ -9,20 +9,21 @@ import {
   RatingSummaryBoxProvider,
 } from '@/components/rating-summary';
 import {
+  ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
-  response,
-} from '@/app/mock-api/professor-summary';
+} from '@/app/mock-api/professor/summary';
 import SectionLabel from '@/components/section-label';
 import Dropdown from '@/components/forms/dropdown';
 import LineChart from '@/components/line-chart';
-import { fakeFetch } from '@/utils/fake-fetch';
+import fakeFetch from '@/utils/fake-fetch';
 import getEvaluation from '@/utils/get-color';
 import BarChart from '@/components/bar-chart';
 import InfoCard from '@/components/info-card';
 import Button from '@/components/button';
 import Tag from '@/components/tag';
+import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
 
-export default async function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
   const {
     rating,
     reviewCount,
@@ -33,11 +34,16 @@ export default async function Page() {
     tags,
     ratingDistribution,
     gradeDistribution,
-  }: ProfessorSummaryRouteResponse =
-    await fakeFetch<ProfessorSummaryRouteResponse>(response, 1000);
+  }: ProfessorSummaryRouteResponse = await fakeFetch<
+    ProfessorSummaryRouteResponse,
+    ProfessorSummaryRouteParams
+  >({ endpoint: '/professor/summary', params, timeout: 1000 });
 
   return (
     <main className="flex flex-col gap-[10px] pb-[10px]">
+      <BreadcrumbBoxProvider name={name}>
+        <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
+      </BreadcrumbBoxProvider>
       <div className="flex min-w-min gap-[10px] max-lg:flex-col">
         <RatingSummaryBoxProvider
           reviewCount={reviewCount}
@@ -49,13 +55,13 @@ export default async function Page() {
         </RatingSummaryBoxProvider>
         <div className="flex gap-[10px] lg:flex-col">
           <InfoCard
-            type={getEvaluation(grade)}
+            type={getEvaluation(grade, 'grade')}
             icon={<ClipboardDocumentListIcon />}
             title={grade}
             subtitle="Average Grade"
           />
           <InfoCard
-            type={getEvaluation(wouldTakeAgain)}
+            type={getEvaluation(wouldTakeAgain, 'percentage')}
             icon={<ArrowPathIcon />}
             title={`${wouldTakeAgain}%`}
             subtitle="Would Take Again"

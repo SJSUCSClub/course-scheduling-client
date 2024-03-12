@@ -54,7 +54,10 @@ const {
           <p className="text-caption text-neutral">
             <span
               style={{
-                color: `rgb(var(--color-${getEvaluation(enrollment)}))`,
+                color: `rgb(var(--color-${getEvaluation(
+                  enrollment,
+                  'fraction',
+                )}))`,
               }}
             >
               {enrollment} Enrolled
@@ -101,7 +104,9 @@ const {
           <div className="flex h-auto min-w-[100px] flex-col items-center justify-center gap-[5px] rounded-md bg-border p-[20px] text-caption max-lg:flex-1">
             <h3
               className="text-title-bold"
-              style={{ color: `rgb(var(--color-${getEvaluation(avgGrade)}))` }}
+              style={{
+                color: `rgb(var(--color-${getEvaluation(avgGrade, 'grade')}))`,
+              }}
             >
               {avgGrade}
             </h3>
@@ -109,7 +114,12 @@ const {
           <div className="flex h-auto min-w-[100px] flex-col items-center justify-center gap-[5px] rounded-md bg-border p-[20px] text-caption max-lg:flex-1">
             <h3
               className="text-title-bold"
-              style={{ color: `rgb(var(--color-${getEvaluation(avgGrade)}))` }}
+              style={{
+                color: `rgb(var(--color-${getEvaluation(
+                  avgOverallRating,
+                  'rating',
+                )}))`,
+              }}
             >
               {avgOverallRating}
             </h3>
