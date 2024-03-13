@@ -1,5 +1,5 @@
 /***********************************************
- * Endpoints. Use these types to define the shape of your API responses.
+ * Endpoints. Use the Database Schema types to define the shape of your API response and param types here.
  ***********************************************/
 // /professor/summary
 export interface ProfessorSummaryRouteResponse
@@ -71,7 +71,7 @@ export interface ProfessorReviewsRouteParams
 }
 
 /***********************************************
- * Database schema. Use these types to define the shape of your data.
+ * Database schema. Define the shape of the Database Schema types here.
  ***********************************************/
 type Comment = {
   id: number;
