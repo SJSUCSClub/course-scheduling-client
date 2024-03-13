@@ -95,10 +95,10 @@ export interface ProfessorSummaryRouteParams {
 
 export const response = ({
   id,
-}: ProfessorSummaryRouteParams): ProfessorSummaryRouteResponse => {
+}: ProfessorSummaryRouteParams): ProfessorSummaryRouteResponse | null => {
   const professor = professors.find((professor) => professor.id === id);
   if (!professor) {
-    throw new Error('Professor not found');
+    return null;
   }
   return professor;
 };

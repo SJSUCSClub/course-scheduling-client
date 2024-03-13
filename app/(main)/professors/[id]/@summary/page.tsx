@@ -4,6 +4,8 @@ import {
   ChevronRightIcon,
   ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
+import { notFound } from 'next/navigation';
+
 import {
   RatingSummaryBox,
   RatingSummaryBoxProvider,
@@ -12,6 +14,7 @@ import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/app/mock-api/professor/summary';
+import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
 import SectionLabel from '@/components/section-label';
 import Dropdown from '@/components/forms/dropdown';
 import LineChart from '@/components/line-chart';
@@ -21,23 +24,26 @@ import BarChart from '@/components/bar-chart';
 import InfoCard from '@/components/info-card';
 import Button from '@/components/button';
 import Tag from '@/components/tag';
-import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const professorSummary: ProfessorSummaryRouteResponse | null =
+    await fakeFetch<ProfessorSummaryRouteResponse, ProfessorSummaryRouteParams>(
+      { endpoint: '/professor/summary', params, timeout: 1000 },
+    );
+
+  if (!professorSummary) notFound();
+
   const {
+    name,
     rating,
     reviewCount,
-    name,
     email,
     grade,
     wouldTakeAgain,
     tags,
     ratingDistribution,
     gradeDistribution,
-  }: ProfessorSummaryRouteResponse = await fakeFetch<
-    ProfessorSummaryRouteResponse,
-    ProfessorSummaryRouteParams
-  >({ endpoint: '/professor/summary', params, timeout: 1000 });
+  } = professorSummary;
 
   return (
     <main className="flex flex-col gap-[10px] pb-[10px]">

@@ -68,7 +68,7 @@ const useCustomFetch = () => {
         });
         return result;
       }),
-    [cache, wrappedRequest],
+    [wrappedRequest],
   );
 
   return { loading, error, fetchWithCache, fetchWithoutCache };

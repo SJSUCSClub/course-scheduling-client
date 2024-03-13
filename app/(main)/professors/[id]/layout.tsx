@@ -1,13 +1,3 @@
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { id: string };
-}) => {
-  return {
-    title: params.id,
-  };
-};
-
 export default function Layout({
   summary,
   schedules,

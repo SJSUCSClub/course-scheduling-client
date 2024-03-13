@@ -36,7 +36,7 @@ const tags = [
 
 const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
   { length: 100 },
-  () => {
+  (v, k) => {
     const qualityRating = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
     const easeRating = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
     return {
@@ -55,12 +55,13 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
       review:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       tags: [chooseRandom(tags), chooseRandom(tags), chooseRandom(tags)],
-      likes: Math.floor(Math.random() * 100),
-      professor: chooseRandom([
-        { id: '1', name: 'Jahan Ghofraniha' },
-        { id: '2', name: 'Loc Lam' },
-        { id: '3', name: 'Kurt Mammen' },
-      ]),
+      likes: k,
+      professor:
+        k < 33
+          ? { id: '1', name: 'Jahan Ghofraniha' }
+          : k < 66
+          ? { id: '2', name: 'Loc Lam' }
+          : { id: '3', name: 'Kurt Mammen' },
     };
   },
 );

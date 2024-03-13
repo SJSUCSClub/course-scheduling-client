@@ -17,36 +17,29 @@ interface ProfessorSchedule
 
 const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
   { length: 15 },
-  () => ({
+  (v, k) => ({
     id: Math.random().toString(36).substring(7),
-    course: chooseRandom(['CMPE 132', 'CMPE 180A', 'CMPE 180B']),
-    section: chooseRandom(['01', '02', '03']),
-    name: chooseRandom([
-      'Information Security',
-      'Software Engineering I',
-      'Software Engineering II',
-    ]),
-    enrollment: chooseRandom(['10/34', '33/34', '34/34']),
+    course: 'CMPE 132',
+    section: '01',
+    name: 'Information Security',
+    enrollment: '10/34',
     satisfies: 'GE: A',
     units: 3,
     type: 'Lab',
     startDate: 'August 19, 2002',
     endDate: 'Dec 20, 2002',
-    days: chooseRandom([
-      ['M', 'W'],
-      ['T', 'R'],
-      ['M', 'W', 'F'],
-    ]),
+    days: ['M', 'W'],
     times: '9:00 AM - 10:15 AM',
-    location: chooseRandom(['In Person - ENGR227', 'Online']),
+    location: 'In Person - ENGR227',
     avgGrade: chooseRandom(['C-', 'A+', 'F']),
     avgOverallRating: Math.max(0.5, Math.ceil(Math.random() * 50) / 10),
-    number: '23105',
-    professor: chooseRandom([
-      { id: '1', name: 'Jahan Ghofraniha' },
-      { id: '2', name: 'Loc Lam' },
-      { id: '3', name: 'Kurt Mammen' },
-    ]),
+    number: `${k}`,
+    professor:
+      k < 5
+        ? { id: '1', name: 'Jahan Ghofraniha' }
+        : k < 10
+        ? { id: '2', name: 'Loc Lam' }
+        : { id: '3', name: 'Kurt Mammen' },
   }),
 );
 
