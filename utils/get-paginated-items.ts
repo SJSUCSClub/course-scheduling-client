@@ -1,8 +1,4 @@
-export type PaginatedItems<T> = {
-  items: T[];
-  itemsPerPage?: number;
-  page: number;
-};
+import { PaginatedItems } from '@/utils/types';
 
 const getPaginatedItems = <T>({
   items,

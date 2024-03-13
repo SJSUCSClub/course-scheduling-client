@@ -1,24 +1,9 @@
-import getPaginatedItems, { PaginatedItems } from '@/utils/get-paginated-items';
+import {
+  ProfessorReviewsRouteParams,
+  ProfessorReviewsRouteResponse,
+} from '@/utils/types';
+import getPaginatedItems from '@/utils/get-paginated-items';
 import chooseRandom from '@/utils/choose-random';
-
-type ProfessorReview = {
-  id: string;
-  course: string;
-  author: string;
-  date: string;
-  qualityRating: number;
-  easeRating: number;
-  overallRating: number;
-  grade: string;
-  wouldTakeAgain: boolean;
-  review: string;
-  tags: string[];
-  likes: number;
-  professor: {
-    id: string;
-    name: string;
-  };
-};
 
 const tags = [
   'Respected',
@@ -34,52 +19,38 @@ const tags = [
   'Tough grader',
 ];
 
+type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
+
 const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
   { length: 100 },
-  (v, k) => {
-    const qualityRating = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
-    const easeRating = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
+  (v, k): ProfessorReview => {
+    const quality = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
+    const ease = Math.max(0.5, Math.ceil(Math.random() * 50) / 10);
     return {
-      id: Math.random().toString(36).substring(7),
-      course: chooseRandom(['CMPE 132', 'CMPE 180A', 'CMPE 180B']),
-      author: chooseRandom(['John Doe', 'Jane Doe', 'John Smith']),
-      date: 'August 19, 2002',
-      qualityRating,
-      easeRating,
-      overallRating: Math.max(
-        0.5,
-        Math.ceil(((qualityRating + easeRating) / 2) * 10) / 10,
-      ),
-      grade: chooseRandom(['C-', 'A+', 'F']),
-      wouldTakeAgain: chooseRandom([true, false]),
-      review:
+      id: k,
+      createdAt: 'August 19, 2002',
+      courseNumber: '132',
+      department: 'CMPE',
+      content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      tags: [chooseRandom(tags), chooseRandom(tags), chooseRandom(tags)],
-      likes: k,
-      professor:
-        k < 33
-          ? { id: '1', name: 'Jahan Ghofraniha' }
-          : k < 66
-          ? { id: '2', name: 'Loc Lam' }
-          : { id: '3', name: 'Kurt Mammen' },
+      quality,
+      ease,
+      overall: Math.max(0.5, Math.ceil(((quality + ease) / 2) * 10) / 10),
+      grade: chooseRandom(['C-', 'A+', 'F']),
+      takeAgain: chooseRandom([true, false]),
+      tags: Array.from({ length: Math.ceil(Math.random() * 8) }, () =>
+        chooseRandom(tags),
+      ),
+      courseId: 1,
+      isUserAnonymous: k % 2 === 0,
+      userId: 1,
+      professorId: 2,
+      upvotes: k,
+      userName: 'John Doe',
+      professorName: 'Jahan Ghofraniha',
     };
   },
 );
-
-export interface ProfessorReviewsRouteResponse {
-  reviewCount: number;
-  reviews: PaginatedItems<ProfessorReview>;
-}
-
-export interface ProfessorReviewsRouteParams
-  extends Omit<PaginatedItems<ProfessorReview>, 'items'> {
-  id: string;
-  sort: 'relevant' | 'newest' | 'highest' | 'lowest';
-  filters?: {
-    tags?: string[];
-    courses?: string[];
-  };
-}
 
 export const response = ({
   id,
@@ -96,29 +67,31 @@ export const response = ({
         }
       }
       if (filters?.courses) {
-        if (!filters.courses.includes(review.course)) {
+        if (!filters.courses.includes(review.courseId)) {
           return false;
         }
       }
-      if (id !== review.professor.id) {
+      if (id !== review.professorId) {
         return false;
       }
       return true;
     })
     .sort((a, b) => {
       if (sort === 'newest') {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       } else if (sort === 'highest') {
-        return b.overallRating - a.overallRating;
+        return b?.overall && a?.overall ? a.overall - b.overall : -1;
       } else if (sort === 'lowest') {
-        return a.overallRating - b.overallRating;
+        return b?.overall && a?.overall ? b.overall - a.overall : -1;
       } else {
-        return b.likes - a.likes;
+        return b.upvotes - a.upvotes;
       }
     });
   return {
-    reviewCount: result.length,
-    reviews: getPaginatedItems<ProfessorReview>({
+    totalReviews: reviews.length,
+    ...getPaginatedItems<ProfessorReview>({
       items: result,
       itemsPerPage,
       page,
