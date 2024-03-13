@@ -12,27 +12,16 @@ export interface ProfessorSummaryRouteResponse
 export interface ProfessorSummaryRouteParams extends Pick<User, 'id'> {}
 
 interface ProfessorSchedule
-  extends Pick<
+  extends GenericScheduleType,
+    Pick<
       Schedule,
-      | 'professorId'
-      | 'courseId'
-      | 'classNumber'
       | 'courseNumber'
       | 'department'
-      | 'section'
-      | 'dates'
-      | 'times'
       | 'classType'
       | 'courseTitle'
-      | 'availableSeats'
       | 'units'
-      | 'location'
-      | 'modeOfInstruction'
       | 'satisfiesArea'
-    >,
-    Pick<Review, 'grade' | 'overall'> {
-  days?: WeekdayType[];
-}
+    > {}
 export interface ProfessorSchedulesRouteResponse
   extends PaginatedItems<ProfessorSchedule> {}
 export interface ProfessorSchedulesRouteParams
@@ -180,7 +169,7 @@ export type GradeType =
   | 'F';
 export type RatingType = number;
 export type PercentageType = number;
-export type FractionType = string;
+export type AvailabilityType = number;
 export type EvaluationType = 'bad' | 'ok' | 'good';
 export type DistributionType = [number, number, number, number, number];
 export type WeekdayType = 'M' | 'T' | 'W' | 'R' | 'F';
@@ -191,3 +180,18 @@ export type PaginatedItems<T> = {
   itemsPerPage?: number;
   page: number;
 };
+export type GenericScheduleType = Pick<
+  Schedule,
+  | 'professorId'
+  | 'courseId'
+  | 'classNumber'
+  | 'section'
+  | 'dates'
+  | 'times'
+  | 'availableSeats'
+  | 'location'
+  | 'modeOfInstruction'
+> &
+  Pick<Review, 'grade' | 'overall'> & {
+    days?: WeekdayType[];
+  };
