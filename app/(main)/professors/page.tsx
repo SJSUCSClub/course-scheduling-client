@@ -4,8 +4,6 @@ export const metadata: Metadata = {
   title: 'Professors',
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
-
+export default async function Page() {
   return <main className="">professors</main>;
 }
