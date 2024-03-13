@@ -1,4 +1,7 @@
-// Endpoints. Use these types to define the shape of your API responses.
+/***********************************************
+ * Endpoints. Use these types to define the shape of your API responses.
+ ***********************************************/
+// /professor/summary
 export interface ProfessorSummaryRouteResponse
   extends Pick<Review, 'quality' | 'ease' | 'overall' | 'grade' | 'tags'>,
     Pick<User, 'id' | 'name' | 'email'> {
@@ -11,6 +14,7 @@ export interface ProfessorSummaryRouteResponse
 }
 export interface ProfessorSummaryRouteParams extends Pick<User, 'id'> {}
 
+// /professor/schedules
 interface ProfessorSchedule
   extends GenericScheduleType,
     Pick<
@@ -28,6 +32,7 @@ export interface ProfessorSchedulesRouteParams
   extends Pick<PaginatedItems<ProfessorSchedule>, 'itemsPerPage' | 'page'>,
     Pick<ProfessorSchedule, 'professorId'> {}
 
+// /professor/reviews
 interface ProfessorReview
   extends Pick<
     Review,
@@ -65,7 +70,9 @@ export interface ProfessorReviewsRouteParams
   };
 }
 
-// Database schema. Use these types to define the shape of your data.
+/***********************************************
+ * Database schema. Use these types to define the shape of your data.
+ ***********************************************/
 type Comment = {
   id: number;
   createdAt: DateType;
@@ -154,7 +161,9 @@ type FlagReview = {
   reason: string;
 };
 
-// General types. These are reused often and are not specific to any part of the app.
+/***********************************************
+ * General types. These are reused often and are not specific to any part of the app.
+ ***********************************************/
 export type GradeType =
   | 'A+'
   | 'A'
