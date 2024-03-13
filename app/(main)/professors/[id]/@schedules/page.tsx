@@ -1,18 +1,18 @@
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/app/mock-api/professor/schedules';
+} from '@/utils/types';
 import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
-import SectionLabel from '@/components/section-label';
 import fakeFetch, { FetchParams } from '@/utils/fake-fetch';
+import SectionLabel from '@/components/section-label';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const initialFetchParams: FetchParams<ProfessorSchedulesRouteParams> = {
     endpoint: '/professor/schedules',
-    params: { itemsPerPage: 4, page: 0, ...params },
+    params: { itemsPerPage: 4, page: 0, professorId: Number(params.id) },
     timeout: 2000,
   };
-  const professorSchedules = await fakeFetch<
+  const initialPaginatedSchedules = await fakeFetch<
     ProfessorSchedulesRouteResponse,
     ProfessorSchedulesRouteParams
   >(initialFetchParams);
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main className="flex flex-col gap-[10px] pb-[10px]">
       <SectionLabel info="Statistics">Schedule</SectionLabel>
       <PaginatedSchedules
-        professorSchedules={professorSchedules}
+        initialPaginatedSchedules={initialPaginatedSchedules}
         initialFetchParams={initialFetchParams}
       />
     </main>

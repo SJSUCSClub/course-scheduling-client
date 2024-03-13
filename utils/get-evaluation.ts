@@ -1,6 +1,6 @@
 import {
   EvaluationType,
-  FractionType,
+  AvailabilityType,
   GradeType,
   PercentageType,
   RatingType,
@@ -49,31 +49,37 @@ const getPercentageEvaluation = (
   }
 };
 
-const getFractionEvaluation = (fraction: FractionType): EvaluationType => {
-  const parts = fraction.split('/').map(Number);
-  if (
-    parts.length === 2 &&
-    !isNaN(parts[0]) &&
-    !isNaN(parts[1]) &&
-    parts[1] !== 0
-  ) {
-    const [numerator, denominator] = parts;
-    const fraction = numerator / denominator;
-    if (fraction === 1) {
-      return 'bad';
-    } else if (fraction >= 0.7) {
-      return 'ok';
-    } else {
-      return 'good';
-    }
+const getAvailabilityEvaluation = (
+  availability: AvailabilityType,
+): EvaluationType => {
+  if (availability < 3) {
+    return 'bad';
+  } else if (availability < 10) {
+    return 'ok';
   } else {
-    throw new Error('Invalid fraction input');
+    return 'good';
   }
 };
 
+/**
+ * Returns the evaluation of the input based on the type. This is useful for conditionally rendering the color of a rating, grade, percentage, or fraction.
+ * @param input - The input to evaluate.
+ * @param type - The type of input to evaluate.
+ * @returns The evaluation of the input.
+ *
+ * @component
+ * @example
+ * return (
+ *  <div className={clsx({
+ *      'text-bad': getEvaluation(avgGrade, 'grade') === 'bad'
+ *  })}>
+ *    {avgGrade}
+ *  </div>
+ * )
+ */
 const getEvaluation = (
-  input: GradeType | RatingType | PercentageType | FractionType,
-  type: 'rating' | 'grade' | 'percentage' | 'fraction' = 'rating',
+  input: GradeType | RatingType | PercentageType | AvailabilityType,
+  type: 'rating' | 'grade' | 'percentage' | 'availability' = 'rating',
 ): EvaluationType => {
   switch (type) {
     case 'rating':
@@ -82,8 +88,8 @@ const getEvaluation = (
       return getGradeEvaluation(input as GradeType);
     case 'percentage':
       return getPercentageEvaluation(input as PercentageType);
-    case 'fraction':
-      return getFractionEvaluation(input as FractionType);
+    case 'availability':
+      return getAvailabilityEvaluation(input as AvailabilityType);
     default:
       throw new Error('Invalid input type');
   }

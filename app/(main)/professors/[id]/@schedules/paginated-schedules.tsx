@@ -1,35 +1,44 @@
 'use client';
 
-import { ProfessorReviewsRouteParams } from '@/app/mock-api/professor/reviews';
+import React from 'react';
+
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/app/mock-api/professor/schedules';
-import Button from '@/components/button';
-import Schedule from '@/components/schedule/schedule';
+} from '@/utils/types';
 import usePaginatedItems from '@/hooks/use-paginated-items';
+import Schedule from '@/components/schedule/schedule';
 import { FetchParams } from '@/utils/fake-fetch';
-import React from 'react';
+import Button from '@/components/button';
 
 const PaginatedSchedules: React.FC<{
-  professorSchedules: ProfessorSchedulesRouteResponse;
+  initialPaginatedSchedules: ProfessorSchedulesRouteResponse;
   initialFetchParams: FetchParams<ProfessorSchedulesRouteParams>;
-}> = ({ professorSchedules, initialFetchParams }) => {
+}> = ({ initialPaginatedSchedules, initialFetchParams }) => {
   const { loading, error, isEndOfList, paginatedItems, loadMore } =
     usePaginatedItems<
       ProfessorSchedulesRouteResponse,
       ProfessorSchedulesRouteParams
-    >(initialFetchParams, professorSchedules);
+    >(initialFetchParams, initialPaginatedSchedules);
 
   return (
     <>
       {paginatedItems?.items.map((professorSchedule, i) => {
-        const { course, section, name, days, ...rest } = professorSchedule;
+        const {
+          courseNumber,
+          department,
+          classType,
+          courseTitle,
+          units,
+          satisfiesArea,
+          days,
+          ...rest
+        } = professorSchedule;
         return (
           <Schedule
             key={i}
-            heading={`${course} - ${section}`}
-            subheading={name}
+            heading={`${department}${courseNumber} - ${rest.section}`}
+            subheading={courseTitle}
             days={new Set(days)}
             {...rest}
           />

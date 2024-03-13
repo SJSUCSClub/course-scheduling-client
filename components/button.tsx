@@ -4,8 +4,8 @@ import React from 'react';
 import clsx from 'clsx';
 
 import getCustomizableComponents from '@/utils/get-customizable-components';
-import LoadingSpinner from '@/components/loading-spinner';
 import Icon, { IconBox, IconBoxProvider } from '@/components/icon';
+import LoadingSpinner from '@/components/loading-spinner';
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost';
 

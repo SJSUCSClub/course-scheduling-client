@@ -2,20 +2,26 @@
 
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { CalendarIcon } from '@heroicons/react/24/outline';
+import dayjs from 'dayjs';
 import React from 'react';
 import clsx from 'clsx';
 
+import getCustomizableComponents from '@/utils/get-customizable-components';
 import { Popover, PopoverBox, PopoverTrigger } from '@/components/popover';
 import { ButtonBox, ButtonBoxProvider } from '@/components/button';
-import getEvaluation from '@/utils/get-color';
-import { ScheduleType } from '@/utils/types';
+import getEvaluation from '@/utils/get-evaluation';
+import { GenericScheduleType } from '@/utils/types';
 import Icon from '@/components/icon';
-import getCustomizableComponents from '@/utils/get-customizable-components';
 
 const weekdays = ['M', 'T', 'W', 'R', 'F'];
 
-interface ScheduleProps extends ScheduleType {}
-
+interface ScheduleProps
+  extends Omit<GenericScheduleType, 'professorId' | 'courseId' | 'days'> {
+  heading: string;
+  subheading?: string;
+  days?: Set<string>;
+  additionalInfo?: string[];
+}
 const {
   Default: Schedule,
   Box: ScheduleBox,
@@ -23,20 +29,19 @@ const {
 } = getCustomizableComponents<ScheduleProps, React.HTMLProps<HTMLDivElement>>({
   box:
     ({
-      avgGrade,
-      avgOverallRating,
-      days,
-      endDate,
-      enrollment,
-      heading,
-      number,
-      startDate,
-      subheading,
+      classNumber,
+      section,
+      dates,
       times,
+      availableSeats,
       location,
-      satisfies,
-      type,
-      units,
+      modeOfInstruction,
+      grade,
+      overall,
+      days,
+      heading,
+      subheading,
+      additionalInfo,
     }) =>
     ({ children, ...props }) => (
       <div
@@ -49,31 +54,38 @@ const {
         <div className="flex flex-1 flex-col items-start justify-between gap-[3.75px] p-[10px]">
           <div className="flex flex-col">
             <h3 className="text-body-bold text-text">{heading}</h3>
-            <p className="text-subheading italic text-neutral">{subheading}</p>
+            <p className="text-subheading italic text-neutral">
+              {subheading ?? 'Section ' + section}
+            </p>
           </div>
           <p className="text-caption text-neutral">
-            <span
-              style={{
-                color: `rgb(var(--color-${getEvaluation(
-                  enrollment,
-                  'fraction',
-                )}))`,
-              }}
-            >
-              {enrollment} Enrolled
-            </span>
-            {satisfies ? ` • Satisfies ${satisfies}` : ''}
-            {units ? ` • ${units} units` : ''}
-            {type ? ` • ${type}` : ''}
+            {availableSeats ? (
+              <span
+                style={{
+                  color: `rgb(var(--color-${getEvaluation(
+                    availableSeats,
+                    'availability',
+                  )}))`,
+                }}
+              >
+                {availableSeats} Enrolled
+              </span>
+            ) : (
+              'No Seats Available'
+            )}
+            {additionalInfo?.map((info) => ' • ' + info)}
           </p>
           <div className="flex w-full items-end justify-between gap-[10px] text-caption text-neutral">
             <div className="flex items-center gap-[10px]">
               <Icon icon={<CalendarIcon />} h="16px" w="16px" />
               <p>
-                {startDate} - {endDate}
+                {dates
+                  .split('-')
+                  .map((date) => dayjs(date, 'MM/DD/YY').format('MMMM D, YYYY'))
+                  .join(' - ')}
               </p>
             </div>
-            <p>Nbr: {number}</p>
+            <p>Nbr: {classNumber}</p>
           </div>
         </div>
 
@@ -86,8 +98,8 @@ const {
                   className={clsx(
                     'flex h-[22px] w-[22px] items-center justify-center rounded-sm bg-neutral text-[rgb(var(--color-border))]',
                     {
-                      'bg-text font-bold': days.has(day),
-                      'opacity-25': !days.has(day),
+                      'bg-text font-bold': days?.has(day),
+                      'opacity-25': !days?.has(day),
                     },
                   )}
                 >
@@ -97,32 +109,43 @@ const {
             </div>
             <div>
               <p className="font-bold">{times}</p>
-              <p>{location}</p>
+              <p>
+                {modeOfInstruction}
+                {location ? ' - ' + location : null}
+              </p>
             </div>
           </div>
 
           <div className="flex h-auto min-w-[100px] flex-col items-center justify-center gap-[5px] rounded-md bg-border p-[20px] text-caption max-lg:flex-1">
-            <h3
-              className="text-title-bold"
-              style={{
-                color: `rgb(var(--color-${getEvaluation(avgGrade, 'grade')}))`,
-              }}
-            >
-              {avgGrade}
-            </h3>
+            {grade ? (
+              <h3
+                className="text-title-bold"
+                style={{
+                  color: `rgb(var(--color-${getEvaluation(grade, 'grade')}))`,
+                }}
+              >
+                {grade}
+              </h3>
+            ) : (
+              <h3 className="text-title-bold text-neutral">-</h3>
+            )}
           </div>
           <div className="flex h-auto min-w-[100px] flex-col items-center justify-center gap-[5px] rounded-md bg-border p-[20px] text-caption max-lg:flex-1">
-            <h3
-              className="text-title-bold"
-              style={{
-                color: `rgb(var(--color-${getEvaluation(
-                  avgOverallRating,
-                  'rating',
-                )}))`,
-              }}
-            >
-              {avgOverallRating}
-            </h3>
+            {overall ? (
+              <h3
+                className="text-title-bold"
+                style={{
+                  color: `rgb(var(--color-${getEvaluation(
+                    overall,
+                    'rating',
+                  )}))`,
+                }}
+              >
+                {overall}
+              </h3>
+            ) : (
+              <h3 className="text-title-bold text-neutral">-</h3>
+            )}
           </div>
           <div className="relative flex h-auto items-center">
             <Popover>

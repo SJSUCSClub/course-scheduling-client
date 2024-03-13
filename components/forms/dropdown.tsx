@@ -13,6 +13,7 @@ interface DropdownProps {
   disabled?: boolean;
   options: string[];
   values: string[];
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const {
@@ -21,7 +22,7 @@ const {
   BoxProvider: DropdownBoxProvider,
 } = getCustomizableComponents<DropdownProps, React.HTMLProps<HTMLDivElement>>({
   box:
-    ({ label, error, helper, required, disabled, options, values }) =>
+    ({ label, error, helper, required, disabled, options, values, onChange }) =>
     ({ children, ...props }) => (
       <div
         {...props}
@@ -43,6 +44,7 @@ const {
           ) : null}
         </div>
         <select
+          onChange={onChange}
           disabled={disabled}
           className={clsx(
             'flex h-[40px] w-fit min-w-full appearance-none items-center rounded-md bg-border py-[5px] pl-[16px] pr-[38px] animation focus:border-primary focus:ring-0',

@@ -11,8 +11,8 @@ import clsx from 'clsx';
 
 import getCustomizableComponents from '@/utils/get-customizable-components';
 import { Popover, PopoverTrigger, PopoverBox } from '@/components/popover';
+import { ProfessorSummaryRouteResponse, RatingType } from '@/utils/types';
 import { ButtonBoxProvider, ButtonBox } from '@/components/button';
-import { RatingType } from '@/utils/types';
 import Stars from '@/components/stars';
 
 const Options: React.FC = () => {
@@ -31,11 +31,12 @@ const Options: React.FC = () => {
   );
 };
 
-interface RatingSummaryProps {
-  reviewCount: number;
-  name: string;
-  rating: RatingType;
-  email: string;
+interface RatingSummaryProps
+  extends Pick<
+    ProfessorSummaryRouteResponse,
+    'totalReviews' | 'name' | 'email'
+  > {
+  rating?: RatingType;
 }
 
 const {
@@ -47,7 +48,7 @@ const {
   React.HTMLProps<HTMLDivElement>
 >({
   box:
-    ({ email, name, rating, reviewCount }) =>
+    ({ email, name, rating, totalReviews }) =>
     ({ children, ...props }) => (
       <div
         {...props}
@@ -58,11 +59,15 @@ const {
       >
         <div className="flex flex-1 lg:hidden" />
         <p className="min-w-[100px] flex-1 text-caption max-lg:hidden">
-          {reviewCount} Reviews
+          {totalReviews} Reviews
         </p>
         <div className="flex h-full flex-auto flex-col items-center justify-center gap-[3px]">
           <h1 className="text-center text-title">{name}</h1>
-          <h2 className="text-rating">{rating}</h2>
+          {rating ? (
+            <h2 className="text-rating">{rating}</h2>
+          ) : (
+            <h2 className="text-rating text-neutral">-</h2>
+          )}
           <div className="h-[50px]">
             <Stars rating={rating} />
           </div>

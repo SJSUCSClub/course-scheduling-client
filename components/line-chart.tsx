@@ -3,6 +3,8 @@
 import { Props } from 'react-apexcharts';
 import dynamic from 'next/dynamic';
 
+import { DistributionType } from '@/utils/types';
+
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const chartConfig: Props = {
@@ -73,8 +75,9 @@ const chartConfig: Props = {
     },
   },
 };
+
 interface LineChartProps {
-  chartData: number[];
+  chartData: DistributionType;
 }
 
 const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
