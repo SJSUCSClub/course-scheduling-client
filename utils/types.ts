@@ -66,7 +66,7 @@ export interface ProfessorReviewsRouteParams
   sort: SortType;
   filters?: {
     tags?: Review['tags'];
-    courses?: Course['id'][];
+    courses?: Course['courseNumber' | 'department'][];
   };
 }
 
@@ -79,7 +79,7 @@ type Comment = {
   updatedAt?: DateType;
   content: string;
   reviewId: Review['id'];
-  userId: User['id'];
+  userId?: User['id'];
 };
 
 type Review = {
@@ -89,36 +89,35 @@ type Review = {
   courseNumber: Course['courseNumber'];
   department: Department['abbrDept'];
   content: string;
-  quality?: RatingType;
-  ease?: RatingType;
-  overall?: RatingType;
+  quality: RatingType;
+  ease: RatingType;
+  overall: RatingType;
   grade?: GradeType;
   takeAgain: boolean;
-  tags: string[];
+  tags: TagType[];
   isUserAnonymous: boolean;
   userId: User['id'];
   professorId: User['id'];
-  courseId: Course['id'];
+  courseId: Course['courseNumber' | 'department'];
 };
 
 type User = {
   id: number;
   createdAt: DateType;
-  name?: string;
+  name: string;
   email: string;
   isProfessor: boolean;
 };
 
 type Course = {
-  id: number;
-  createdAt: DateType;
-  courseNumber?: string;
-  name: string;
-  description: string;
-  prereqs?: string;
-  units: number;
-  satisfiesArea?: string;
+  courseNumber: string;
   department: Department['abbrDept'];
+  createdAt: DateType;
+  name: string;
+  description?: string;
+  prereqs?: string;
+  units?: string;
+  satisfiesArea?: string;
 };
 
 type Department = {
@@ -129,22 +128,22 @@ type Department = {
 
 type Schedule = {
   professorId?: User['id'];
-  courseId?: Course['id'];
+  courseId?: Course['courseNumber' | 'department'];
   classNumber: number;
   createdAt: DateType;
   courseNumber: Course['courseNumber'];
   department: Department['abbrDept'];
   section: string;
-  days?: string;
+  days: string;
   dates: string;
-  times?: string;
+  times: string;
   classType: string;
   courseTitle: string;
   availableSeats?: number;
   units: Course['units'];
   location?: string;
   modeOfInstruction: string;
-  satisfiesArea: Course['satisfiesArea'];
+  satisfiesArea?: Course['satisfiesArea'];
 };
 
 type UserReviewCritique = {
@@ -174,8 +173,15 @@ export type GradeType =
   | 'C+'
   | 'C'
   | 'C-'
+  | 'D+'
   | 'D'
+  | 'D-'
   | 'F';
+export type TagType =
+  | 'Easy grader'
+  | 'Lots of assignments'
+  | 'Tough grader'
+  | 'Funny';
 export type RatingType = number;
 export type PercentageType = number;
 export type AvailabilityType = number;

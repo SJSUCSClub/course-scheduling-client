@@ -18,20 +18,7 @@ const professors: ProfessorSummaryRouteResponse[] = [
     gradeDistribution: [2, 15, 11, 20, 9],
     totalReviews: 47,
     takeAgain: 52,
-    tags: [
-      'Hilarious',
-      'Respected',
-      'Caring',
-      'Amazing lectures',
-      'Inspirational',
-      'Accessible outside class',
-      'Participation matters',
-      'Graded by few things',
-      'Clear grading criteria',
-      'Get ready to read',
-      'Lots of homework',
-      'Tough grader',
-    ],
+    tags: ['Easy grader', 'Funny', 'Lots of assignments', 'Tough grader'],
   },
 ];
 
