@@ -1,11 +1,12 @@
 import {
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
+  TagType,
 } from '@/utils/types';
 import getPaginatedItems from '@/utils/get-paginated-items';
 import chooseRandom from '@/utils/choose-random';
 
-const tags = [
+const tags: TagType[] = [
   'Respected',
   'Caring',
   'Amazing lectures',
@@ -41,7 +42,7 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
       tags: Array.from({ length: Math.ceil(Math.random() * 8) }, () =>
         chooseRandom(tags),
       ),
-      courseId: 1,
+      courseId: 'CMPE132',
       isUserAnonymous: k % 2 === 0,
       userId: 1,
       professorId: 2,

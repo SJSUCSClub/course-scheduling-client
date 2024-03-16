@@ -23,23 +23,30 @@ const PaginatedSchedules: React.FC<{
 
   return (
     <>
-      {paginatedItems?.items.map((professorSchedule, i) => {
+      {paginatedItems?.items.map((schedule, i) => {
         const {
           courseNumber,
           department,
-          classType,
           courseTitle,
-          units,
-          satisfiesArea,
           days,
+          satisfiesArea,
+          units,
+          classType,
+          courseId,
+          professorId,
           ...rest
-        } = professorSchedule;
+        } = schedule;
         return (
           <Schedule
             key={i}
             heading={`${department}${courseNumber} - ${rest.section}`}
             subheading={courseTitle}
             days={new Set(days)}
+            additionalInfo={[
+              `Satisfies ${satisfiesArea}`,
+              `${units} units`,
+              classType,
+            ]}
             {...rest}
           />
         );

@@ -15,8 +15,7 @@ import Icon from '@/components/icon';
 
 const weekdays = ['M', 'T', 'W', 'R', 'F'];
 
-interface ScheduleProps
-  extends Omit<GenericScheduleType, 'professorId' | 'courseId' | 'days'> {
+interface ScheduleProps extends Omit<GenericScheduleType, 'days'> {
   heading: string;
   subheading?: string;
   days?: Set<string>;
@@ -29,6 +28,8 @@ const {
 } = getCustomizableComponents<ScheduleProps, React.HTMLProps<HTMLDivElement>>({
   box:
     ({
+      courseId,
+      professorId,
       classNumber,
       section,
       dates,
