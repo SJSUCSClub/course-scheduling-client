@@ -55,7 +55,7 @@ const {
               <div className="flex w-full justify-between gap-[20px]">
                 <h3 className="text-heading">{title}</h3>
                 <p className="text-right text-subtitle text-neutral">
-                  {dayjs(createdAt).format('MMM D, YYYY').toUpperCase()}
+                  {dayjs(createdAt).format('MMMM D, YYYY').toUpperCase()}
                 </p>
               </div>
               <p className="text-caption text-neutral">
