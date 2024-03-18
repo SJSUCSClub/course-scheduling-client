@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import useCustomFetch from '@/hooks/use-custom-fetch';
@@ -20,31 +22,43 @@ const usePaginatedItems = <
   Params extends Omit<PaginatedItems<object>, 'items'>,
 >(
   initialFetchParams: FetchParams<Params>,
-  initialPaginatedItems?: Response,
+  initialPaginatedItems: Response | null,
 ) => {
   const { loading, error, fetchWithCache } = useCustomFetch();
   const [isEndOfList, setIsEndOfList] = React.useState(false);
+  const [fetchParams, setFetchParams] = React.useState(initialFetchParams);
   const [paginatedItems, setPaginatedItems] = React.useState(
     initialPaginatedItems,
   );
 
+  const revalidateItems = async (
+    responseFetchParams: (
+      prevParams: FetchParams<Params>,
+    ) => FetchParams<Params>,
+  ) => {
+    const params = responseFetchParams(fetchParams);
+    const items = await fetchWithCache<Response, Params>(params);
+    setFetchParams(params);
+    setPaginatedItems(items);
+  };
+
   const useFetchPaginatedItems = React.useCallback(
     (
-      page = initialFetchParams.params?.page !== undefined
-        ? initialPaginatedItems
-          ? initialFetchParams.params.page + 1
-          : initialFetchParams.params.page
+      page = fetchParams.params?.page !== undefined
+        ? paginatedItems
+          ? fetchParams.params.page + 1
+          : fetchParams.params.page
         : 0,
     ) =>
       async () => {
         const response = await fetchWithCache<Response, Params>({
-          endpoint: initialFetchParams.endpoint,
-          params: { ...(initialFetchParams.params as Params), page },
+          endpoint: fetchParams.endpoint,
+          params: { ...(fetchParams.params as Params), page },
         });
         page = response?.page ?? page;
         return response;
       },
-    [fetchWithCache, initialFetchParams, initialPaginatedItems],
+    [fetchWithCache, fetchParams, paginatedItems],
   );
   const fetchPaginatedItems = React.useRef(useFetchPaginatedItems());
 
@@ -61,7 +75,15 @@ const usePaginatedItems = <
       items: [...(paginatedItems?.items ?? []), ...response.items],
     });
   }, [isEndOfList, paginatedItems]);
-  return { loading, error, isEndOfList, paginatedItems, loadMore };
+
+  return {
+    loading,
+    error,
+    isEndOfList,
+    paginatedItems,
+    loadMore,
+    revalidateItems,
+  };
 };
 
 export default usePaginatedItems;
