@@ -11,7 +11,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     params: {
       itemsPerPage: 4,
       page: 0,
-      sort: 'relevant',
+      filters: {
+        sort: 'relevant',
+      },
       id: Number(params.id),
     },
     timeout: 3000,
@@ -21,11 +23,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     ProfessorReviewsRouteParams
   >(initialFetchParams);
   return (
-    <main className="flex flex-col gap-[10px] pb-[10px]">
-      <PaginatedReviews
-        initialPaginatedReviews={initialPaginatedReviews}
-        initialFetchParams={initialFetchParams}
-      />
-    </main>
+    <PaginatedReviews
+      initialPaginatedReviews={initialPaginatedReviews}
+      initialFetchParams={initialFetchParams}
+    />
   );
 }
