@@ -30,6 +30,13 @@ const usePaginatedItems = <
   const [paginatedItems, setPaginatedItems] = React.useState(
     initialPaginatedItems,
   );
+  const initialPage =
+    fetchParams.params?.page !== undefined
+      ? Boolean(paginatedItems)
+        ? fetchParams.params.page + 1
+        : fetchParams.params.page
+      : 0;
+  const [page, setPage] = React.useState(initialPage);
 
   const revalidateItems = async (
     getResponseFetchParams: (
@@ -42,29 +49,24 @@ const usePaginatedItems = <
     );
     setFetchParams(responseFetchParams);
     setPaginatedItems(responsePaginatedItems);
+    setPage(responsePaginatedItems?.page ?? page);
   };
 
-  const useFetchPaginatedItems =
-    (
-      page = fetchParams.params?.page !== undefined
-        ? paginatedItems
-          ? fetchParams.params.page + 1
-          : fetchParams.params.page
-        : 0,
-    ) =>
+  const fetchPaginatedItems = React.useCallback(
     async (responseFetchParams: FetchParams<Params>) => {
       const response = await fetchWithCache<Response, Params>({
         endpoint: responseFetchParams.endpoint,
         params: { ...(responseFetchParams.params as Params), page },
       });
-      page = response?.page ?? page;
+      setPage(response?.page ?? page);
       return response;
-    };
-  const fetchPaginatedItems = React.useRef(useFetchPaginatedItems());
+    },
+    [fetchWithCache, page],
+  );
 
   const loadMore = React.useCallback(async () => {
     if (isEndOfList) return;
-    const response = await fetchPaginatedItems.current(fetchParams);
+    const response = await fetchPaginatedItems(fetchParams);
     if (!response) return;
     if (response.items.length === 0) {
       setIsEndOfList(true);
@@ -74,7 +76,7 @@ const usePaginatedItems = <
       ...response,
       items: [...(paginatedItems?.items ?? []), ...response.items],
     });
-  }, [isEndOfList, paginatedItems, fetchParams]);
+  }, [isEndOfList, paginatedItems, fetchParams, fetchPaginatedItems]);
 
   return {
     loading,

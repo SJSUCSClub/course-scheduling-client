@@ -36,6 +36,7 @@ const PaginatedReviews: React.FC<{
         ...prevFetchParams,
         params: prevFetchParams.params && {
           ...prevFetchParams.params,
+          page: 0,
           filters: {
             ...prevFetchParams.params.filters,
             [type]: typeof value === 'string' ? value : value.sort(),
