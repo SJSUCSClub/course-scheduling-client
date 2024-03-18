@@ -14,17 +14,16 @@ import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/utils/types';
+import ChangeTypeDropdown from '@/app/(main)/professors/[id]/@summary/change-type-dropdown';
 import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
 import SectionLabel from '@/components/section-label';
 import getEvaluation from '@/utils/get-evaluation';
-import Dropdown from '@/components/forms/dropdown';
 import LineChart from '@/components/line-chart';
 import InfoCard from '@/components/info-card';
 import BarChart from '@/components/bar-chart';
 import fakeFetch from '@/utils/fake-fetch';
 import Button from '@/components/button';
 import Tag from '@/components/tag';
-import ChangeTypeDropdown from '@/app/(main)/professors/[id]/@summary/change-type-dropdown';
 
 export default async function Page({
   params,

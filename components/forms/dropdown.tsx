@@ -63,6 +63,7 @@ const {
             {
               'default-border': !error,
               'border-2 border-important': error,
+              'cursor-pointer': !disabled,
             },
           )}
         >

@@ -11,7 +11,6 @@ const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
   { length: 15 },
   (v, k): ProfessorSchedule => ({
     professorId: 2,
-    courseId: 1,
     classNumber: k,
     courseNumber: '132',
     department: 'CMPE',
@@ -21,8 +20,8 @@ const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
     classType: 'Lab',
     courseTitle: 'Information Security',
     availableSeats: 20,
-    units: 3,
-    location: 'In Person - ENGR227',
+    units: '3',
+    location: 'ENGR227',
     modeOfInstruction: 'In Person',
     satisfiesArea: 'GE: A',
     days: ['M', 'W'],

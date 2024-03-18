@@ -25,6 +25,8 @@ interface ProfessorSchedule
       | 'courseTitle'
       | 'units'
       | 'satisfiesArea'
+      | 'courseId'
+      | 'professorId'
     > {}
 export interface ProfessorSchedulesRouteResponse
   extends PaginatedItems<ProfessorSchedule> {}
@@ -34,37 +36,25 @@ export interface ProfessorSchedulesRouteParams
 
 // /professor/reviews
 interface ProfessorReview
-  extends Pick<
-    Review,
-    | 'id'
-    | 'createdAt'
-    | 'courseNumber'
-    | 'department'
-    | 'content'
-    | 'quality'
-    | 'ease'
-    | 'overall'
-    | 'grade'
-    | 'takeAgain'
-    | 'tags'
-    | 'courseId'
-    | 'isUserAnonymous'
-    | 'userId'
-    | 'professorId'
-  > {
-  upvotes: number;
-  userName: User['name'];
-  professorName: User['name'];
-}
+  extends GenericReviewType,
+    Pick<
+      Review,
+      'id' | 'courseNumber' | 'department' | 'courseId' | 'professorId'
+    > {}
 export interface ProfessorReviewsRouteResponse
   extends PaginatedItems<ProfessorReview> {
   totalReviews: number;
+  filters: {
+    sort: SortType;
+    tags: { tag: TagType; count: number }[];
+    courses: { course: string; count: number }[];
+  };
 }
 export interface ProfessorReviewsRouteParams
   extends Pick<PaginatedItems<ProfessorReview>, 'itemsPerPage' | 'page'>,
     Pick<User, 'id'> {
-  sort: SortType;
   filters?: {
+    sort?: SortType;
     tags?: Review['tags'];
     courses?: Course['courseNumber' | 'department'][];
   };
@@ -210,3 +200,20 @@ export type GenericScheduleType = Pick<
   Pick<Review, 'grade' | 'overall'> & {
     days?: WeekdayType[];
   };
+export type GenericReviewType = Pick<
+  Review,
+  | 'id'
+  | 'createdAt'
+  | 'content'
+  | 'quality'
+  | 'ease'
+  | 'overall'
+  | 'grade'
+  | 'takeAgain'
+  | 'tags'
+  | 'isUserAnonymous'
+  | 'userId'
+> & {
+  upvotes: number;
+  userName: User['name'];
+};

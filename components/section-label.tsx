@@ -8,7 +8,7 @@ import { ButtonBoxProvider, ButtonBox } from '@/components/button';
 import { IconBox, IconBoxProvider } from '@/components/icon';
 
 interface SectionLabelProps {
-  info: string;
+  info?: string;
   children: React.ReactNode;
 }
 
