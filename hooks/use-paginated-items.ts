@@ -32,14 +32,16 @@ const usePaginatedItems = <
   );
 
   const revalidateItems = async (
-    responseFetchParams: (
-      prevParams: FetchParams<Params>,
+    getResponseFetchParams: (
+      prevFetchParams: FetchParams<Params>,
     ) => FetchParams<Params>,
   ) => {
-    const params = responseFetchParams(fetchParams);
-    const items = await fetchWithCache<Response, Params>(params);
-    setFetchParams(params);
-    setPaginatedItems(items);
+    const responseFetchParams = getResponseFetchParams(fetchParams);
+    const responsePaginatedItems = await fetchWithCache<Response, Params>(
+      responseFetchParams,
+    );
+    setFetchParams(responseFetchParams);
+    setPaginatedItems(responsePaginatedItems);
   };
 
   const useFetchPaginatedItems =
@@ -50,10 +52,10 @@ const usePaginatedItems = <
           : fetchParams.params.page
         : 0,
     ) =>
-    async (params: FetchParams<Params>) => {
+    async (responseFetchParams: FetchParams<Params>) => {
       const response = await fetchWithCache<Response, Params>({
-        endpoint: params.endpoint,
-        params: { ...(params.params as Params), page },
+        endpoint: responseFetchParams.endpoint,
+        params: { ...(responseFetchParams.params as Params), page },
       });
       page = response?.page ?? page;
       return response;

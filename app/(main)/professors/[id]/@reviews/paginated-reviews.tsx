@@ -32,12 +32,12 @@ const PaginatedReviews: React.FC<{
 
   const handleSetFilters =
     (type: 'tags' | 'courses' | 'sort') => (value: string[] | string) =>
-      revalidateItems((prevParams) => ({
-        ...prevParams,
-        params: prevParams.params && {
-          ...prevParams.params,
+      revalidateItems((prevFetchParams) => ({
+        ...prevFetchParams,
+        params: prevFetchParams.params && {
+          ...prevFetchParams.params,
           filters: {
-            ...prevParams.params.filters,
+            ...prevFetchParams.params.filters,
             [type]: typeof value === 'string' ? value : value.sort(),
           },
         },
