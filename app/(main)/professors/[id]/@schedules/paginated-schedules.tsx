@@ -5,7 +5,7 @@ import React from 'react';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/schedules';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import Schedule from '@/components/schedule/schedule';
 import { FetchParams } from '@/utils/fake-fetch';
@@ -23,23 +23,30 @@ const PaginatedSchedules: React.FC<{
 
   return (
     <>
-      {paginatedItems?.items.map((professorSchedule, i) => {
+      {paginatedItems?.items.map((schedule, i) => {
         const {
           courseNumber,
           department,
-          classType,
           courseTitle,
-          units,
-          satisfiesArea,
           days,
+          satisfiesArea,
+          units,
+          classType,
+          courseId,
+          professorId,
           ...rest
-        } = professorSchedule;
+        } = schedule;
         return (
           <Schedule
             key={i}
             heading={`${department}${courseNumber} - ${rest.section}`}
             subheading={courseTitle}
             days={new Set(days)}
+            additionalInfo={[
+              `Satisfies ${satisfiesArea}`,
+              `${units} units`,
+              classType,
+            ]}
             {...rest}
           />
         );

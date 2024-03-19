@@ -9,10 +9,11 @@ import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import React from 'react';
 import clsx from 'clsx';
 
+import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
 import getCustomizableComponents from '@/utils/get-customizable-components';
 import { Popover, PopoverTrigger, PopoverBox } from '@/components/popover';
-import { ProfessorSummaryRouteResponse, RatingType } from '@/utils/types';
 import { ButtonBoxProvider, ButtonBox } from '@/components/button';
+import { RatingType } from '@/types/general';
 import Stars from '@/components/stars';
 
 const Options: React.FC = () => {

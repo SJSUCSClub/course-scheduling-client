@@ -21,6 +21,7 @@ const ChangeTypeDropdown: React.FC = () => {
     <Dropdown
       options={['Overall', 'Quality', 'Ease']}
       values={['overall', 'quality', 'ease']}
+      defaultValue={currentParam ?? 'overall'}
       onChange={handleChange}
       disabled={loading}
     />
