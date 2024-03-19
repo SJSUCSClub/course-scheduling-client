@@ -1,7 +1,7 @@
 import {
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/reviews';
 import PaginatedReviews from '@/app/(main)/professors/[id]/@reviews/paginated-reviews';
 import fakeFetch, { FetchParams } from '@/utils/fake-fetch';
 

@@ -5,7 +5,7 @@ import React from 'react';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/schedules';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import Schedule from '@/components/schedule/schedule';
 import { FetchParams } from '@/utils/fake-fetch';

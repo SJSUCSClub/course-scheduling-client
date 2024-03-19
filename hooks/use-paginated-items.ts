@@ -4,7 +4,7 @@ import React from 'react';
 
 import useCustomFetch from '@/hooks/use-custom-fetch';
 import { FetchParams } from '@/utils/fake-fetch';
-import { PaginatedItems } from '@/utils/types';
+import { PaginatedItems } from '@/types/general';
 
 /**
  * Fetches paginated items and provides a loadMore function to load more items.

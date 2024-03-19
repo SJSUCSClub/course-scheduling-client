@@ -9,8 +9,8 @@ import clsx from 'clsx';
 import getCustomizableComponents from '@/utils/get-customizable-components';
 import { Popover, PopoverBox, PopoverTrigger } from '@/components/popover';
 import { ButtonBox, ButtonBoxProvider } from '@/components/button';
+import { GenericScheduleType } from '@/types/general';
 import getEvaluation from '@/utils/get-evaluation';
-import { GenericScheduleType } from '@/utils/types';
 import Icon from '@/components/icon';
 
 const weekdays = ['M', 'T', 'W', 'R', 'F'];

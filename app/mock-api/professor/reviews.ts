@@ -1,10 +1,9 @@
 import {
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
-  TagType,
-} from '@/utils/types';
+} from '@/types/api/professor/reviews';
 import getPaginatedItems from '@/utils/get-paginated-items';
-import chooseRandom from '@/utils/choose-random';
+import { TagType } from '@/types/general';
 
 type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
 
