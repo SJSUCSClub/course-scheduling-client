@@ -7,18 +7,18 @@ import LineChart from "@/components/line-chart";
 import SectionLabel from "@/components/section-label";
 import Tag from "@/components/tag";
 import getEvaluation from "@/utils/get-evaluation";
-import { ArrowPathIcon, ArrowTopRightOnSquareIcon, CalendarIcon, ChevronRightIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import { DistributionType } from "@/utils/types";
+import { ArrowPathIcon, ArrowTopRightOnSquareIcon, CalendarIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
+import { DistributionType } from "@/types/general";
 import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
 
-export default function Page() {
+export default function Page({ params, searchParams }: { params: { id: string }, searchParams: { type: string } }) {
     const name = "Advanced Algorithm Design";
     const description = "Design and analysis of data structures and algorithms. Advanced tree structures, hashing, searching and sorting. Divide-and-conquer, greedy and dynamic programming algorithm design techniques.";
     const department = "CMPE";
     const course_number = "130"
     const totalReviews = 177;
     const units = 3;
-    const type = "quality"
+    const type = searchParams.type || "overall"
     const rating = 2.5;
     const grade = "A-"
     const takeAgain = 86;
@@ -26,9 +26,9 @@ export default function Page() {
     const satisfies = ["Area G", "Area F"]
     const tags = ["Gives Good Feedback", "Accessible Outside Class", "Group Projects", "Caring", "Amazing lectures", "Clear grading criteria", "Inspirational", "Respectful", "Participation matters", "Lots of homework", "Test heavy", "Lecture heavy"]
     const gradeDistribution: DistributionType = [30, 20, 20, 20, 10]
-    const qualityDistribution: DistributionType = [10, 30, 48, 7, 5]
+    const qualityDistribution: DistributionType = [30, 10, 48, 7, 5]
     const easeDistribution: DistributionType = [10, 30, 48, 7, 5]
-    const overallDistribution: DistributionType = [10, 30, 48, 7, 5]
+    const overallDistribution: DistributionType = [2, 48, 38, 7, 5]
     const totalSections: number = 5;
     const openSections: number = 3;
 

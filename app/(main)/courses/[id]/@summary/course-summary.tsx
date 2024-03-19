@@ -1,9 +1,5 @@
-import { ButtonBox, ButtonBoxProvider } from "@/components/button";
-import { DropdownBox, DropdownBoxProvider } from "@/components/forms/dropdown";
 import Icon from "@/components/icon";
-import { Popover, PopoverBox, PopoverTrigger } from "@/components/popover";
-import { ArchiveBoxIcon, RectangleStackIcon, ServerStackIcon, Square2StackIcon, Square3Stack3DIcon } from "@heroicons/react/24/solid";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { Square3Stack3DIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import React from "react";
 import Stars from "star-power";
@@ -42,9 +38,11 @@ export const CourseSummary: React.FC<CourseSummaryProps> = ({ satisfies, prequis
         </div>
 
         {/** TODO - In the future, this should only be h-22 */}
-        <div className="flex items-center h-[50px] gap-[10px] text-[#fc9f1e]">
+        <div className="flex items-center h-[22px] gap-[10px] text-primary">
             <p className="text-heading">{rating}</p>
-            <Stars rating={rating} />
+            <div className="w-[130px] h-[22px]">
+                <Stars rating={rating} />
+            </div>
             <p className="text-caption">{totalReviews} reviews</p>
         </div>
 
