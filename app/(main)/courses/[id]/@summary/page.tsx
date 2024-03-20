@@ -34,7 +34,6 @@ export default function Page({ params, searchParams }: { params: { id: string },
     const openSections: number = 3;
 
     return <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-        <Loading></Loading>
         <BreadcrumbBoxProvider name={department + course_number}>
             <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
         </BreadcrumbBoxProvider>
