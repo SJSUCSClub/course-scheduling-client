@@ -1,7 +1,7 @@
 import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/summary';
 
 const professors: ProfessorSummaryRouteResponse[] = [
   {
