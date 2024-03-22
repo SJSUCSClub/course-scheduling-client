@@ -6,20 +6,31 @@ import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import usePaginatedItems from '@/hooks/use-paginated-items';
+import usePaginatedItems, {
+  UsePaginatedItemsProps,
+} from '@/hooks/use-paginated-items';
 import Schedule from '@/components/schedule/schedule';
-import { FetchParams } from '@/utils/fake-fetch';
 import Button from '@/components/button';
+import useWrappedRequest from '@/hooks/use-wrapped-request';
+import fakeFetch from '@/utils/fake-fetch';
 
 const PaginatedSchedules: React.FC<{
-  initialPaginatedSchedules: ProfessorSchedulesRouteResponse;
-  initialFetchParams: FetchParams<ProfessorSchedulesRouteParams>;
-}> = ({ initialPaginatedSchedules, initialFetchParams }) => {
-  const { loading, error, isEndOfList, paginatedItems, loadMore } =
-    usePaginatedItems<
-      ProfessorSchedulesRouteResponse,
-      ProfessorSchedulesRouteParams
-    >(initialFetchParams, initialPaginatedSchedules);
+  initialPaginatedItems: ProfessorSchedulesRouteResponse | null;
+  professorId: number;
+}> = ({ initialPaginatedItems, professorId }) => {
+  const initialFetchRequest = (page: number) =>
+    fakeFetch<ProfessorSchedulesRouteResponse, ProfessorSchedulesRouteParams>({
+      endpoint: '/professor/schedules',
+      params: { itemsPerPage: 4, page: page, professorId: professorId },
+      timeout: 2000,
+    });
+  const { error, loading, wrappedRequest } = useWrappedRequest();
+  const { isEndOfList, paginatedItems, loadMore } =
+    usePaginatedItems<ProfessorSchedulesRouteResponse>({
+      initialPaginatedItems,
+      initialFetchRequest: (page: number) =>
+        wrappedRequest(() => initialFetchRequest(page)),
+    });
 
   return (
     <>
