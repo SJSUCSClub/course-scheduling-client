@@ -32,7 +32,7 @@ const {
         <div
           {...props}
           className={clsx(
-            '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:default-border',
+            '-:flex -:flex-1 -:items-center -:justify-center -:gap-[10px] -:rounded-lg -:p-[32px] -:default-border',
             {
               '-:bg-[rgb(var(--color-good)/0.75)] -:opacity-75': good,
               '-:bg-[rgb(var(--color-ok)/0.75)] -:opacity-75': ok,
