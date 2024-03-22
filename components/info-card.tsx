@@ -4,7 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import getCustomizableComponents from '@/utils/get-customizable-components';
-import { EvaluationType } from '@/utils/types';
+import { EvaluationType } from '@/types/general';
 import { IconBox, IconBoxProvider } from '@/components/icon';
 
 interface InfoCardProps {

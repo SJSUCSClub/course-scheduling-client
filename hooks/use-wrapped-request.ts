@@ -7,7 +7,7 @@ import React from 'react';
  * @returns The loading state, error, and wrappedRequest function.
  * @example
  * const { loading, error, wrappedRequest } = useWrappedRequest();
- * const response = await wrappedRequest(() => customFetch({ endpoint: '/hello-world' }));
+ * const response = await wrappedRequest(() => fakeFetch({ endpoint: '/hello-world' }));
  * if (error) return <ErrorComponent />;
  * if (loading) return <LoadingComponent />;
  * return <Component response={response} />;

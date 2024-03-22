@@ -3,7 +3,7 @@
 import { Props } from 'react-apexcharts';
 import dynamic from 'next/dynamic';
 
-import { DistributionType } from '@/utils/types';
+import { DistributionType } from '@/types/general';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

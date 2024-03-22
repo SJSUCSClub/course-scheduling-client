@@ -3,7 +3,7 @@ import chooseRandom from '@/utils/choose-random';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/schedules';
 
 type ProfessorSchedule = ProfessorSchedulesRouteResponse['items'][number];
 

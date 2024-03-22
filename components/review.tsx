@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 import getCustomizableComponents from '@/utils/get-customizable-components';
 import getEvaluation from '@/utils/get-evaluation';
-import { GenericReviewType } from '@/utils/types';
+import { GenericReviewType } from '@/types/general';
 import Button from '@/components/button';
 import Tag from '@/components/tag';
 

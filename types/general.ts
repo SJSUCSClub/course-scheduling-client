@@ -68,3 +68,9 @@ export type GenericReviewType = Pick<
   upvotes: number;
   userName: User['name'];
 };
+export type RequestBodyType = object;
+export type RequestParamsType<P> = {
+  [K in keyof P]: P[K] extends string | number | boolean | undefined | null
+    ? P[K]
+    : never;
+};
