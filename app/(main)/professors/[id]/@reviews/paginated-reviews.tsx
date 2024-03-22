@@ -2,20 +2,20 @@
 
 import React from 'react';
 
+import Button from '@/components/button';
+import Dropdown from '@/components/forms/dropdown';
+import { TagCheckbox, TagCheckboxGroup } from '@/components/forms/tag-checkbox';
+import Review from '@/components/review';
+import SectionLabel from '@/components/section-label';
+import usePaginatedItems from '@/hooks/use-paginated-items';
+import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
   ProfessorReviewsRouteBody,
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
-import usePaginatedItems from '@/hooks/use-paginated-items';
-import { TagCheckbox, TagCheckboxGroup } from '@/components/forms/tag-checkbox';
-import useWrappedRequest from '@/hooks/use-wrapped-request';
-import SectionLabel from '@/components/section-label';
 import { SortType, TagType } from '@/types/general';
-import Dropdown from '@/components/forms/dropdown';
 import fakeFetch from '@/utils/fake-fetch';
-import Review from '@/components/review';
-import Button from '@/components/button';
 
 const PaginatedReviews: React.FC<{
   initialPaginatedItems: ProfessorReviewsRouteResponse | null;

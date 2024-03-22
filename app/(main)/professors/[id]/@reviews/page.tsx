@@ -1,9 +1,9 @@
+import PaginatedReviews from '@/app/(main)/professors/[id]/@reviews/paginated-reviews';
 import {
   ProfessorReviewsRouteBody,
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
-import PaginatedReviews from '@/app/(main)/professors/[id]/@reviews/paginated-reviews';
 import fakeFetch from '@/utils/fake-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {

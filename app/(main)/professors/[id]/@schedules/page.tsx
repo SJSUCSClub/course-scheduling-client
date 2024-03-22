@@ -1,10 +1,10 @@
+import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
+import SectionLabel from '@/components/section-label';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
 import fakeFetch from '@/utils/fake-fetch';
-import SectionLabel from '@/components/section-label';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const initialPaginatedSchedules = await fakeFetch<

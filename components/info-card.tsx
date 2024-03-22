@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import getCustomizableComponents from '@/utils/get-customizable-components';
-import { EvaluationType } from '@/types/general';
 import { IconBox, IconBoxProvider } from '@/components/icon';
+import { EvaluationType } from '@/types/general';
+import getCustomizableComponents from '@/utils/get-customizable-components';
 
 interface InfoCardProps {
   type: EvaluationType | 'default';

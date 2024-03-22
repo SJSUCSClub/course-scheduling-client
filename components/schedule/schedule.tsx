@@ -1,17 +1,17 @@
 'use client';
 
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { CalendarIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import React from 'react';
-import clsx from 'clsx';
 
-import getCustomizableComponents from '@/utils/get-customizable-components';
-import { Popover, PopoverBox, PopoverTrigger } from '@/components/popover';
 import { ButtonBox, ButtonBoxProvider } from '@/components/button';
-import { GenericScheduleType } from '@/types/general';
-import getEvaluation from '@/utils/get-evaluation';
 import Icon from '@/components/icon';
+import { Popover, PopoverBox, PopoverTrigger } from '@/components/popover';
+import { GenericScheduleType } from '@/types/general';
+import getCustomizableComponents from '@/utils/get-customizable-components';
+import getEvaluation from '@/utils/get-evaluation';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { CalendarIcon } from '@heroicons/react/24/outline';
 
 const weekdays = ['M', 'T', 'W', 'R', 'F'];
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { Props } from 'react-apexcharts';
 import dynamic from 'next/dynamic';
+import { Props } from 'react-apexcharts';
 
 import { DistributionType } from '@/types/general';
 

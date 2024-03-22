@@ -1,8 +1,9 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 import getCustomizableComponents from '@/utils/get-customizable-components';
 
 interface BreadcrumbProps {

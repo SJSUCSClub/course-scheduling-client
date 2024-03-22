@@ -2,16 +2,16 @@
 
 import React from 'react';
 
+import Button from '@/components/button';
+import Schedule from '@/components/schedule/schedule';
+import usePaginatedItems, {
+  UsePaginatedItemsProps,
+} from '@/hooks/use-paginated-items';
+import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import usePaginatedItems, {
-  UsePaginatedItemsProps,
-} from '@/hooks/use-paginated-items';
-import Schedule from '@/components/schedule/schedule';
-import Button from '@/components/button';
-import useWrappedRequest from '@/hooks/use-wrapped-request';
 import fakeFetch from '@/utils/fake-fetch';
 
 const PaginatedSchedules: React.FC<{

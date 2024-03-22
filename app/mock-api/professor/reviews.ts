@@ -3,9 +3,9 @@ import {
   ProfessorReviewsRouteResponse,
   ProfessorReviewsRouteBody,
 } from '@/types/api/professor/reviews';
-import getPaginatedItems from '@/utils/get-paginated-items';
-import { FakeResponseType } from '@/utils/fake-fetch';
 import { TagType } from '@/types/general';
+import { FakeResponseType } from '@/utils/fake-fetch';
+import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
 
