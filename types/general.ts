@@ -1,8 +1,9 @@
-import { Review, Schedule, User } from '@/types/database';
-
 /***********************************************
  * General types. These are reused often and are not specific to any part of the app.
  ***********************************************/
+
+import { Review, Schedule, User } from '@/types/database';
+
 export type GradeType =
   | 'A+'
   | 'A'

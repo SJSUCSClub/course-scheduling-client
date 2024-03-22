@@ -1,7 +1,7 @@
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
-} from '@/utils/types';
+} from '@/types/api/professor/schedules';
 import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
 import fakeFetch, { FetchParams } from '@/utils/fake-fetch';
 import SectionLabel from '@/components/section-label';

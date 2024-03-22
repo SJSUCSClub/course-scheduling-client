@@ -1,8 +1,9 @@
-import { DateType, GradeType, RatingType, TagType } from '@/types/general';
-
 /***********************************************
  * Database schema. Define the shape of the Database Schema types here.
  ***********************************************/
+
+import { DateType, GradeType, RatingType, TagType } from '@/types/general';
+
 export type Comment = {
   id: number;
   createdAt: DateType;
