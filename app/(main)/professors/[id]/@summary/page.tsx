@@ -1,29 +1,29 @@
+import { notFound } from 'next/navigation';
+
+import ChangeTypeDropdown from '@/app/(main)/professors/[id]/@summary/change-type-dropdown';
+import BarChart from '@/components/bar-chart';
+import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
+import Button from '@/components/button';
+import InfoCard from '@/components/info-card';
+import LineChart from '@/components/line-chart';
+import {
+  RatingSummaryBox,
+  RatingSummaryBoxProvider,
+} from '@/components/rating-summary';
+import SectionLabel from '@/components/section-label';
+import Tag from '@/components/tag';
+import {
+  ProfessorSummaryRouteParams,
+  ProfessorSummaryRouteResponse,
+} from '@/types/api/professor/summary';
+import fakeFetch from '@/utils/fake-fetch';
+import getEvaluation from '@/utils/get-evaluation';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
   ChevronRightIcon,
   ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
-import { notFound } from 'next/navigation';
-
-import {
-  ProfessorSummaryRouteParams,
-  ProfessorSummaryRouteResponse,
-} from '@/types/api/professor/summary';
-import {
-  RatingSummaryBox,
-  RatingSummaryBoxProvider,
-} from '@/components/rating-summary';
-import ChangeTypeDropdown from '@/app/(main)/professors/[id]/@summary/change-type-dropdown';
-import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
-import SectionLabel from '@/components/section-label';
-import getEvaluation from '@/utils/get-evaluation';
-import LineChart from '@/components/line-chart';
-import InfoCard from '@/components/info-card';
-import BarChart from '@/components/bar-chart';
-import fakeFetch from '@/utils/fake-fetch';
-import Button from '@/components/button';
-import Tag from '@/components/tag';
 
 export default async function Page({
   params,

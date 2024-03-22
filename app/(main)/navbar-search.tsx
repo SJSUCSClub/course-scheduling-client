@@ -1,9 +1,9 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 import Icon from '@/components/icon';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const NavbarSearch: React.FC<React.HTMLProps<HTMLDivElement>> = (props) => {
   return (

@@ -1,8 +1,9 @@
 'use client';
 
-import Dropdown from '@/components/forms/dropdown';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
+
+import Dropdown from '@/components/forms/dropdown';
 
 const ChangeTypeDropdown: React.FC = () => {
   const searchParams = useSearchParams();

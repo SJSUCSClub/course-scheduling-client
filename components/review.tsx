@@ -1,3 +1,11 @@
+import clsx from 'clsx';
+import dayjs from 'dayjs';
+
+import Button from '@/components/button';
+import Tag from '@/components/tag';
+import { GenericReviewType } from '@/types/general';
+import getCustomizableComponents from '@/utils/get-customizable-components';
+import getEvaluation from '@/utils/get-evaluation';
 import {
   BookmarkIcon,
   HeartIcon,
@@ -5,14 +13,6 @@ import {
   ShareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import dayjs from 'dayjs';
-import clsx from 'clsx';
-
-import getCustomizableComponents from '@/utils/get-customizable-components';
-import getEvaluation from '@/utils/get-evaluation';
-import { GenericReviewType } from '@/utils/types';
-import Button from '@/components/button';
-import Tag from '@/components/tag';
 
 interface ReviewProps extends GenericReviewType {
   title: string;

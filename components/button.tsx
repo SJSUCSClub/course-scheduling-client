@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import getCustomizableComponents from '@/utils/get-customizable-components';
 import Icon, { IconBox, IconBoxProvider } from '@/components/icon';
 import LoadingSpinner from '@/components/loading-spinner';
+import getCustomizableComponents from '@/utils/get-customizable-components';
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost';
 

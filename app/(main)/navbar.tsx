@@ -1,19 +1,19 @@
 'use client';
 
+import clsx from 'clsx';
+import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/react';
+import React from 'react';
+
+import NavbarSearch from '@/app/(main)/navbar-search';
+import Button, { ButtonBoxProvider, ButtonBox } from '@/components/button';
+import Logo from '@/components/logo';
+import Navlink from '@/components/navlink';
 import {
   MagnifyingGlassIcon,
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { signIn, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import React from 'react';
-import clsx from 'clsx';
-
-import Button, { ButtonBoxProvider, ButtonBox } from '@/components/button';
-import NavbarSearch from '@/app/(main)/navbar-search';
-import Navlink from '@/components/navlink';
-import Logo from '@/components/logo';
 
 const links = [
   { name: 'Courses', href: '/courses' },

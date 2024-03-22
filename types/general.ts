@@ -1,8 +1,9 @@
-import { Review, Schedule, User } from '@/types/database';
-
 /***********************************************
  * General types. These are reused often and are not specific to any part of the app.
  ***********************************************/
+
+import { Review, Schedule, User } from '@/types/database';
+
 export type GradeType =
   | 'A+'
   | 'A'
@@ -66,4 +67,10 @@ export type GenericReviewType = Pick<
 > & {
   upvotes: number;
   userName: User['name'];
+};
+export type RequestBodyType = object;
+export type RequestParamsType<P> = {
+  [K in keyof P]: P[K] extends string | number | boolean | undefined | null
+    ? P[K]
+    : never;
 };

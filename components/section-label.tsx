@@ -1,11 +1,11 @@
 'use client';
 
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
-import getCustomizableComponents from '@/utils/get-customizable-components';
 import { ButtonBoxProvider, ButtonBox } from '@/components/button';
 import { IconBox, IconBoxProvider } from '@/components/icon';
+import getCustomizableComponents from '@/utils/get-customizable-components';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 interface SectionLabelProps {
   info?: string;

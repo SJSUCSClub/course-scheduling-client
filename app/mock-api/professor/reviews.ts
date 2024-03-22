@@ -1,9 +1,11 @@
 import {
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
+  ProfessorReviewsRouteBody,
 } from '@/types/api/professor/reviews';
-import getPaginatedItems from '@/utils/get-paginated-items';
 import { TagType } from '@/types/general';
+import { FakeResponseType } from '@/utils/fake-fetch';
+import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
 
@@ -38,12 +40,13 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
   },
 );
 
-export const response = ({
-  id,
-  itemsPerPage,
-  page,
-  filters,
-}: ProfessorReviewsRouteParams): ProfessorReviewsRouteResponse => {
+export const response: FakeResponseType<
+  ProfessorReviewsRouteParams,
+  ProfessorReviewsRouteBody
+> = (
+  { id, itemsPerPage, page },
+  { filters },
+): ProfessorReviewsRouteResponse => {
   const result = reviews
     .filter((review) => {
       if (filters?.tags?.length) {
