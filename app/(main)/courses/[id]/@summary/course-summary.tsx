@@ -1,13 +1,13 @@
-import Icon from "@/components/icon";
-import { Square3Stack3DIcon } from "@heroicons/react/24/solid";
-import clsx from "clsx";
 import React from "react";
 import Stars from "star-power";
-import Tag from "@/components/tag";
+
 import ChangeTypeDropdown from "@/app/(main)/professors/[id]/@summary/change-type-dropdown";
+import Icon from "@/components/icon";
+import Tag from "@/components/tag";
+import { Square3Stack3DIcon } from "@heroicons/react/24/solid";
 
 interface CourseSummaryProps {
-    course_number: string
+    courseNumber: string
     name: string,
     rating: number,
     totalReviews: number,
@@ -19,16 +19,11 @@ interface CourseSummaryProps {
 
 }
 
-export const CourseSummary: React.FC<CourseSummaryProps> = ({ satisfies, prequisites, description, units, department, course_number, name, rating, totalReviews }) => {
-    return <div
-        className={clsx(
-            '-:flex -:flex-col -:rounded-lg -:bg-background -:text-text -:gap-[10px]',
-            "",
-        )}
-    >
-        <div className="w-full flex flex-row justify-between items-start">
-            <div className="flex flex-col justify-start">
-                <h1 className="text-title">{department}{course_number}</h1>
+export const CourseSummary: React.FC<CourseSummaryProps> = ({ satisfies, prequisites, description, units, department, courseNumber, name, rating, totalReviews }) => {
+    return <div className="flex flex-col rounded-lg bg-background text-text gap-[10px]">
+        <div className="w-full flex flex-row justify-between items-start gap-[20px]">
+            <div className="flex flex-col justify-start gap-[3px]">
+                <h1 className="text-title">{department}{courseNumber}</h1>
                 <p className="text-neutral text-heading">
                     {name}
                 </p>
@@ -37,7 +32,6 @@ export const CourseSummary: React.FC<CourseSummaryProps> = ({ satisfies, prequis
             <ChangeTypeDropdown />
         </div>
 
-        {/** TODO - In the future, this should only be h-22 */}
         <div className="flex items-center h-[22px] gap-[10px] text-primary">
             <p className="text-heading">{rating}</p>
             <div className="w-[130px] h-[22px]">

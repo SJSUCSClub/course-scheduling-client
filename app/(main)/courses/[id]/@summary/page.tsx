@@ -1,4 +1,5 @@
 "use client"
+import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
 import BarChart from "@/components/bar-chart";
 import { BreadcrumbBox, BreadcrumbBoxProvider } from "@/components/breadcrumb";
 import Button from "@/components/button";
@@ -6,17 +7,15 @@ import InfoCard from "@/components/info-card";
 import LineChart from "@/components/line-chart";
 import SectionLabel from "@/components/section-label";
 import Tag from "@/components/tag";
+import { DistributionType } from "@/types/general";
 import getEvaluation from "@/utils/get-evaluation";
 import { ArrowPathIcon, ArrowTopRightOnSquareIcon, CalendarIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import { DistributionType } from "@/types/general";
-import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
-import Loading from "@/app/(main)/courses/[id]/@summary/loading";
 
 export default function Page({ params, searchParams }: { params: { id: string }, searchParams: { type: string } }) {
     const name = "Advanced Algorithm Design";
     const description = "Design and analysis of data structures and algorithms. Advanced tree structures, hashing, searching and sorting. Divide-and-conquer, greedy and dynamic programming algorithm design techniques.";
     const department = "CMPE";
-    const course_number = "130"
+    const courseNumber = "130"
     const totalReviews = 177;
     const units = 3;
     const type = searchParams.type || "overall"
@@ -33,12 +32,12 @@ export default function Page({ params, searchParams }: { params: { id: string },
     const totalSections: number = 5;
     const openSections: number = 3;
 
-    return <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-        <BreadcrumbBoxProvider name={department + course_number}>
+    return <main className="flex flex-col gap-[10px] p-[10px]">
+        <BreadcrumbBoxProvider name={department + courseNumber}>
             <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
         </BreadcrumbBoxProvider>
         <div className="flex min-w-min gap-[10px] flex-col">
-            <CourseSummary satisfies={satisfies} prequisites={prereqs} description={description} department={department} course_number={course_number} name={name} rating={rating} totalReviews={totalReviews} units={units} />
+            <CourseSummary satisfies={satisfies} prequisites={prereqs} description={description} department={department} courseNumber={courseNumber} name={name} rating={rating} totalReviews={totalReviews} units={units} />
 
 
             <div className="flex gap-[10px] max-lg:flex-col">
