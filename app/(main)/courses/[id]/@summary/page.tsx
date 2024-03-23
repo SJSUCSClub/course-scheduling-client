@@ -45,7 +45,7 @@ export default async function Page({ params, searchParams }: { params: { id: str
                 prequisites={prereqs ? [prereqs] : []}
                 description={description ? description : ""}
                 department={department}
-                course_number={courseNumber}
+                courseNumber={courseNumber}
                 name={name}
                 rating={searchParams.type == "quality" ? quality : (searchParams.type == "ease" ? ease : overall)}
                 totalReviews={totalReviews} units={units} />
