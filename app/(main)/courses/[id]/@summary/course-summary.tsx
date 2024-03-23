@@ -1,8 +1,8 @@
 import React from "react";
-import Stars from "star-power";
 
 import ChangeTypeDropdown from "@/app/(main)/professors/[id]/@summary/change-type-dropdown";
 import Icon from "@/components/icon";
+import Stars from "@/components/stars"
 import Tag from "@/components/tag";
 import { Square3Stack3DIcon } from "@heroicons/react/24/solid";
 
@@ -12,7 +12,7 @@ interface CourseSummaryProps {
     rating: number,
     totalReviews: number,
     department: string,
-    units: number,
+    units: string | undefined,
     description: string,
     prequisites: string[],
     satisfies: string[],
@@ -42,7 +42,7 @@ export const CourseSummary: React.FC<CourseSummaryProps> = ({ satisfies, prequis
 
         <div className="flex gap-[5px] items-center text-neutral text-caption">
             <Icon icon={<Square3Stack3DIcon />} h="15px" w="15px" />
-            <p>Units: {units}</p>
+            <p>Units: {units ? units : "unknown"}</p>
         </div>
 
         <p className="text-body py-[10px]">

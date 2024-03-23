@@ -1,4 +1,3 @@
-"use client"
 import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
 import BarChart from "@/components/bar-chart";
 import { BreadcrumbBox, BreadcrumbBoxProvider } from "@/components/breadcrumb";
@@ -7,37 +6,49 @@ import InfoCard from "@/components/info-card";
 import LineChart from "@/components/line-chart";
 import SectionLabel from "@/components/section-label";
 import Tag from "@/components/tag";
-import { DistributionType } from "@/types/general";
+import { CourseSummaryRouteParams, CourseSummaryRouteResponse } from "@/types/api/course/summary";
+import fakeFetch from "@/utils/fake-fetch";
 import getEvaluation from "@/utils/get-evaluation";
 import { ArrowPathIcon, ArrowTopRightOnSquareIcon, CalendarIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
 
-export default function Page({ params, searchParams }: { params: { id: string }, searchParams: { type: string } }) {
-    const name = "Advanced Algorithm Design";
-    const description = "Design and analysis of data structures and algorithms. Advanced tree structures, hashing, searching and sorting. Divide-and-conquer, greedy and dynamic programming algorithm design techniques.";
-    const department = "CMPE";
-    const courseNumber = "130"
-    const totalReviews = 177;
-    const units = 3;
-    const type = searchParams.type || "overall"
-    const rating = 2.5;
-    const grade = "A-"
-    const takeAgain = 86;
-    const prereqs = ["CMPE126", "ISE 130 or MATH 161A"]
-    const satisfies = ["Area G", "Area F"]
-    const tags = ["Gives Good Feedback", "Accessible Outside Class", "Group Projects", "Caring", "Amazing lectures", "Clear grading criteria", "Inspirational", "Respectful", "Participation matters", "Lots of homework", "Test heavy", "Lecture heavy"]
-    const gradeDistribution: DistributionType = [30, 20, 20, 20, 10]
-    const qualityDistribution: DistributionType = [30, 10, 48, 7, 5]
-    const easeDistribution: DistributionType = [10, 30, 48, 7, 5]
-    const overallDistribution: DistributionType = [2, 48, 38, 7, 5]
-    const totalSections: number = 5;
-    const openSections: number = 3;
+export default async function Page({ params, searchParams }: { params: { id: string }, searchParams: { type: string } }) {
+    const response = await fakeFetch<CourseSummaryRouteResponse, CourseSummaryRouteParams>({ endpoint: "/course/summary", params: { id: Number(params.id) } })
+    const {
+        department,
+        courseNumber,
+        satisfiesArea,
+        prereqs,
+        description,
+        openSections,
+        totalSections,
+        totalReviews,
+        name,
+        units,
+        quality,
+        ease,
+        grade,
+        overall,
+        qualityDistribution,
+        gradeDistribution,
+        easeDistribution,
+        tags,
+        takeAgain,
+        overallDistribution
+    } = response;
 
     return <main className="flex flex-col gap-[10px] p-[10px]">
         <BreadcrumbBoxProvider name={department + courseNumber}>
             <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
         </BreadcrumbBoxProvider>
         <div className="flex min-w-min gap-[10px] flex-col">
-            <CourseSummary satisfies={satisfies} prequisites={prereqs} description={description} department={department} courseNumber={courseNumber} name={name} rating={rating} totalReviews={totalReviews} units={units} />
+            <CourseSummary satisfies={satisfiesArea ? [satisfiesArea] : []}
+                prequisites={prereqs ? [prereqs] : []}
+                description={description ? description : ""}
+                department={department}
+                courseNumber={courseNumber}
+                name={name}
+                rating={searchParams.type == "quality" ? quality : (searchParams.type == "ease" ? ease : overall)}
+                totalReviews={totalReviews} units={units} />
 
 
             <div className="flex gap-[10px] max-lg:flex-col">
@@ -85,9 +96,9 @@ export default function Page({ params, searchParams }: { params: { id: string },
                 <div className="flex-1">
                     <BarChart
                         chartData={
-                            type === 'quality'
+                            searchParams.type === 'quality'
                                 ? qualityDistribution
-                                : type === 'ease'
+                                : searchParams.type === 'ease'
                                     ? easeDistribution
                                     : overallDistribution
                         }
