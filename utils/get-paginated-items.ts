@@ -1,4 +1,4 @@
-import { PaginatedItems } from '@/utils/types';
+import { PaginatedItems } from '@/types/general';
 
 /**
  * Paginates an array of items. This probably won't be used in production, but it's useful for mocking API responses.

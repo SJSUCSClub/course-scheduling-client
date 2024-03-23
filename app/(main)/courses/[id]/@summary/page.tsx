@@ -1,3 +1,4 @@
+import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
 import BarChart from "@/components/bar-chart";
 import { BreadcrumbBox, BreadcrumbBoxProvider } from "@/components/breadcrumb";
 import Button from "@/components/button";
@@ -5,11 +6,10 @@ import InfoCard from "@/components/info-card";
 import LineChart from "@/components/line-chart";
 import SectionLabel from "@/components/section-label";
 import Tag from "@/components/tag";
+import { CourseSummaryRouteParams, CourseSummaryRouteResponse } from "@/types/api/course/summary";
+import fakeFetch from "@/utils/fake-fetch";
 import getEvaluation from "@/utils/get-evaluation";
 import { ArrowPathIcon, ArrowTopRightOnSquareIcon, CalendarIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import { CourseSummary } from "@/app/(main)/courses/[id]/@summary/course-summary";
-import fakeFetch from "@/utils/fake-fetch";
-import { CourseSummaryRouteParams, CourseSummaryRouteResponse } from "@/types/api/course/summary";
 
 export default async function Page({ params, searchParams }: { params: { id: string }, searchParams: { type: string } }) {
     const response = await fakeFetch<CourseSummaryRouteResponse, CourseSummaryRouteParams>({ endpoint: "/course/summary", params: { id: Number(params.id) } })
@@ -34,10 +34,9 @@ export default async function Page({ params, searchParams }: { params: { id: str
         tags,
         takeAgain,
         overallDistribution
-
     } = response;
 
-    return <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
+    return <main className="flex flex-col gap-[10px] p-[10px]">
         <BreadcrumbBoxProvider name={department + courseNumber}>
             <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
         </BreadcrumbBoxProvider>

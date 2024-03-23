@@ -1,20 +1,20 @@
 'use client';
 
+import clsx from 'clsx';
+import React from 'react';
+
+import { ButtonBoxProvider, ButtonBox } from '@/components/button';
+import { Popover, PopoverTrigger, PopoverBox } from '@/components/popover';
+import Stars from '@/components/stars';
+import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
+import { RatingType } from '@/types/general';
+import getCustomizableComponents from '@/utils/get-customizable-components';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import {
   BookmarkIcon,
   EnvelopeIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import React from 'react';
-import clsx from 'clsx';
-
-import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
-import getCustomizableComponents from '@/utils/get-customizable-components';
-import { Popover, PopoverTrigger, PopoverBox } from '@/components/popover';
-import { ButtonBoxProvider, ButtonBox } from '@/components/button';
-import { RatingType } from '@/types/general';
-import Stars from '@/components/stars';
 
 const Options: React.FC = () => {
   return (

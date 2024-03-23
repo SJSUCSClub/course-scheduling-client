@@ -1,3 +1,10 @@
+
+import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
+import { InfoCardBox } from '@/components/info-card';
+import { RatingSummaryBox } from '@/components/rating-summary';
+import { SectionLabelBox } from '@/components/section-label';
+import { TagBox } from '@/components/tag';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import {
   ArrowTopRightOnSquareIcon,
   BookmarkIcon,
@@ -5,13 +12,6 @@ import {
   EnvelopeIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-
-import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
-import { RatingSummaryBox } from '@/components/rating-summary';
-import { SectionLabelBox } from '@/components/section-label';
-import { InfoCardBox } from '@/components/info-card';
-import { TagBox } from '@/components/tag';
 
 export default function Loading() {
   return (

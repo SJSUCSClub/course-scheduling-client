@@ -4,7 +4,7 @@ import {
   GradeType,
   PercentageType,
   RatingType,
-} from './types';
+} from '@/types/general';
 
 const getRatingEvaluation = (rating: RatingType): EvaluationType => {
   if (rating < 2) {

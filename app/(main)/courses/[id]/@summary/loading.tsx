@@ -1,9 +1,9 @@
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import Button from '@/components/button';
-import { SectionLabelBox } from '@/components/section-label';
 import { InfoCardBox } from '@/components/info-card';
+import { SectionLabelBox } from '@/components/section-label';
 import { TagBox } from '@/components/tag';
-import clsx from 'clsx';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+
 
 export default function Loading() {
     return <main className="flex flex-col gap-[10px] pb-[10px] opacity-30">
@@ -12,13 +12,8 @@ export default function Loading() {
 
         <div className="flex min-w-min gap-[10px] flex-col animate-pulse">
             {/**CourseSummary box */}
-            <div
-                className={clsx(
-                    '-:flex -:flex-col -:rounded-lg -:bg-background -:text-text -:gap-[10px]',
-                    "",
-                )}
-            >
-                <div className="w-full flex flex-row justify-between items-start">
+            <div className="flex flex-col rounded-lg bg-background text-text gap-[10px]">
+                <div className="w-full flex flex-row justify-between items-start gap-[20px]">
                     <SectionLabelBox className='h-[41px] w-[150px] flex-initial rounded-md bg-neutral p-0' />
 
                     <SectionLabelBox className="h-[40px] w-[111px] flex-initial rounded-md bg-neutral p-0" />
@@ -35,17 +30,17 @@ export default function Loading() {
 
                 {/** Full description of class */}
                 <div className="py-[10px]">
-                    <SectionLabelBox className='h-[44px] w-[600px] flex-initial rounded-md bg-neutral p-0' />
+                    <SectionLabelBox className='h-[44px] max-w-[600px] flex-initial rounded-md bg-neutral p-0' />
                 </div>
 
                 {/** Prereqs and Satisfies */}
-                <div className="flex gap-[10px] items-center">
+                <div className="flex gap-[10px] items-center flex-wrap">
                     <SectionLabelBox className='h-[35px] w-[78px] flex-initial rounded-md bg-neutral p-0' />
                     {Array.from({ length: 5 }, (_, i) => (
                         <TagBox key={i} disabled className="h-[40px] w-[100px]" />
                     ))}
                 </div>
-                <div className="flex gap-[10px] items-center">
+                <div className="flex gap-[10px] items-center flex-wrap">
                     <SectionLabelBox className='h-[35px] w-[52px] flex-initial rounded-md bg-neutral p-0' />
                     {Array.from({ length: 2 }, (_, i) => (
                         <TagBox key={i} disabled className="h-[40px] w-[100px]" />
@@ -54,9 +49,9 @@ export default function Loading() {
             </div>
 
             <div className="flex gap-[10px] max-lg:flex-col animate-pulse">
-                <InfoCardBox className="h-[125px] w-[345px] flex-initial max-lg:flex-1" />
-                <InfoCardBox className="h-[125px] w-[345px] flex-initial max-lg:flex-1" />
-                <InfoCardBox className="h-[125px] w-[345px] flex-initial max-lg:flex-1" />
+                <InfoCardBox className="h-[125px] w-full flex-initial max-lg:flex-1" />
+                <InfoCardBox className="h-[125px] w-full flex-initial max-lg:flex-1" />
+                <InfoCardBox className="h-[125px] w-full flex-initial max-lg:flex-1" />
             </div>
         </div>
 

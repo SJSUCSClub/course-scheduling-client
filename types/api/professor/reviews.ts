@@ -23,7 +23,8 @@ export interface ProfessorReviewsRouteResponse
 }
 export interface ProfessorReviewsRouteParams
   extends Pick<PaginatedItems<ProfessorReview>, 'itemsPerPage' | 'page'>,
-    Pick<User, 'id'> {
+    Pick<User, 'id'> {}
+export interface ProfessorReviewsRouteBody {
   filters?: {
     sort?: SortType;
     tags?: Review['tags'];

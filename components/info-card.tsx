@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import getCustomizableComponents from '@/utils/get-customizable-components';
-import { EvaluationType } from '@/utils/types';
 import { IconBox, IconBoxProvider } from '@/components/icon';
+import { EvaluationType } from '@/types/general';
+import getCustomizableComponents from '@/utils/get-customizable-components';
 
 interface InfoCardProps {
   type: EvaluationType | 'default';
@@ -32,7 +32,7 @@ const {
         <div
           {...props}
           className={clsx(
-            '-:flex -:flex-1 -:items-center -:gap-[10px] -:rounded-lg -:p-[32px] -:default-border',
+            '-:flex -:flex-1 -:items-center -:justify-center -:gap-[10px] -:rounded-lg -:p-[32px] -:default-border',
             {
               '-:bg-[rgb(var(--color-good)/0.75)] -:opacity-75': good,
               '-:bg-[rgb(var(--color-ok)/0.75)] -:opacity-75': ok,

@@ -1,9 +1,9 @@
-import getPaginatedItems from '@/utils/get-paginated-items';
-import chooseRandom from '@/utils/choose-random';
 import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
+import chooseRandom from '@/utils/choose-random';
+import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorSchedule = ProfessorSchedulesRouteResponse['items'][number];
 

@@ -1,9 +1,9 @@
 'use client';
 
-import { Props } from 'react-apexcharts';
 import dynamic from 'next/dynamic';
+import { Props } from 'react-apexcharts';
 
-import { DistributionType } from '@/utils/types';
+import { DistributionType } from '@/types/general';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
