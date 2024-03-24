@@ -21,7 +21,7 @@ const {
 } = getCustomizableComponents<InfoCardProps, React.HTMLProps<HTMLDivElement>>({
   box:
     ({ type, icon, title, subtitle }) =>
-    ({ children, ...props }) => {
+    ({ ...props }) => {
       const [good, ok, bad, default_] = [
         type === 'good',
         type === 'ok',

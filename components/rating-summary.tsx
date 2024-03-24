@@ -50,7 +50,7 @@ const {
 >({
   box:
     ({ email, name, rating, totalReviews }) =>
-    ({ children, ...props }) => (
+    ({ ...props }) => (
       <div
         {...props}
         className={clsx(

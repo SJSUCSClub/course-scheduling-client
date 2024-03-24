@@ -9,7 +9,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 interface SectionLabelProps {
   info?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const {

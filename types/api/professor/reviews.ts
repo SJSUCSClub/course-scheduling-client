@@ -16,6 +16,7 @@ export interface ProfessorReviewsRouteResponse
   extends PaginatedItems<ProfessorReview> {
   totalReviews: number;
   filters: {
+    search: string;
     sort: SortType;
     tags: { tag: TagType; count: number }[];
     courses: { course: string; count: number }[];
@@ -26,6 +27,7 @@ export interface ProfessorReviewsRouteParams
     Pick<User, 'id'> {}
 export interface ProfessorReviewsRouteBody {
   filters?: {
+    search?: string;
     sort?: SortType;
     tags?: Review['tags'];
     courses?: Course['courseNumber' | 'department'][];

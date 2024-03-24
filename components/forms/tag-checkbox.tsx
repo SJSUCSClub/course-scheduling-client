@@ -22,7 +22,7 @@ interface TagCheckboxGroupProps {
   disabled?: boolean;
   label?: string;
   onChange?: (values: string[]) => void;
-  children: React.ReactNode;
+  children: React.ReactNode[];
 }
 
 export const {
@@ -46,6 +46,7 @@ export const {
         setValues(new Set(values));
         onChange?.(Array.from(values));
       };
+      console.log(children);
       return (
         <TagCheckboxContext.Provider
           value={{ values, addValue, removeValue, error, disabled }}
@@ -61,7 +62,9 @@ export const {
             {/* Store the checkbox values as an array in a hidden Input so it will be submitted to the form */}
             <input type="hidden" value={JSON.stringify(values)} />
             {/* Label */}
-            {label && <label className="text-caption">{label}</label>}
+            {label && children?.length !== 0 ? (
+              <label className="text-caption">{label}</label>
+            ) : null}
             <div className="flex flex-wrap gap-[10px]">{children}</div>
           </div>
         </TagCheckboxContext.Provider>

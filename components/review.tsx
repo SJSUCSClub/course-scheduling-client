@@ -40,7 +40,7 @@ const {
       userId,
       userName,
     }) =>
-    ({ children, ...props }) => (
+    ({ ...props }) => (
       <div
         {...props}
         className={clsx(
