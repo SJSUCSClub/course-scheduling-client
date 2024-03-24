@@ -4,6 +4,7 @@ import ChangeTypeDropdown from '@/app/(main)/professors/[id]/@summary/change-typ
 import Icon from '@/components/icon';
 import Stars from '@/components/stars';
 import Tag from '@/components/tag';
+import getEvaluation from '@/utils/get-evaluation';
 import { Square3Stack3DIcon } from '@heroicons/react/24/solid';
 
 interface CourseSummaryProps {
@@ -43,7 +44,12 @@ export const CourseSummary: React.FC<CourseSummaryProps> = ({
         <ChangeTypeDropdown />
       </div>
 
-      <div className="flex h-[22px] items-center gap-[10px] text-primary">
+      <div
+        className="flex h-[22px] items-center gap-[10px]"
+        style={{
+          color: `rgb(var(--color-${getEvaluation(rating, 'rating')}))`,
+        }}
+      >
         <p className="text-heading">{rating}</p>
         <div className="h-[22px] w-[130px]">
           <Stars rating={rating} />
