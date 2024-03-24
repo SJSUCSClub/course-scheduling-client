@@ -2,6 +2,7 @@ import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/types/api/professor/summary';
+import { FakeResponseFunctionType } from '@/utils/fake-fetch';
 
 const professors: ProfessorSummaryRouteResponse[] = [
   {
@@ -22,9 +23,9 @@ const professors: ProfessorSummaryRouteResponse[] = [
   },
 ];
 
-export const response = ({
-  id,
-}: ProfessorSummaryRouteParams): ProfessorSummaryRouteResponse | null => {
+export const response: FakeResponseFunctionType<
+  ProfessorSummaryRouteParams
+> = ({ id }): ProfessorSummaryRouteResponse | null => {
   const professor = professors.find((professor) => professor.id === id);
   if (!professor) {
     return null;

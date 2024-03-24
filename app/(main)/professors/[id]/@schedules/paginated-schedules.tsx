@@ -4,9 +4,7 @@ import React from 'react';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
-import usePaginatedItems, {
-  UsePaginatedItemsProps,
-} from '@/hooks/use-paginated-items';
+import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
   ProfessorSchedulesRouteParams,

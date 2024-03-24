@@ -3,6 +3,7 @@ import {
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
 import chooseRandom from '@/utils/choose-random';
+import { FakeResponseFunctionType } from '@/utils/fake-fetch';
 import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorSchedule = ProfessorSchedulesRouteResponse['items'][number];
@@ -30,11 +31,9 @@ const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
   }),
 );
 
-export const response = ({
-  professorId,
-  itemsPerPage,
-  page,
-}: ProfessorSchedulesRouteParams): ProfessorSchedulesRouteResponse =>
+export const response: FakeResponseFunctionType<
+  ProfessorSchedulesRouteParams
+> = ({ professorId, itemsPerPage, page }): ProfessorSchedulesRouteResponse =>
   getPaginatedItems<ProfessorSchedule>({
     items: schedules.filter((schedule) => schedule.professorId === professorId),
     itemsPerPage,

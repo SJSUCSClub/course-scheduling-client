@@ -1,10 +1,10 @@
+import { Course, Review, User } from '@/types/database';
 import {
   GenericReviewType,
   PaginatedItems,
   SortType,
   TagType,
 } from '@/types/general';
-import { Course, Review, User } from '@/types/database';
 
 interface ProfessorReview
   extends GenericReviewType,

@@ -4,7 +4,7 @@ import {
   ProfessorReviewsRouteBody,
 } from '@/types/api/professor/reviews';
 import { TagType } from '@/types/general';
-import { FakeResponseType } from '@/utils/fake-fetch';
+import { FakeResponseFunctionType } from '@/utils/fake-fetch';
 import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
@@ -40,7 +40,7 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
   },
 );
 
-export const response: FakeResponseType<
+export const response: FakeResponseFunctionType<
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteBody
 > = (

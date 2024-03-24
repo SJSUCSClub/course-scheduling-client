@@ -1,5 +1,5 @@
-import { GenericScheduleType, PaginatedItems } from '@/types/general';
 import { Schedule } from '@/types/database';
+import { GenericScheduleType, PaginatedItems } from '@/types/general';
 
 interface ProfessorSchedule
   extends GenericScheduleType,

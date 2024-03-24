@@ -8,7 +8,7 @@
 
 import { RequestBodyType, RequestParamsType } from '@/types/general';
 
-export type FakeResponseType<
+export type FakeResponseFunctionType<
   Params = undefined,
   Body = undefined,
 > = Params extends undefined
@@ -91,7 +91,7 @@ const fakeFetch = <
         if (params || body) {
           if (params && body) {
             if (response instanceof Function) {
-              const responseFunction = response as FakeResponseType<
+              const responseFunction = response as FakeResponseFunctionType<
                 Params,
                 Body
               >;
@@ -103,14 +103,15 @@ const fakeFetch = <
             }
           } else if (params) {
             if (response instanceof Function) {
-              const responseFunction = response as FakeResponseType<Params>;
+              const responseFunction =
+                response as FakeResponseFunctionType<Params>;
               resolve(responseFunction(params) as Data);
             } else {
               throw new Error('Params provided but no function to handle them');
             }
           } else if (body) {
             if (response instanceof Function) {
-              const responseFunction = response as FakeResponseType<
+              const responseFunction = response as FakeResponseFunctionType<
                 undefined,
                 Body
               >;

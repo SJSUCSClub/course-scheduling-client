@@ -1,5 +1,5 @@
-import { DistributionType, PercentageType } from '@/types/general';
 import { Review, User } from '@/types/database';
+import { DistributionType, PercentageType } from '@/types/general';
 
 export interface ProfessorSummaryRouteResponse
   extends Pick<Review, 'quality' | 'ease' | 'overall' | 'grade' | 'tags'>,

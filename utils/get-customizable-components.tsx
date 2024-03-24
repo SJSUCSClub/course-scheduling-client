@@ -8,8 +8,8 @@ type BoxProviderProps<T> = T & { children: React.ReactNode };
 /**
  * This is a utility function to create customizable components.
  *
- * This utility provides a way to create reusable and customizable components, while encapsulating the custom props and the default props seperately.
- * @param box - A function that provides the component with the custom props from context, and returns a component with the default props.
+ * This utility provides a way to create reusable and customizable components, while encapsulating the custom props and the container props seperately.
+ * @param box - A function that provides the component with the custom props from context, and returns a component with the container props.
  * @param fallback - A component that will be used if the context or box components are not provided. This should be used to provide only the container component. It is optional.
  * @returns An object containing the Default, Box, and BoxProvider components.
  *
@@ -69,7 +69,7 @@ const getCustomizableComponents = <T, K>({
     </BoxContext.Provider>
   );
 
-  // Customizable container with default props
+  // Customizable container with container props
   const Box: React.FC<K> = (props) => {
     const context = React.useContext(BoxContext);
     if (!context) {
@@ -90,7 +90,7 @@ const getCustomizableComponents = <T, K>({
     return box(context)(props);
   };
 
-  // This is the default element. Use this if you don't want to customize the componenent containers default props.
+  // This is the default element. Use this if you don't want to customize the componenent container props.
   const Default: React.FC<T> = (props) => {
     const { children, ...rest } = props as T & { children: React.ReactNode };
     return (
