@@ -52,7 +52,7 @@ const Navbar: React.FC = () => {
 
         {/* Search Bar */}
         <NavbarSearch
-          className={clsx('flex flex-1 max-lg:pl-[32px]', {
+          className={clsx('flex-1 max-lg:pl-[32px]', {
             'max-lg:hidden': !showSearch,
           })}
         />
