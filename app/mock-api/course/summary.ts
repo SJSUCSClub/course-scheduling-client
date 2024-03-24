@@ -5,7 +5,6 @@ import {
 
 const courses: CourseSummaryRouteResponse[] = [
   {
-    id: 1,
     name: 'Advanced Algorithm Design',
     description:
       'Design and analysis of data structures and algorithms. Advanced tree structures, hashing, searching and sorting. Divide-and-conquer, greedy and dynamic programming algorithm design techniques.',
@@ -31,9 +30,13 @@ const courses: CourseSummaryRouteResponse[] = [
 ];
 
 export const response = ({
-  id,
+  courseId,
 }: CourseSummaryRouteParams): CourseSummaryRouteResponse | null => {
-  const course = courses.find((course) => course.id === id);
+  const course = courses.find(
+    (course) =>
+      (course.department + course.courseNumber).toLowerCase() ===
+      courseId.toLowerCase(),
+  );
   if (!course) {
     return null;
   }

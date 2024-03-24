@@ -6,7 +6,7 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Loading() {
   return (
-    <main className="flex flex-col gap-[10px] pb-[10px] opacity-30">
+    <section className="flex flex-col gap-[10px] pb-[10px] opacity-30">
       {/** Breadcrumbs placeholder */}
       <SectionLabelBox className="mb-[10px] mt-[12px] h-[20px] w-[80px] flex-initial animate-pulse rounded-sm bg-neutral p-0" />
 
@@ -105,6 +105,6 @@ export default function Loading() {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

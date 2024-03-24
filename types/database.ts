@@ -41,8 +41,7 @@ export type User = {
 };
 
 export type Course = {
-  id: number;
-  courseNumber: string;  // course number is the 146 in CS146; different from class Number in schedule
+  courseNumber: string; // course number is the 146 in CS146; different from class Number in schedule
   department: Department['abbrDept'];
   createdAt: DateType;
   name: string;

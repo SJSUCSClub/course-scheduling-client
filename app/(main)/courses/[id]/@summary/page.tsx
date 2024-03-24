@@ -31,7 +31,11 @@ export default async function Page({
   const courseSummary = await fakeFetch<
     CourseSummaryRouteResponse,
     CourseSummaryRouteParams
-  >({ endpoint: '/course/summary', params: { id: Number(params.id) } });
+  >({
+    endpoint: '/course/summary',
+    params: { courseId: params.id },
+    timeout: 1000,
+  });
 
   if (!courseSummary) notFound();
 
