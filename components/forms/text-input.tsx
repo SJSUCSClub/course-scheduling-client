@@ -11,8 +11,10 @@ interface TextInputProps {
   helper?: string;
   required?: boolean;
   placeholder?: string;
+  fullHeight?: boolean;
   icon?: React.ReactElement;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement> &
+    React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 const {
@@ -21,7 +23,16 @@ const {
   BoxProvider: TextInputBoxProvider,
 } = getCustomizableComponents<TextInputProps, React.HTMLProps<HTMLDivElement>>({
   box:
-    ({ title, error, helper, required, placeholder, icon, onChange }) =>
+    ({
+      title,
+      error,
+      helper,
+      required,
+      placeholder,
+      fullHeight,
+      icon,
+      onChange,
+    }) =>
     ({ ...props }) => (
       <div
         {...props}
@@ -38,16 +49,32 @@ const {
             </em>
           </div>
         ) : null}
-        <div className="flex h-[40px] w-full">
-          <input
-            onChange={onChange}
-            type="text"
-            className={clsx(
-              'h-full w-0 flex-1 rounded-md bg-border animation default-border focus:border-primary focus:ring-0',
-              { 'pr-10': icon },
-            )}
-            placeholder={placeholder}
-          />
+        <div
+          className={clsx('flex w-full', {
+            'h-[40px]': !fullHeight,
+            'h-[80px]': fullHeight,
+          })}
+        >
+          {fullHeight ? (
+            <textarea
+              onChange={onChange}
+              className={clsx(
+                'h-[80px] w-0 flex-1 resize-none rounded-md bg-border animation default-border focus:border-primary focus:ring-0',
+                { 'pr-10': icon },
+              )}
+              placeholder={placeholder}
+            />
+          ) : (
+            <input
+              onChange={onChange}
+              type="text"
+              className={clsx(
+                'h-full w-0 flex-1 rounded-md bg-border animation default-border focus:border-primary focus:ring-0',
+                { 'pr-10': icon },
+              )}
+              placeholder={placeholder}
+            />
+          )}
           {icon ? (
             <div className="relative h-full">
               <div className="absolute right-4 flex h-full w-[16px] items-center text-text">

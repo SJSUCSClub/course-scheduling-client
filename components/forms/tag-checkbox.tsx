@@ -46,7 +46,6 @@ export const {
         setValues(new Set(values));
         onChange?.(Array.from(values));
       };
-      console.log(children);
       return (
         <TagCheckboxContext.Provider
           value={{ values, addValue, removeValue, error, disabled }}

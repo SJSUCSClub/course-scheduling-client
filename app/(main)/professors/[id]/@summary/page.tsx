@@ -78,7 +78,7 @@ export default async function Page({
         >
           <RatingSummaryBox className="flex-1" />
         </RatingSummaryBoxProvider>
-        <div className="flex gap-[10px] lg:flex-col">
+        <div className="flex gap-[10px] max-lg:flex-wrap lg:flex-col">
           <InfoCard
             type={grade ? getEvaluation(grade, 'grade') : 'default'}
             icon={<ClipboardDocumentListIcon />}

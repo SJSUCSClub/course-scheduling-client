@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
 import React from 'react';
 
+import GoogleLogo from '@/app/(main)/google-logo';
 import NavbarSearch from '@/app/(main)/navbar-search';
 import Button, { ButtonBoxProvider, ButtonBox } from '@/components/button';
 import Logo from '@/components/logo';
@@ -52,7 +53,7 @@ const Navbar: React.FC = () => {
 
         {/* Search Bar */}
         <NavbarSearch
-          className={clsx('flex flex-1 max-lg:pl-[32px]', {
+          className={clsx('flex-1 max-lg:pl-[32px]', {
             'max-lg:hidden': !showSearch,
           })}
         />
@@ -85,14 +86,17 @@ const Navbar: React.FC = () => {
           <div className="flex w-full items-center gap-[16px] max-lg:justify-between">
             <div className="h-[45px] w-[45px] lg:hidden" />
             <div className="flex items-center gap-[16px]">
-              <Button
+              <ButtonBoxProvider
                 variant="primary"
                 onClick={() =>
                   signIn('google', undefined, { prompt: 'select_account' })
                 }
+                postfix={<GoogleLogo />}
               >
-                Sign In
-              </Button>
+                <ButtonBox className="h-full bg-background text-secondary">
+                  Sign in
+                </ButtonBox>
+              </ButtonBoxProvider>
               {status === 'authenticated' && session ? (
                 <p>Signed in as {session.user?.email}</p>
               ) : null}
