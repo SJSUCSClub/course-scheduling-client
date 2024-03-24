@@ -1,12 +1,13 @@
 import { Course, Review } from '@/types/database';
 import { DistributionType, PercentageType } from '@/types/general';
 
-export interface CourseSummaryRouteParams extends Pick<Course, 'id'> {}
+export interface CourseSummaryRouteParams {
+  courseId: string;
+}
 export interface CourseSummaryRouteResponse
   extends Pick<Review, 'quality' | 'ease' | 'overall' | 'grade' | 'tags'>,
     Pick<
       Course,
-      | 'id'
       | 'name'
       | 'description'
       | 'courseNumber'
