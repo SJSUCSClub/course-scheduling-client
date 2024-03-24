@@ -3,10 +3,13 @@
 import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import Button from '@/components/button';
+import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
 import Dropdown from '@/components/forms/dropdown';
 import { TagCheckbox, TagCheckboxGroup } from '@/components/forms/tag-checkbox';
-import TextInput from '@/components/forms/text-input';
+import TextInput, {
+  TextInputBox,
+  TextInputBoxProvider,
+} from '@/components/forms/text-input';
 import LoadingSpinner from '@/components/loading-spinner';
 import Review from '@/components/review';
 import SectionLabel from '@/components/section-label';
@@ -19,7 +22,10 @@ import {
 } from '@/types/api/professor/reviews';
 import { SortType, TagType } from '@/types/general';
 import fakeFetch from '@/utils/fake-fetch';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import {
+  ChevronRightIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/24/outline';
 
 const PaginatedReviews: React.FC<{
   initialPaginatedItems: ProfessorReviewsRouteResponse | null;
@@ -146,6 +152,14 @@ const PaginatedReviews: React.FC<{
             onChange={(e) => handleSetSort(e.target.value as SortType)}
             disabled={loading}
           />
+        </div>
+        <div className="flex gap-[10px]">
+          <TextInputBoxProvider placeholder="Write a review..." fullHeight>
+            <TextInputBox className="flex-1" />
+          </TextInputBoxProvider>
+          <ButtonBoxProvider variant="primary" postfix={<ChevronRightIcon />}>
+            <ButtonBox className="h-full rounded-md bg-background text-primary" />
+          </ButtonBoxProvider>
         </div>
         {paginatedItems?.items.map((review, i) => {
           const { courseNumber, department, courseId, ...rest } = review;
