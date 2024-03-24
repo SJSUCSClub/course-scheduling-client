@@ -1,5 +1,4 @@
 import PaginatedSchedules from '@/app/(main)/courses/[id]/@schedules/paginated-schedules';
-import SectionLabel from '@/components/section-label';
 import {
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
@@ -17,13 +16,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   return (
-    <section className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <SectionLabel info="Sessions">Courses in Session</SectionLabel>
-      {/** Use a bunch of schedules */}
-      <PaginatedSchedules
-        courseId={params.id}
-        initialPaginatedItems={initialPaginatedSchedules}
-      />
-    </section>
+    <PaginatedSchedules
+      courseId={params.id}
+      initialPaginatedItems={initialPaginatedSchedules}
+    />
   );
 }
