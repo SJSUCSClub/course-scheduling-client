@@ -74,7 +74,6 @@ const PaginatedReviews: React.FC<{
   const sort = React.useRef<SortType>('relevant');
 
   const handleSetSearch = (value: string) => {
-    console.log(value);
     search.current = value;
     handleSetFilters();
   };
