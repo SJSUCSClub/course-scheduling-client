@@ -34,7 +34,7 @@ const {
       defaultValue,
       onChange,
     }) =>
-    ({ children, ...props }) => (
+    ({ ...props }) => (
       <div
         {...props}
         className={clsx(

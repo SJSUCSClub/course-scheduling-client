@@ -44,7 +44,7 @@ const {
       subheading,
       additionalInfo,
     }) =>
-    ({ children, ...props }) => (
+    ({ ...props }) => (
       <div
         {...props}
         className={clsx(

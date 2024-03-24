@@ -1,4 +1,3 @@
-
 import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
 import { InfoCardBox } from '@/components/info-card';
 import { RatingSummaryBox } from '@/components/rating-summary';

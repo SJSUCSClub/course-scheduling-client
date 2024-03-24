@@ -4,6 +4,8 @@ import React from 'react';
 
 type BoxContextType<T> = Omit<T, 'children'>;
 type BoxProviderProps<T> = T & { children: React.ReactNode };
+type HasChildren<T> = 'children' extends keyof T ? Pick<T, 'children'> : {};
+type OverrideChildren<T, K> = Omit<K, 'children'> & HasChildren<T>;
 
 /**
  * This is a utility function to create customizable components.
@@ -52,7 +54,7 @@ const getCustomizableComponents = <T, K>({
   box,
   fallback,
 }: {
-  box?: (context: BoxContextType<T>) => React.FC<K>;
+  box?: (context: BoxContextType<T>) => React.FC<OverrideChildren<T, K>>;
   fallback?: React.FC<K>;
 }) => {
   const BoxContext = React.createContext<BoxContextType<T> | undefined>(
@@ -70,11 +72,11 @@ const getCustomizableComponents = <T, K>({
   );
 
   // Customizable container with container props
-  const Box: React.FC<K> = (props) => {
+  const Box: React.FC<OverrideChildren<T, K> | K> = (props) => {
     const context = React.useContext(BoxContext);
     if (!context) {
       if (fallback) {
-        return fallback(props);
+        return fallback(props as K);
       } else {
         throw new Error(
           'Provide a fallback, otherwise Box must be used within a Provider',
@@ -82,12 +84,12 @@ const getCustomizableComponents = <T, K>({
       }
     } else if (!box) {
       if (fallback) {
-        return fallback(props);
+        return fallback(props as K);
       } else {
         throw new Error('Provide a Box, otherwise provide a fallback.');
       }
     }
-    return box(context)(props);
+    return box(context)(props as OverrideChildren<T, K>);
   };
 
   // This is the default element. Use this if you don't want to customize the componenent container props.
@@ -96,9 +98,11 @@ const getCustomizableComponents = <T, K>({
     return (
       <BoxProvider {...(rest as T)}>
         {children ? (
-          <Box {...({} as K)}>{children}</Box>
+          <Box {...({} as OverrideChildren<T, K>)}>{children}</Box>
         ) : (
-          <Box {...({} as K & React.JSX.IntrinsicAttributes)} />
+          <Box
+            {...({} as OverrideChildren<T, K> & React.JSX.IntrinsicAttributes)}
+          />
         )}
       </BoxProvider>
     );

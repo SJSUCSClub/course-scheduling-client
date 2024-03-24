@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 import Button from '@/components/button';
 import Dropdown from '@/components/forms/dropdown';
 import { TagCheckbox, TagCheckboxGroup } from '@/components/forms/tag-checkbox';
+import TextInput from '@/components/forms/text-input';
+import LoadingSpinner from '@/components/loading-spinner';
 import Review from '@/components/review';
 import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
@@ -16,6 +19,7 @@ import {
 } from '@/types/api/professor/reviews';
 import { SortType, TagType } from '@/types/general';
 import fakeFetch from '@/utils/fake-fetch';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const PaginatedReviews: React.FC<{
   initialPaginatedItems: ProfessorReviewsRouteResponse | null;
@@ -35,6 +39,7 @@ const PaginatedReviews: React.FC<{
       },
       body: {
         filters: {
+          search: search.current,
           sort: sort.current,
           tags: tags.current,
           courses: courses.current,
@@ -57,9 +62,18 @@ const PaginatedReviews: React.FC<{
     );
   };
 
+  const search = React.useRef<string>('');
   const tags = React.useRef<TagType[]>([]);
   const courses = React.useRef<string[]>([]);
   const sort = React.useRef<SortType>('relevant');
+
+  const handleSetSearch = (value: string) => {
+    console.log(value);
+    search.current = value;
+    handleSetFilters();
+  };
+
+  const debouncedSetSearch = useDebouncedCallback(handleSetSearch, 500);
 
   const handleSetTags = (value: TagType[]) => {
     tags.current = value;
@@ -79,33 +93,45 @@ const PaginatedReviews: React.FC<{
   return (
     <main className="flex items-stretch gap-[10px]">
       <div className="w-[250px] max-lg:hidden">
-        <div className="sticky top-0 flex h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
+        <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
           <SectionLabel>Filters</SectionLabel>
+          <TextInput
+            icon={
+              loading ? <LoadingSpinner height={1} /> : <MagnifyingGlassIcon />
+            }
+            placeholder="Search"
+            helper="Find specific words."
+            onChange={(e) => debouncedSetSearch(e.target.value)}
+          />
           <TagCheckboxGroup
             onChange={handleSetTags as (value: string[]) => void}
             label="Tags"
             disabled={loading}
           >
-            {paginatedItems?.filters.tags.map((tag) => (
-              <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
-                {tag.tag}
-              </TagCheckbox>
-            ))}
+            {
+              paginatedItems?.filters.tags.map((tag) => (
+                <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
+                  {tag.tag}
+                </TagCheckbox>
+              )) as React.ReactNode[]
+            }
           </TagCheckboxGroup>
           <TagCheckboxGroup
             onChange={handleSetCourses}
             label="Courses"
             disabled={loading}
           >
-            {paginatedItems?.filters.courses.map((tag) => (
-              <TagCheckbox
-                key={tag.course}
-                value={tag.course}
-                count={tag.count}
-              >
-                {tag.course}
-              </TagCheckbox>
-            ))}
+            {
+              paginatedItems?.filters.courses.map((tag) => (
+                <TagCheckbox
+                  key={tag.course}
+                  value={tag.course}
+                  count={tag.count}
+                >
+                  {tag.course}
+                </TagCheckbox>
+              )) as React.ReactNode[]
+            }
           </TagCheckboxGroup>
         </div>
       </div>
@@ -128,8 +154,13 @@ const PaginatedReviews: React.FC<{
           );
         })}
         {!isEndOfList ? (
-          <Button variant="tertiary" onClick={loadMore} loading={loading}>
-            Show More
+          <Button
+            variant="tertiary"
+            disabled={paginatedItems?.totalReviews === 0}
+            onClick={loadMore}
+            loading={loading}
+          >
+            {paginatedItems?.totalReviews !== 0 ? 'Show More' : 'No Reviews ;('}
           </Button>
         ) : null}
       </div>
