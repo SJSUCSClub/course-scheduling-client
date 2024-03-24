@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { CourseSummary } from '@/app/(main)/courses/[id]/@summary/course-summary';
 import BarChart from '@/components/bar-chart';
 import { BreadcrumbBox, BreadcrumbBoxProvider } from '@/components/breadcrumb';
@@ -26,10 +28,13 @@ export default async function Page({
   params: { id: string };
   searchParams: { type: string };
 }) {
-  const response = await fakeFetch<
+  const courseSummary = await fakeFetch<
     CourseSummaryRouteResponse,
     CourseSummaryRouteParams
   >({ endpoint: '/course/summary', params: { id: Number(params.id) } });
+
+  if (!courseSummary) notFound();
+
   const {
     department,
     courseNumber,
@@ -51,7 +56,7 @@ export default async function Page({
     tags,
     takeAgain,
     overallDistribution,
-  } = response;
+  } = courseSummary;
 
   return (
     <main className="flex flex-col gap-[10px] p-[10px]">
