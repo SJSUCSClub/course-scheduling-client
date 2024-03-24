@@ -22,10 +22,10 @@ export default function Loading() {
           <div className="min-w-[100px] flex-1 max-lg:hidden">
             <SectionLabelBox className="h-[20px] w-[80px] flex-initial rounded-sm bg-neutral p-0" />
           </div>
-          <div className="flex h-full flex-auto flex-col items-center justify-center gap-[10px]">
-            <SectionLabelBox className="h-[32px] w-[300px] flex-initial rounded-sm bg-neutral p-0" />
-            <SectionLabelBox className="h-[68px] w-[100px] flex-initial rounded-sm bg-neutral p-0" />
-            <SectionLabelBox className="h-[48px] w-[300px] flex-initial rounded-sm bg-neutral p-0" />
+          <div className="flex h-full w-full flex-auto flex-col items-center justify-center gap-[10px]">
+            <SectionLabelBox className="h-[32px] w-full max-w-[300px] flex-initial rounded-sm bg-neutral p-0" />
+            <SectionLabelBox className="h-[68px] w-full max-w-[100px] flex-initial rounded-sm bg-neutral p-0" />
+            <SectionLabelBox className="h-[48px] w-full max-w-[300px] flex-initial rounded-sm bg-neutral p-0" />
           </div>
           <div className="flex flex-1 justify-end gap-[5px] max-lg:hidden">
             <ButtonBoxProvider disabled variant={<EnvelopeIcon />}>
@@ -44,9 +44,9 @@ export default function Loading() {
             </ButtonBoxProvider>
           </div>
         </RatingSummaryBox>
-        <div className="flex gap-[10px] lg:flex-col">
-          <InfoCardBox className="h-[130px] w-[265px] flex-initial max-lg:flex-1" />
-          <InfoCardBox className="h-[130px] w-[265px] flex-initial max-lg:flex-1" />
+        <div className="flex gap-[10px] max-lg:flex-wrap lg:flex-col">
+          <InfoCardBox className="h-[130px] min-w-[265px] flex-initial max-lg:flex-1" />
+          <InfoCardBox className="h-[130px] min-w-[265px] flex-initial max-lg:flex-1" />
         </div>
       </div>
 
