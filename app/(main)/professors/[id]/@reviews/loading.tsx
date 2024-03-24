@@ -7,7 +7,7 @@ import { TagBox } from '@/components/tag';
 
 export default function Loading() {
   return (
-    <main className="flex items-stretch gap-[10px]">
+    <section className="flex items-stretch gap-[10px]">
       <div className="w-[250px] max-lg:hidden">
         <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
           <SectionLabelBox className="mt-[20px] h-[20px] w-[80px] flex-initial animate-pulse rounded-sm bg-neutral p-0" />
@@ -41,6 +41,6 @@ export default function Loading() {
           <ReviewBox key={i} className="h-[400px] border-0 bg-border" />
         ))}
       </div>
-    </main>
+    </section>
   );
 }

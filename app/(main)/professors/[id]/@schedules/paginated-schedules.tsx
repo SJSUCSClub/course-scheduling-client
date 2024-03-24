@@ -4,6 +4,7 @@ import React from 'react';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
+import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
@@ -31,7 +32,8 @@ const PaginatedSchedules: React.FC<{
     });
 
   return (
-    <>
+    <section className="flex flex-col gap-[10px] pb-[10px]">
+      <SectionLabel info="Statistics">Schedule</SectionLabel>
       {paginatedItems?.items.map((schedule, i) => {
         const {
           courseNumber,
@@ -70,7 +72,7 @@ const PaginatedSchedules: React.FC<{
           {paginatedItems?.items.length !== 0 ? 'Show More' : 'No Schedules ;('}
         </Button>
       ) : null}
-    </>
+    </section>
   );
 };
 
