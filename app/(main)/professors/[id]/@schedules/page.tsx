@@ -17,12 +17,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   return (
-    <main className="flex flex-col gap-[10px] pb-[10px]">
-      <SectionLabel info="Statistics">Schedule</SectionLabel>
-      <PaginatedSchedules
-        initialPaginatedItems={initialPaginatedSchedules}
-        professorId={Number(params.id)}
-      />
-    </main>
+    <PaginatedSchedules
+      initialPaginatedItems={initialPaginatedSchedules}
+      professorId={Number(params.id)}
+    />
   );
 }

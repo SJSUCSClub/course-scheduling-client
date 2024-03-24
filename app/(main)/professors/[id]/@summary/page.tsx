@@ -63,7 +63,7 @@ export default async function Page({
   const type = searchParams.type;
 
   return (
-    <main className="flex flex-col gap-[10px] pb-[10px]">
+    <section className="flex flex-col gap-[10px] pb-[10px]">
       <BreadcrumbBoxProvider name={name}>
         <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
       </BreadcrumbBoxProvider>
@@ -141,6 +141,6 @@ export default async function Page({
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

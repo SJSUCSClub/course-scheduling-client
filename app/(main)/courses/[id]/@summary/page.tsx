@@ -59,7 +59,7 @@ export default async function Page({
   } = courseSummary;
 
   return (
-    <main className="flex flex-col gap-[10px] p-[10px]">
+    <section className="flex flex-col gap-[10px] p-[10px]">
       <BreadcrumbBoxProvider name={department + courseNumber}>
         <BreadcrumbBox className="flex w-full min-w-min py-[10px]" />
       </BreadcrumbBoxProvider>
@@ -145,6 +145,6 @@ export default async function Page({
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

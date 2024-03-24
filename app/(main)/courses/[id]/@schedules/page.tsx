@@ -19,10 +19,10 @@ export default async function Page({
 });
 
   return (
-    <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
+    <section className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
       <SectionLabel info="Sessions">Courses in Session</SectionLabel>
       {/** Use a bunch of schedules */}
       <PaginatedSchedules courseId={params.id} initialPaginatedItems={initialPaginatedSchedules}/>
-    </main>
+    </section>
   );
 }

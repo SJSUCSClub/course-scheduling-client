@@ -96,7 +96,7 @@ const PaginatedReviews: React.FC<{
   };
 
   return (
-    <main className="flex items-stretch gap-[10px]">
+    <section className="flex items-stretch gap-[10px]">
       <div className="w-[250px] max-lg:hidden">
         <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
           <SectionLabel>Filters</SectionLabel>
@@ -177,7 +177,7 @@ const PaginatedReviews: React.FC<{
           </Button>
         ) : null}
       </div>
-    </main>
+    </section>
   );
 };
 
