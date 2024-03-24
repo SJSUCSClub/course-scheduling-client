@@ -6,7 +6,10 @@ import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
-import { CourseSchedulesRouteParams, CourseSchedulesRouteResponse } from '@/types/api/course/schedules';
+import {
+  CourseSchedulesRouteParams,
+  CourseSchedulesRouteResponse,
+} from '@/types/api/course/schedules';
 import fakeFetch from '@/utils/fake-fetch';
 
 const PaginatedSchedules: React.FC<{
@@ -30,23 +33,14 @@ const PaginatedSchedules: React.FC<{
   return (
     <>
       {paginatedItems?.items.map((schedule, i) => {
-        const {
-          days,
-          classType,
-          courseId,
-          name,
-          section,
-          ...rest
-        } = schedule;
+        const { days, classType, courseId, name, section, ...rest } = schedule;
         return (
           <Schedule
             key={i}
             heading={`${name}`}
             subheading={`Section ${section}`}
             days={new Set(days)}
-            additionalInfo={[
-              classType,
-            ]}
+            additionalInfo={[classType]}
             {...rest}
             section={section}
           />
