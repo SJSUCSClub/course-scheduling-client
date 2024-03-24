@@ -93,7 +93,7 @@ const Navbar: React.FC = () => {
                 }
                 postfix={<GoogleLogo />}
               >
-                <ButtonBox className="h-full bg-background text-text">
+                <ButtonBox className="h-full bg-background text-secondary">
                   Sign in
                 </ButtonBox>
               </ButtonBoxProvider>
