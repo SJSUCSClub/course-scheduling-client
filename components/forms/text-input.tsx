@@ -1,9 +1,14 @@
 'use client';
 
 import clsx from 'clsx';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 import Icon from '@/components/icon';
+import LoadingSpinner from '@/components/loading-spinner';
 import getCustomizableComponents from '@/utils/get-customizable-components';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 interface TextInputProps {
   title?: string;
@@ -16,6 +21,44 @@ interface TextInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement> &
     React.ChangeEventHandler<HTMLTextAreaElement>;
 }
+export const Search: React.FC<TextInputProps> = (props) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const debouncedReplace = useDebouncedCallback(replace, 500);
+
+  const params = new URLSearchParams(searchParams);
+  const currentParam = params.get('query');
+  const [pendingParam, setPendingParam] = React.useState(currentParam);
+
+  function handleSearch(term: string) {
+    params.set('page', '1');
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+    setPendingParam(params.get('query'));
+    debouncedReplace(`${pathname}?${params.toString()}`);
+  }
+
+  return (
+    <TextInput
+      icon={
+        currentParam !== pendingParam ? (
+          <LoadingSpinner height={1} />
+        ) : (
+          <MagnifyingGlassIcon />
+        )
+      }
+      placeholder="Search"
+      onChange={(e) => {
+        handleSearch(e.target.value);
+      }}
+      {...props}
+    />
+  );
+};
 
 const {
   Default: TextInput,
