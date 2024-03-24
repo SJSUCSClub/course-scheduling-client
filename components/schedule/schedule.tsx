@@ -15,6 +15,40 @@ import { CalendarIcon } from '@heroicons/react/24/outline';
 
 const weekdays = ['M', 'T', 'W', 'R', 'F'];
 
+const PopoverButton = () => (
+  <div className="relative flex h-auto items-center">
+    <Popover>
+      <PopoverTrigger>
+        {({ toggleVisibility }) => (
+          <ButtonBoxProvider variant="tertiary">
+            <ButtonBox
+              onClick={toggleVisibility}
+              className="scale-150 p-0 text-neutral"
+            >
+              <EllipsisVerticalIcon width={8} viewBox="6.5 0 7 20" />
+            </ButtonBox>
+          </ButtonBoxProvider>
+        )}
+      </PopoverTrigger>
+      <PopoverBox className="left-3">
+        <div className="flex flex-col items-center gap-[16px]">
+          <ButtonBoxProvider variant="tertiary">
+            <ButtonBox className="w-max p-0 text-secondary">
+              Add to Schedule
+            </ButtonBox>
+          </ButtonBoxProvider>
+          <ButtonBoxProvider variant="tertiary">
+            <ButtonBox className="w-max p-0 text-secondary">Compare</ButtonBox>
+          </ButtonBoxProvider>
+          <ButtonBoxProvider variant="tertiary">
+            <ButtonBox className="w-max p-0 text-secondary">View</ButtonBox>
+          </ButtonBoxProvider>
+        </div>
+      </PopoverBox>
+    </Popover>
+  </div>
+);
+
 interface ScheduleProps extends Omit<GenericScheduleType, 'days'> {
   heading: string;
   subheading?: string;
@@ -52,45 +86,52 @@ const {
           props.className,
         )}
       >
-        <div className="flex flex-1 flex-col items-start justify-between gap-[3.75px] p-[10px]">
-          <div className="flex flex-col">
-            <h3 className="text-body-bold text-text">{heading}</h3>
-            <p className="text-subheading italic text-neutral">
-              {subheading ?? 'Section ' + section}
-            </p>
-          </div>
-          <p className="text-caption text-neutral">
-            {availableSeats ? (
-              <span
-                style={{
-                  color: `rgb(var(--color-${getEvaluation(
-                    availableSeats,
-                    'availability',
-                  )}))`,
-                }}
-              >
-                {availableSeats} Enrolled
-              </span>
-            ) : (
-              'No Seats Available'
-            )}
-            {additionalInfo?.map((info) => ' • ' + info)}
-          </p>
-          <div className="flex w-full items-end justify-between gap-[10px] text-caption text-neutral">
-            <div className="flex items-center gap-[10px]">
-              <Icon icon={<CalendarIcon />} h="16px" w="16px" />
-              <p>
-                {dates
-                  .split('-')
-                  .map((date) => dayjs(date, 'MM/DD/YY').format('MMMM D, YYYY'))
-                  .join(' - ')}
+        <div className="flex flex-1 items-center gap-[20px]">
+          <div className="flex flex-1 flex-col items-start justify-between gap-[3.75px] p-[10px]">
+            <div className="flex flex-col">
+              <h3 className="text-body-bold text-text">{heading}</h3>
+              <p className="text-subheading italic text-neutral">
+                {subheading ?? 'Section ' + section}
               </p>
             </div>
-            <p>Nbr: {classNumber}</p>
+            <p className="text-caption text-neutral">
+              {availableSeats ? (
+                <span
+                  style={{
+                    color: `rgb(var(--color-${getEvaluation(
+                      availableSeats,
+                      'availability',
+                    )}))`,
+                  }}
+                >
+                  {availableSeats} Enrolled
+                </span>
+              ) : (
+                'No Seats Available'
+              )}
+              {additionalInfo?.map((info) => ' • ' + info)}
+            </p>
+            <div className="flex w-full items-end justify-between gap-[10px] text-caption text-neutral">
+              <div className="flex items-center gap-[10px]">
+                <Icon icon={<CalendarIcon />} h="16px" w="16px" />
+                <p>
+                  {dates
+                    .split('-')
+                    .map((date) =>
+                      dayjs(date, 'MM/DD/YY').format('MMMM D, YYYY'),
+                    )
+                    .join(' - ')}
+                </p>
+              </div>
+              <p>Nbr: {classNumber}</p>
+            </div>
+          </div>
+          <div className="pr-[10px] lg:hidden">
+            <PopoverButton />
           </div>
         </div>
 
-        <div className="flex gap-[10px]">
+        <div className="flex gap-[10px] max-lg:flex-wrap">
           <div className="flex h-auto flex-col justify-between gap-[5px] rounded-md bg-border p-[18px] text-caption">
             <div className="flex gap-[3px]">
               {weekdays.map((day) => (
@@ -148,40 +189,8 @@ const {
               <h3 className="text-title-bold text-neutral">-</h3>
             )}
           </div>
-          <div className="relative flex h-auto items-center">
-            <Popover>
-              <PopoverTrigger>
-                {({ toggleVisibility }) => (
-                  <ButtonBoxProvider variant="tertiary">
-                    <ButtonBox
-                      onClick={toggleVisibility}
-                      className="w-[8px] scale-150 p-0 text-neutral"
-                    >
-                      <EllipsisVerticalIcon viewBox="6.5 0 7 20" />
-                    </ButtonBox>
-                  </ButtonBoxProvider>
-                )}
-              </PopoverTrigger>
-              <PopoverBox className="left-3">
-                <div className="flex flex-col items-center gap-[16px]">
-                  <ButtonBoxProvider variant="tertiary">
-                    <ButtonBox className="w-max p-0 text-secondary">
-                      Add to Schedule
-                    </ButtonBox>
-                  </ButtonBoxProvider>
-                  <ButtonBoxProvider variant="tertiary">
-                    <ButtonBox className="w-max p-0 text-secondary">
-                      Compare
-                    </ButtonBox>
-                  </ButtonBoxProvider>
-                  <ButtonBoxProvider variant="tertiary">
-                    <ButtonBox className="w-max p-0 text-secondary">
-                      View
-                    </ButtonBox>
-                  </ButtonBoxProvider>
-                </div>
-              </PopoverBox>
-            </Popover>
+          <div className="flex max-lg:hidden">
+            <PopoverButton />
           </div>
         </div>
       </div>
