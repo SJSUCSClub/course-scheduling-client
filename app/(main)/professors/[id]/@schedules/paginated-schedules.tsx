@@ -61,8 +61,13 @@ const PaginatedSchedules: React.FC<{
         );
       })}
       {!isEndOfList ? (
-        <Button variant="tertiary" onClick={loadMore} loading={loading}>
-          Show More
+        <Button
+          variant="tertiary"
+          disabled={paginatedItems?.items.length === 0}
+          onClick={loadMore}
+          loading={loading}
+        >
+          {paginatedItems?.items.length !== 0 ? 'Show More' : 'No Schedules ;('}
         </Button>
       ) : null}
     </>
