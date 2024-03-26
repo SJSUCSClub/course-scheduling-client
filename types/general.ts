@@ -29,7 +29,14 @@ export type AvailabilityType = number;
 export type EvaluationType = 'bad' | 'ok' | 'good';
 export type DistributionType = [number, number, number, number, number];
 export type WeekdayType = 'M' | 'T' | 'W' | 'R' | 'F';
-export type SortType = 'relevant' | 'newest' | 'oldest' | 'highest' | 'lowest';
+export type SortType = 'relevant' | 'newest' | 'highest' | 'lowest';
+export type SearchResultSortType =
+  | 'highest overall'
+  | 'lowest overall'
+  | 'highest grade'
+  | 'lowest grade'
+  | 'most reviews'
+  | 'least reviews';
 export type DateType = string;
 export type PaginatedItems<T> = {
   items: T[];

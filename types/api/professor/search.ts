@@ -3,13 +3,15 @@ import {
   DistributionType,
   PaginatedItems,
   PercentageType,
+  SearchResultSortType,
   SortType,
 } from '@/types/general';
 
 interface ProfessorSearch
-  extends Pick<Review, 'overall' | 'grade' | 'tags'>,
+  extends Pick<Review, 'overall' | 'grade'>,
     Pick<User, 'id' | 'name'> {
   totalReviews: number;
+  takeAgain?: PercentageType;
   coursesInSession: Course['courseNumber' | 'department'][];
 }
 
@@ -18,14 +20,7 @@ export interface ProfessorSearchRouteResponse
   totalResults: number;
   filters: {
     search: string;
-    sort:
-      | 'highest overall'
-      | 'lowest overall'
-      | 'highest grade'
-      | 'lowest grade'
-      | 'most reviews'
-      | 'least reviews';
-    tags: { tag: string; count: number }[];
+    sort: SearchResultSortType;
     coursesInSession: { courseInSession: string; count: number }[];
   };
 }
@@ -34,14 +29,7 @@ export interface ProfessorSearchRouteParams
 export interface ProfessorSearchRouteBody {
   filters?: {
     search?: string;
-    sort?:
-      | 'highest overall'
-      | 'lowest overall'
-      | 'highest grade'
-      | 'lowest grade'
-      | 'most reviews'
-      | 'least reviews';
-    tags?: Review['tags'];
+    sort?: SearchResultSortType;
     coursesInSession?: Course['courseNumber' | 'department'][];
   };
 }
