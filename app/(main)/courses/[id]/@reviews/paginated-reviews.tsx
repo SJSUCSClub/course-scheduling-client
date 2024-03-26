@@ -158,8 +158,8 @@ const PaginatedReviews: React.FC<{
           </ButtonBoxProvider>
         </div>
         {paginatedItems?.items.map((review, i) => {
-          const { name, ...rest } = review;
-          return <Review key={i} title={`${name}`} {...rest} />;
+          const { professorName, ...rest } = review;
+          return <Review key={i} title={`${professorName}`} {...rest} />;
         })}
         {!isEndOfList ? (
           <Button

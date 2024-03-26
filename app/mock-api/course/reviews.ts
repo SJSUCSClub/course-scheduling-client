@@ -64,7 +64,7 @@ const reviews: CourseReview[] = Array.from<undefined, CourseReview>(
     return {
       id: k,
       createdAt: 'August 19, 2002',
-      name: professors[k % 3],
+      professorName: professors[k % 3],
       courseId: 'CMPE130',
       content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'.slice(
@@ -114,7 +114,7 @@ export const response: FakeResponseFunctionType<
         }
       }
       if (filters?.professors?.length) {
-        if (!filters.professors.includes(review.name)) {
+        if (!filters.professors.includes(review.professorName)) {
           return false;
         }
       }
@@ -145,8 +145,8 @@ export const response: FakeResponseFunctionType<
   });
   const professorFilters = new Map<string, number>();
   result.forEach((review) => {
-    const currentCount = professorFilters.get(review.name) ?? 0;
-    professorFilters.set(review.name, currentCount + 1);
+    const currentCount = professorFilters.get(review.professorName) ?? 0;
+    professorFilters.set(review.professorName, currentCount + 1);
   });
   return {
     totalReviews: result.length,

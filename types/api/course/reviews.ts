@@ -6,11 +6,9 @@ import {
   TagType,
 } from '@/types/general';
 
-// pick professor's name from the User table
-interface CourseReview
-  extends GenericReviewType,
-    Pick<User, 'name'>,
-    Pick<Review, 'courseId'> {}
+interface CourseReview extends GenericReviewType, Pick<Review, 'courseId'> {
+  professorName: User['name'];
+}
 
 export interface CourseReviewsRouteResponse
   extends PaginatedItems<CourseReview> {
