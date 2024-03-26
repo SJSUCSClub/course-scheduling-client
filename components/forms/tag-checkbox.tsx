@@ -1,7 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 import getCustomizableComponents from '@/utils/get-customizable-components';
 
@@ -24,6 +26,48 @@ interface TagCheckboxGroupProps {
   onChange?: (values: string[]) => void;
   children: React.ReactNode[];
 }
+export const ParamsTagCheckboxGroup: React.FC<
+  TagCheckboxGroupProps & {
+    param: string;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+> = ({ param, loading, setLoading, disabled, children, ...props }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const params = new URLSearchParams(searchParams);
+  const currentParam = params.get(param);
+  const [pendingParam, setPendingParam] = React.useState(currentParam);
+
+  const handleSetTags = (term: string) => {
+    params.set('page', '1');
+    if (term) {
+      params.set(param, term);
+    } else {
+      params.delete(param);
+    }
+    setPendingParam(params.get(param));
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  React.useEffect(() => {
+    setLoading(currentParam !== pendingParam);
+  }, [pendingParam, currentParam, setLoading]);
+
+  return (
+    <TagCheckboxGroup
+      disabled={disabled || loading}
+      onChange={(values) => {
+        handleSetTags(JSON.stringify(values));
+      }}
+      {...props}
+    >
+      {children}
+    </TagCheckboxGroup>
+  );
+};
 
 export const {
   Default: TagCheckboxGroup,

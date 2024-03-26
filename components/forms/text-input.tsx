@@ -21,7 +21,12 @@ interface TextInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement> &
     React.ChangeEventHandler<HTMLTextAreaElement>;
 }
-export const Search: React.FC<TextInputProps> = (props) => {
+export const ParamsSearch: React.FC<
+  TextInputProps & {
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+> = ({ loading, setLoading, ...props }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -31,7 +36,7 @@ export const Search: React.FC<TextInputProps> = (props) => {
   const currentParam = params.get('query');
   const [pendingParam, setPendingParam] = React.useState(currentParam);
 
-  function handleSearch(term: string) {
+  const handleSearch = (term: string) => {
     params.set('page', '1');
     if (term) {
       params.set('query', term);
@@ -40,17 +45,17 @@ export const Search: React.FC<TextInputProps> = (props) => {
     }
     setPendingParam(params.get('query'));
     debouncedReplace(`${pathname}?${params.toString()}`);
-  }
+  };
+
+  React.useEffect(() => {
+    console.log('currentParam', currentParam);
+    console.log('pendingParam', pendingParam);
+    setLoading(currentParam !== pendingParam);
+  }, [pendingParam, currentParam, setLoading]);
 
   return (
     <TextInput
-      icon={
-        currentParam !== pendingParam ? (
-          <LoadingSpinner height={1} />
-        ) : (
-          <MagnifyingGlassIcon />
-        )
-      }
+      icon={loading ? <LoadingSpinner height={1} /> : <MagnifyingGlassIcon />}
       placeholder="Search"
       onChange={(e) => {
         handleSearch(e.target.value);
