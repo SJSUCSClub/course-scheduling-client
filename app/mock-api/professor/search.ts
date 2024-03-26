@@ -17,8 +17,8 @@ const professors: ProfessorSearch[] = [
     overall: 2.4,
     grade: 'A-',
     totalReviews: 47,
-    tags: ['Easy grader', 'Funny', 'Lots of assignments', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 52,
   },
   {
     id: 3,
@@ -26,8 +26,8 @@ const professors: ProfessorSearch[] = [
     overall: 5,
     grade: 'B-',
     totalReviews: 60,
-    tags: ['Easy grader', 'Lots of assignments', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 90,
   },
   {
     id: 4,
@@ -35,8 +35,8 @@ const professors: ProfessorSearch[] = [
     overall: 3.3,
     grade: 'C-',
     totalReviews: 30,
-    tags: ['Easy grader', 'Funny', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 70,
   },
   {
     id: 5,
@@ -44,8 +44,8 @@ const professors: ProfessorSearch[] = [
     overall: 4.1,
     grade: 'A+',
     totalReviews: 40,
-    tags: ['Easy grader', 'Funny', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 80,
   },
   {
     id: 6,
@@ -53,8 +53,8 @@ const professors: ProfessorSearch[] = [
     overall: 3.8,
     grade: 'C-',
     totalReviews: 35,
-    tags: ['Easy grader', 'Funny', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 60,
   },
   {
     id: 7,
@@ -62,8 +62,8 @@ const professors: ProfessorSearch[] = [
     overall: 4.7,
     grade: 'A+',
     totalReviews: 50,
-    tags: ['Easy grader', 'Funny', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 100,
   },
   {
     id: 8,
@@ -71,8 +71,8 @@ const professors: ProfessorSearch[] = [
     overall: 3.7,
     grade: 'B-',
     totalReviews: 45,
-    tags: ['Easy grader', 'Funny', 'Tough grader'],
     coursesInSession: ['CMPE132'],
+    takeAgain: 80,
   },
 ];
 
@@ -93,11 +93,6 @@ export const response: FakeResponseFunctionType<
           .split(/\s+/);
         const searchQuery = filters.search.toLowerCase();
         if (fuzzySearch(searchQuery, wordsArray, 2).length === 0) {
-          return false;
-        }
-      }
-      if (filters?.tags?.length) {
-        if (!filters.tags.every((tag) => professor.tags.includes(tag))) {
           return false;
         }
       }
@@ -127,13 +122,6 @@ export const response: FakeResponseFunctionType<
         return b.totalReviews - a.totalReviews;
       }
     });
-  const tagFilters = new Map<TagType, number>();
-  result.forEach((professor) => {
-    professor.tags.forEach((tag) => {
-      const currentCount = tagFilters.get(tag) ?? 0;
-      tagFilters.set(tag, currentCount + 1);
-    });
-  });
   const courseInSessionFilters = new Map<string, number>();
   result.forEach((professor) => {
     professor.coursesInSession.forEach((courseInSession) => {
@@ -146,10 +134,6 @@ export const response: FakeResponseFunctionType<
     filters: {
       search: filters?.search ?? '',
       sort: filters?.sort ?? 'most reviews',
-      tags: Array.from(tagFilters.entries()).map(([tag, count]) => ({
-        tag,
-        count,
-      })),
       coursesInSession: Array.from(courseInSessionFilters.entries()).map(
         ([courseInSession, count]) => ({
           courseInSession,
