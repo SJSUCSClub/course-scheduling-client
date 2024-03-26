@@ -1,10 +1,34 @@
-import SectionLabel from '@/components/section-label';
+import PaginatedReviews from '@/app/(main)/courses/[id]/@reviews/paginated-reviews';
+import {
+  CourseReviewsRouteParams,
+  CourseReviewsRouteResponse,
+  CourseReviewsRouteBody,
+} from '@/types/api/course/reviews';
+import fakeFetch from '@/utils/fake-fetch';
 
-export default function Page() {
-  const totalReviews = 176; // TODO - use a real fetch here
+export default async function Page({ params }: { params: { id: string } }) {
+  console.log('our courseId is', params.id);
+  const initialPaginatedItems = await fakeFetch<
+    CourseReviewsRouteResponse,
+    CourseReviewsRouteBody,
+    CourseReviewsRouteParams
+  >({
+    endpoint: '/course/reviews',
+    params: {
+      itemsPerPage: 4,
+      courseId: params.id,
+      page: 0,
+    },
+    body: {
+      filters: {},
+    },
+    timeout: 3000,
+  });
+
   return (
-    <section className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <SectionLabel info="Reviews">{totalReviews} Reviews</SectionLabel>
-    </section>
+    <PaginatedReviews
+      courseId={params.id}
+      initialPaginatedItems={initialPaginatedItems}
+    />
   );
 }
