@@ -10,19 +10,12 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 const NavbarSearch: React.FC<React.HTMLProps<HTMLFormElement>> = (props) => {
   const [option, setOption] = React.useState('courses');
   const [loading, setLoading] = React.useState(false);
-  const [search, setSearch] = React.useState('');
   const handleSetOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setOption(event.target.value);
   };
-  const handleSetSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-  React.useEffect(() => {
-    setLoading(false);
-  }, [search]);
   return (
     <form
-      action={`/${option}/search?query=${search}`}
+      action={`/${option}/search`}
       {...props}
       className={clsx(
         `-:flex -:h-[40px] -:text-body -:text-text`,
@@ -30,8 +23,8 @@ const NavbarSearch: React.FC<React.HTMLProps<HTMLFormElement>> = (props) => {
       )}
     >
       <input
-        onChange={handleSetSearch}
         type="text"
+        name="query"
         className="h-full w-0 flex-1 rounded-l-md bg-border pr-10 animation default-border focus:border-primary focus:ring-0"
         placeholder="Search"
       />
