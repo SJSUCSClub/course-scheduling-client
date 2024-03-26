@@ -48,8 +48,6 @@ export const ParamsSearch: React.FC<
   };
 
   React.useEffect(() => {
-    console.log('currentParam', currentParam);
-    console.log('pendingParam', pendingParam);
     setLoading(currentParam !== pendingParam);
   }, [pendingParam, currentParam, setLoading]);
 
