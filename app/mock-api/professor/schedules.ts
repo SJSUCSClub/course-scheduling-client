@@ -9,9 +9,9 @@ import getPaginatedItems from '@/utils/get-paginated-items';
 type ProfessorSchedule = ProfessorSchedulesRouteResponse['items'][number];
 
 const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
-  { length: 15 },
+  { length: 30 },
   (v, k): ProfessorSchedule => ({
-    professorId: 2,
+    professorId: k % 2 === 0 ? 2 : 3,
     classNumber: k,
     courseNumber: '132',
     department: 'CMPE',

@@ -86,19 +86,21 @@ const Navbar: React.FC = () => {
           <div className="flex w-full items-center gap-[16px] max-lg:justify-between">
             <div className="h-[45px] w-[45px] lg:hidden" />
             <div className="flex items-center gap-[16px]">
-              <ButtonBoxProvider
-                variant="primary"
-                onClick={() =>
-                  signIn('google', undefined, { prompt: 'select_account' })
-                }
-                postfix={<GoogleLogo />}
-              >
-                <ButtonBox className="h-full bg-background text-secondary">
-                  Sign in
-                </ButtonBox>
-              </ButtonBoxProvider>
+              {status !== 'authenticated' ? (
+                <ButtonBoxProvider
+                  variant="primary"
+                  onClick={() =>
+                    signIn('google', undefined, { prompt: 'select_account' })
+                  }
+                  postfix={<GoogleLogo />}
+                >
+                  <ButtonBox className="h-full bg-background text-secondary">
+                    Sign in
+                  </ButtonBox>
+                </ButtonBoxProvider>
+              ) : null}
               {status === 'authenticated' && session ? (
-                <p>Signed in as {session.user?.email}</p>
+                <p>{session.user?.email}</p>
               ) : null}
             </div>
             <ButtonBoxProvider variant={<XMarkIcon />}>
