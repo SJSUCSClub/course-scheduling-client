@@ -26,7 +26,7 @@ export default async function Page({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { type: string };
+  searchParams: { sort: string };
 }) {
   const courseSummary = await fakeFetch<
     CourseSummaryRouteResponse,
@@ -62,6 +62,7 @@ export default async function Page({
     overallDistribution,
   } = courseSummary;
 
+  const type = searchParams.sort;
   return (
     <section className="flex flex-col gap-[10px] p-[10px]">
       <BreadcrumbBoxProvider name={department + courseNumber}>
@@ -75,13 +76,7 @@ export default async function Page({
           department={department}
           courseNumber={courseNumber}
           name={name}
-          rating={
-            searchParams.type == 'quality'
-              ? quality
-              : searchParams.type == 'ease'
-              ? ease
-              : overall
-          }
+          rating={type == 'quality' ? quality : type == 'ease' ? ease : overall}
           totalReviews={totalReviews}
           units={units}
         />
@@ -131,9 +126,9 @@ export default async function Page({
           <div className="flex-1">
             <BarChart
               chartData={
-                searchParams.type === 'quality'
+                type === 'quality'
                   ? qualityDistribution
-                  : searchParams.type === 'ease'
+                  : type === 'ease'
                   ? easeDistribution
                   : overallDistribution
               }
