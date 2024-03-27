@@ -30,7 +30,7 @@ export default async function Page({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { type: string };
+  searchParams: { sort: string };
 }) {
   const professorSummary: ProfessorSummaryRouteResponse | null =
     await fakeFetch<ProfessorSummaryRouteResponse, ProfessorSummaryRouteParams>(
@@ -60,7 +60,7 @@ export default async function Page({
     takeAgain,
   } = professorSummary;
 
-  const type = searchParams.type;
+  const type = searchParams.sort;
 
   return (
     <section className="flex flex-col gap-[10px] pb-[10px]">
