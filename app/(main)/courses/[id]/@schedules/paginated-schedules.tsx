@@ -36,7 +36,8 @@ const PaginatedSchedules: React.FC<{
       <SectionLabel info="Sessions">Courses in Session</SectionLabel>
 
       {paginatedItems?.items.map((schedule, i) => {
-        const { days, classType, courseId, name, section, ...rest } = schedule;
+        const { days, classType, professorId, name, section, ...rest } =
+          schedule;
         return (
           <Schedule
             key={i}
@@ -44,6 +45,7 @@ const PaginatedSchedules: React.FC<{
             subheading={`Section ${section}`}
             days={new Set(days)}
             additionalInfo={[classType]}
+            href={`/professors/${professorId}`}
             {...rest}
             section={section}
           />

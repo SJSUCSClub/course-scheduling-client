@@ -59,10 +59,12 @@ const SearchResult: React.FC<ProfessorSearch> = ({
               ) : null}
               <div className="flex flex-wrap gap-[10px]">
                 {coursesInSession.map((courseInSession, i) => (
-                  <form
-                    key={i}
-                    action={`/professors/search?courseInSession=${courseInSession}`}
-                  >
+                  <form key={i} action={`/professors/search`}>
+                    <input
+                      hidden
+                      name="coursesInSession"
+                      value={JSON.stringify([courseInSession])}
+                    />
                     <Tag type="submit" size="sm">
                       {courseInSession}
                     </Tag>

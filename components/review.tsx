@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 import Button from '@/components/button';
 import Tag from '@/components/tag';
@@ -18,6 +19,7 @@ import {
 
 interface ReviewProps extends GenericReviewType {
   title: string;
+  href?: string;
 }
 
 const {
@@ -28,6 +30,7 @@ const {
   box:
     ({
       id,
+      href,
       content,
       createdAt,
       ease,
@@ -55,7 +58,11 @@ const {
             {/* Heading */}
             <div className="w-full">
               <div className="flex w-full justify-between gap-[20px]">
-                <h3 className="text-heading">{title}</h3>
+                <Link href={href ?? ''}>
+                  <h3 className="text-heading hover:text-secondary hover:underline">
+                    {title}
+                  </h3>
+                </Link>
                 <p className="text-right text-subtitle text-neutral">
                   {dayjs(createdAt).format('MMMM D, YYYY').toUpperCase()}
                 </p>

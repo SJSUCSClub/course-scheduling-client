@@ -40,6 +40,7 @@ export default async function Page({
       filters: {
         search: searchParams?.query,
         sort: searchParams?.sort as any,
+        coursesInSession: JSON.parse(searchParams?.coursesInSession ?? '[]'),
       },
     },
     timeout: 2000,
