@@ -38,6 +38,8 @@ export const TagCount: React.FC<React.HTMLProps<HTMLSpanElement>> = ({
 
 interface TagProps {
   size: 'sm' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
 }
 
@@ -50,10 +52,12 @@ const {
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >({
   box:
-    ({ size }) =>
+    ({ size, type, onClick }) =>
     ({ children, ...props }) => (
       <TagContext.Provider value={{ size }}>
         <button
+          type={type}
+          onClick={onClick}
           {...props}
           className={clsx(
             '-:flex -:items-center -:gap-[5px] -:rounded-lg -:bg-border -:hover:opacity-50 -:active:opacity-25 -:disabled:hover:opacity-100',
