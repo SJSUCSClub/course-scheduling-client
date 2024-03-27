@@ -163,7 +163,12 @@ const PaginatedReviews: React.FC<{
         {paginatedItems?.items.map((review, i) => {
           const { courseNumber, department, courseId, ...rest } = review;
           return (
-            <Review key={i} title={`${department}${courseNumber}`} {...rest} />
+            <Review
+              key={i}
+              title={`${department}${courseNumber}`}
+              href={`courses/${department}${courseNumber}`}
+              {...rest}
+            />
           );
         })}
         {!isEndOfList ? (

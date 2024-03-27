@@ -1,5 +1,9 @@
-import { Schedule } from '@/types/database';
-import { GenericScheduleType, PaginatedItems } from '@/types/general';
+import { Schedule, User } from '@/types/database';
+import {
+  CourseIDType,
+  GenericScheduleType,
+  PaginatedItems,
+} from '@/types/general';
 
 interface ProfessorSchedule
   extends GenericScheduleType,
@@ -11,9 +15,10 @@ interface ProfessorSchedule
       | 'courseTitle'
       | 'units'
       | 'satisfiesArea'
-      | 'courseId'
-      | 'professorId'
-    > {}
+    > {
+  professorId: User['id'];
+  courseId: CourseIDType;
+}
 export interface ProfessorSchedulesRouteResponse
   extends PaginatedItems<ProfessorSchedule> {}
 export interface ProfessorSchedulesRouteParams

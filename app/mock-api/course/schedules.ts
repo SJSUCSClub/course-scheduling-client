@@ -23,6 +23,7 @@ const schedules: CourseSchedule[] = Array.from(
     courseId: chooseRandom(['CMPE130', 'CMPE126']),
     overall: chooseRandom([1, 2, 3, 4, 5]),
     grade: chooseRandom(['C', 'C+', 'A', 'B', 'F']),
+    professorId: 2,
   }),
 );
 

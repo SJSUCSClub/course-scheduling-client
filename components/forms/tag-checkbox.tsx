@@ -118,6 +118,7 @@ export const {
 interface TagCheckboxProps {
   value: string;
   count: number;
+  defaultChecked?: boolean;
   onClick?: React.MouseEventHandler<HTMLLabelElement>;
   children: string;
 }
@@ -131,7 +132,7 @@ export const {
   React.HTMLProps<HTMLLabelElement>
 >({
   box:
-    ({ value, count, onClick }) =>
+    ({ value, count, defaultChecked, onClick }) =>
     ({ children, ...props }) => {
       if (typeof children !== 'string') {
         throw new Error('TagCheckbox children must be a string label');
@@ -171,6 +172,7 @@ export const {
             disabled={disabled}
             value={value}
             checked={isChecked}
+            defaultChecked={defaultChecked}
             onChange={handleChange}
             className={clsx(
               'absolute left-[5px] h-[calc(100%_-_10px)] w-[calc(100%_-_10px)] rounded-md border-0 bg-[#00000000] transition-all checked:bg-background checked:opacity-0 checked:ring-2 checked:ring-offset-2',

@@ -58,6 +58,7 @@ const PaginatedSchedules: React.FC<{
               `${units} units`,
               classType,
             ]}
+            href={`/courses/${department}${courseNumber}`}
             {...rest}
           />
         );

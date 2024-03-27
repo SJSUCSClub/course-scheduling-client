@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import React from 'react';
 
 import { ButtonBox, ButtonBoxProvider } from '@/components/button';
@@ -54,6 +55,7 @@ interface ScheduleProps extends Omit<GenericScheduleType, 'days'> {
   subheading?: string;
   days?: Set<string>;
   additionalInfo?: string[];
+  href?: string;
 }
 const {
   Default: Schedule,
@@ -62,8 +64,7 @@ const {
 } = getCustomizableComponents<ScheduleProps, React.HTMLProps<HTMLDivElement>>({
   box:
     ({
-      courseId,
-      professorId,
+      href,
       classNumber,
       section,
       dates,
@@ -89,7 +90,11 @@ const {
         <div className="flex flex-1 items-center gap-[20px]">
           <div className="flex flex-1 flex-col items-start justify-between gap-[3.75px] p-[10px]">
             <div className="flex flex-col">
-              <h3 className="text-body-bold text-text">{heading}</h3>
+              <Link href={href ?? ''}>
+                <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
+                  {heading}
+                </h3>
+              </Link>
               <p className="text-subheading italic text-neutral">
                 {subheading ?? 'Section ' + section}
               </p>

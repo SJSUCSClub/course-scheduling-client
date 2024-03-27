@@ -28,6 +28,7 @@ const schedules: ProfessorSchedule[] = Array.from<undefined, ProfessorSchedule>(
     days: ['M', 'W'],
     grade: chooseRandom(['C-', 'A+', 'F']),
     overall: Math.max(0.5, Math.ceil(Math.random() * 50) / 10),
+    courseId: 'CMPE132',
   }),
 );
 
