@@ -7,6 +7,7 @@ import {
 } from '@/types/general';
 
 interface CourseReview extends GenericReviewType, Pick<Review, 'courseId'> {
+  professorId: User['id'];
   professorName: User['name'];
 }
 
@@ -17,12 +18,12 @@ export interface CourseReviewsRouteResponse
     search: string;
     sort: SortType;
     tags: { tag: TagType; count: number }[];
-    professors: { name: string; count: number }[];
+    professors: { name: string; count: number; id: number }[];
   };
 }
 export interface CourseReviewsRouteParams
   extends Pick<PaginatedItems<CourseReview>, 'itemsPerPage' | 'page'> {
-  courseId: `${Course['department']}${Course['name']}`;
+  courseId: `${Course['department']}${Course['courseNumber']}`;
 }
 export interface CourseReviewsRouteBody {
   filters?: {

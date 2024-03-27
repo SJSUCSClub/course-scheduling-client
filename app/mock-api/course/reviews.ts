@@ -65,6 +65,7 @@ const reviews: CourseReview[] = Array.from<undefined, CourseReview>(
       id: k,
       createdAt: 'August 19, 2002',
       professorName: professors[k % 3],
+      professorId: k % 3,
       courseId: 'CMPE130',
       content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'.slice(
@@ -143,10 +144,14 @@ export const response: FakeResponseFunctionType<
       tagFilters.set(tag, currentCount + 1);
     });
   });
-  const professorFilters = new Map<string, number>();
+  const professorFilters = new Map<number, number>();
   result.forEach((review) => {
-    const currentCount = professorFilters.get(review.professorName) ?? 0;
-    professorFilters.set(review.professorName, currentCount + 1);
+    const currentCount = professorFilters.get(review.professorId) ?? 0;
+    professorFilters.set(review.professorId, currentCount + 1);
+  });
+  const professorNames = new Map<number, string>();
+  result.forEach((review) => {
+    professorNames.set(review.professorId, review.professorName);
   });
   return {
     totalReviews: result.length,
@@ -157,12 +162,11 @@ export const response: FakeResponseFunctionType<
         tag,
         count,
       })),
-      professors: Array.from(professorFilters.entries()).map(
-        ([name, count]) => ({
-          name,
-          count,
-        }),
-      ),
+      professors: Array.from(professorFilters.entries()).map(([id, count]) => ({
+        id,
+        name: professorNames.get(id) || '',
+        count,
+      })),
     },
     ...getPaginatedItems<CourseReview>({
       items: result,

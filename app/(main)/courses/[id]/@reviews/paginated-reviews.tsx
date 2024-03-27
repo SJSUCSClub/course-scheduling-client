@@ -149,14 +149,6 @@ const PaginatedReviews: React.FC<{
             disabled={loading}
           />
         </div>
-        <div className="flex gap-[10px]">
-          <TextInputBoxProvider placeholder="Write a review..." fullHeight>
-            <TextInputBox className="flex-1" />
-          </TextInputBoxProvider>
-          <ButtonBoxProvider variant="primary" postfix={<ChevronRightIcon />}>
-            <ButtonBox className="h-full rounded-md bg-background text-primary" />
-          </ButtonBoxProvider>
-        </div>
         {paginatedItems?.items.map((review, i) => {
           const { professorName, ...rest } = review;
           return <Review key={i} title={`${professorName}`} {...rest} />;
