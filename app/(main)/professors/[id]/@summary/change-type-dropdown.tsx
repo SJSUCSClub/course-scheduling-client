@@ -3,28 +3,18 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-import Dropdown from '@/components/forms/dropdown';
+import Dropdown, { ParamsDropdown } from '@/components/forms/dropdown';
 
 const ChangeTypeDropdown: React.FC = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const currentParam = params.get('type');
-  const [pendingParam, setPendingParam] = React.useState(currentParam);
-  const loading = currentParam !== pendingParam;
-  const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    params.set('type', event.target.value);
-    setPendingParam(params.get('type'));
-    replace(`${pathname}?${params.toString()}`);
-  };
+  const [loading, setLoading] = React.useState(false);
   return (
-    <Dropdown
+    <ParamsDropdown
+      param="sort"
+      loading={loading}
+      setLoading={setLoading}
       options={['Overall', 'Quality', 'Ease']}
       values={['overall', 'quality', 'ease']}
-      defaultValue={currentParam ?? 'overall'}
-      onChange={handleChange}
-      disabled={loading}
+      defaultValue="overall"
     />
   );
 };

@@ -41,7 +41,7 @@ const PaginatedReviews: React.FC<{
       params: {
         itemsPerPage: 4,
         id: professorId,
-        page: page,
+        page,
       },
       body: {
         filters: {
