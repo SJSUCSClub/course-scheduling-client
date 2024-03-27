@@ -20,7 +20,7 @@ const PaginatedSchedules: React.FC<{
   const initialFetchRequest = (page: number) =>
     fakeFetch<CourseSchedulesRouteResponse, CourseSchedulesRouteParams>({
       endpoint: '/course/schedules',
-      params: { itemsPerPage: 4, page: page, id: courseId },
+      params: { itemsPerPage: 4, page: page, courseId: courseId },
       timeout: 2000,
     });
   const { error, loading, wrappedRequest } = useWrappedRequest();
