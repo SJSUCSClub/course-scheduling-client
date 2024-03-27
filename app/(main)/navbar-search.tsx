@@ -43,7 +43,7 @@ const NavbarSearch: React.FC<React.HTMLProps<HTMLFormElement>> = (props) => {
       </div>
       <select
         onChange={handleSetOption}
-        defaultValue={option}
+        value={option}
         className="flex h-full w-fit appearance-none items-center rounded-r-md bg-background py-[5px] pl-[16px] pr-[38px] animation default-border focus:border-primary focus:ring-0"
       >
         <option value="courses">Courses</option>
