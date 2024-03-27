@@ -13,10 +13,14 @@ const NavbarSearch: React.FC<React.HTMLProps<HTMLFormElement>> = (props) => {
   const handleSetOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setOption(event.target.value);
   };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
+  };
   return (
     <form
       action={`/${option}/search`}
       {...props}
+      onSubmit={handleSubmit}
       className={clsx(
         `-:flex -:h-[40px] -:text-body -:text-text`,
         props.className,
