@@ -33,7 +33,7 @@ export default async function Page({
   >({
     endpoint: '/professor/search',
     params: {
-      itemsPerPage: 4,
+      itemsPerPage: 10,
       page: Math.max(Number(searchParams?.page) - 1, 0) || 0,
     },
     body: {
