@@ -3,12 +3,7 @@
 import React from 'react';
 
 import SearchResult from '@/app/(main)/professors/search/search-result';
-import Dropdown, { ParamsDropdown } from '@/components/forms/dropdown';
-import {
-  ParamsTagCheckboxGroup,
-  TagCheckbox,
-} from '@/components/forms/tag-checkbox';
-import { ParamsSearch } from '@/components/forms/text-input';
+import { ParamsDropdown } from '@/components/forms/dropdown';
 import PaginationButtons from '@/components/pagination';
 import SectionLabel from '@/components/section-label';
 import { ProfessorSearchRouteResponse } from '@/types/api/professor/search';
@@ -24,7 +19,7 @@ const Results: React.FC<{
         Search results for {`"${searchResults?.filters.search}"`}
       </h3>
       <div className="flex items-stretch gap-[10px]">
-        <div className="w-[250px] max-lg:hidden">
+        {/* <div className="w-[250px] max-lg:hidden">
           <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
             <SectionLabel>Filters</SectionLabel>
             <ParamsSearch
@@ -53,7 +48,7 @@ const Results: React.FC<{
               }
             </ParamsTagCheckboxGroup>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-1 flex-col gap-[10px] pb-[10px]">
           <div className="flex justify-between">
             <SectionLabel info="Reviews">
