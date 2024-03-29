@@ -7,7 +7,6 @@ import {
 import fakeFetch from '@/utils/fake-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  console.log('our courseId is', params.id);
   const initialPaginatedItems = await fakeFetch<
     CourseReviewsRouteResponse,
     CourseReviewsRouteBody,

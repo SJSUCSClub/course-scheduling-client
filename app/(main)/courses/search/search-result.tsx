@@ -6,20 +6,21 @@ import React from 'react';
 
 import Button from '@/components/button';
 import Tag from '@/components/tag';
-import { ProfessorSearchRouteResponse } from '@/types/api/professor/search';
+import { CourseSearchRouteResponse } from '@/types/api/course/search';
 import getEvaluation from '@/utils/get-evaluation';
 import { Square2StackIcon, StarIcon } from '@heroicons/react/24/outline';
 
-type ProfessorSearch = ProfessorSearchRouteResponse['items'][number];
+type CourseSearch = CourseSearchRouteResponse['items'][number];
 
-const SearchResult: React.FC<ProfessorSearch> = ({
-  id,
+const SearchResult: React.FC<CourseSearch> = ({
+  department,
+  courseNumber,
   name,
-  overall,
-  grade,
-  totalReviews,
-  coursesInSession,
   takeAgain,
+  totalReviews,
+  professors,
+  grade,
+  overall,
 }) => {
   const router = useRouter();
   return (
@@ -27,7 +28,7 @@ const SearchResult: React.FC<ProfessorSearch> = ({
       <div className="flex min-h-[100px] flex-1 gap-[20px]">
         <div className="flex flex-1 flex-col items-start justify-between gap-[12px] p-[10px]">
           <Link
-            href={`/professors/${id}`}
+            href={`/courses/${department.toLowerCase()}${courseNumber}`}
             className="flex flex-1 flex-col items-start gap-[3.75px]"
           >
             <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
@@ -54,19 +55,19 @@ const SearchResult: React.FC<ProfessorSearch> = ({
 
           <div className="flex w-full items-end justify-between gap-[20px]">
             <div className="flex flex-1 flex-col gap-[3.75px]">
-              {coursesInSession.length ? (
-                <label className="text-caption">Courses In Session</label>
+              {professors.length ? (
+                <label className="text-caption">Professors</label>
               ) : null}
               <div className="flex flex-wrap gap-[10px]">
-                {coursesInSession.map((courseInSession, i) => (
-                  <form key={i} action={`/professors/search`}>
+                {professors.map((prof, i) => (
+                  <form key={i} action={`/courses/search`}>
                     <input
                       hidden
-                      name="coursesInSession"
-                      defaultValue={JSON.stringify([courseInSession])}
+                      name="professors"
+                      defaultValue={JSON.stringify([prof])}
                     />
                     <Tag type="submit" size="sm">
-                      {courseInSession}
+                      {prof.name}
                     </Tag>
                   </form>
                 ))}
