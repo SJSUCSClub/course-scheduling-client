@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import Button from '@/components/button';
@@ -21,8 +20,10 @@ const SearchResult: React.FC<CourseSearch> = ({
   professors,
   grade,
   overall,
+  totalSections,
+  openSections,
+  units,
 }) => {
-  const router = useRouter();
   return (
     <div className="flex min-w-min gap-[10px] rounded-lg p-[10px] default-border max-lg:w-full max-lg:flex-col">
       <div className="flex min-h-[100px] flex-1 gap-[20px]">
@@ -31,9 +32,12 @@ const SearchResult: React.FC<CourseSearch> = ({
             href={`/courses/${department.toLowerCase()}${courseNumber}`}
             className="flex flex-1 flex-col items-start gap-[3.75px]"
           >
-            <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
-              {name}
-            </h3>
+            <div>
+              <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
+                {`${department.toUpperCase()} ${courseNumber}`}
+              </h3>
+              <p className="text-subheading italic text-neutral">{name}</p>
+            </div>
             <p className="text-caption text-neutral">
               {takeAgain ? (
                 <span
@@ -49,7 +53,19 @@ const SearchResult: React.FC<CourseSearch> = ({
               ) : (
                 'No data'
               )}
+              {` • `}
+              <span
+                style={{
+                  color: `rgb(var(--color-${getEvaluation(
+                    (openSections / totalSections) * 100,
+                    'percentage',
+                  )}))`,
+                }}
+              >
+                {openSections}/{totalSections} Open Sections
+              </span>
               {totalReviews ? ' • ' + `${totalReviews} Review` : null}
+              {units ? ` •  ${units} Units` : null}
             </p>
           </Link>
 

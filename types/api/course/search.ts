@@ -1,10 +1,8 @@
 import { Course, Review, User } from '@/types/database';
 import {
-  DistributionType,
   PaginatedItems,
   PercentageType,
   SearchResultSortType,
-  SortType,
 } from '@/types/general';
 
 interface CourseSearch
@@ -13,6 +11,8 @@ interface CourseSearch
       Course,
       'courseNumber' | 'department' | 'name' | 'satisfiesArea' | 'units'
     > {
+  openSections: number;
+  totalSections: number;
   totalReviews: number;
   takeAgain?: PercentageType;
   professors: { id: User['id']; name: User['name'] }[];

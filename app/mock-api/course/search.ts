@@ -23,6 +23,9 @@ const courses: CourseSearch[] = [
     ],
     department: 'CMPE',
     courseNumber: '130',
+    totalSections: 5,
+    openSections: 1,
+    units: '3',
   },
   {
     name: 'Information Security',
@@ -38,6 +41,9 @@ const courses: CourseSearch[] = [
     ],
     department: 'CMPE',
     courseNumber: '132',
+    totalSections: 2,
+    openSections: 2,
+    units: '3',
   },
   {
     name: 'Introduction to Engineering',
@@ -48,6 +54,9 @@ const courses: CourseSearch[] = [
     courseNumber: '10',
     professors: [{ id: 2, name: 'Jahan Ghofraniha' }],
     takeAgain: 70,
+    totalSections: 10,
+    openSections: 7,
+    units: '3',
   },
   {
     name: 'Data Structures and Algorithms',
@@ -61,6 +70,9 @@ const courses: CourseSearch[] = [
       { id: 67, name: 'Nada Attar' },
     ],
     takeAgain: 76,
+    totalSections: 5,
+    openSections: 4,
+    units: '3',
   },
   {
     name: 'Art History Renaissance to Modern',
@@ -71,6 +83,22 @@ const courses: CourseSearch[] = [
     courseNumber: '70B',
     professors: [{ id: 68, name: 'Gretchen Simms' }],
     takeAgain: 15,
+    totalSections: 3,
+    openSections: 2,
+    units: '3',
+  },
+  {
+    name: 'Beginning Social Dance',
+    overall: 4.5,
+    grade: 'A',
+    totalReviews: 75,
+    department: 'KIN',
+    courseNumber: '46A',
+    professors: [{ id: 69, name: 'Bud Ayers' }],
+    takeAgain: 75,
+    totalSections: 2,
+    openSections: 2,
+    units: '1',
   },
 ];
 
