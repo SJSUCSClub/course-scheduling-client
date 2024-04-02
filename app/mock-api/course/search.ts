@@ -114,6 +114,20 @@ const courses: CourseSearch[] = [
     openSections: 1,
     units: '3',
   },
+  {
+    name: 'Introduction to Music',
+    overall: 4.0,
+    grade: 'B+',
+    totalReviews: 47,
+    department: 'MUSC',
+    courseNumber: '10B',
+    professors: [{ id: 5, name: 'John Doe' }],
+    takeAgain: 82,
+    totalSections: 4,
+    openSections: 3,
+    units: '3',
+    satisfiesArea: 'Area C1',
+  },
 ];
 
 export const response: FakeResponseFunctionType<

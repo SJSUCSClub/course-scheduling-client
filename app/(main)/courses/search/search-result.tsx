@@ -79,9 +79,16 @@ const SearchResult: React.FC<CourseSearch> = ({
               <div className="flex flex-1 flex-col gap-[5px] py-[10px]">
                 <label className="text-caption">Satisfies</label>
                 <div className="flex flex-wrap gap-[10px]">
-                  <Tag type="submit" size="sm">
-                    {satisfiesArea}
-                  </Tag>
+                  <form action={'/courses/search'}>
+                    <input
+                      hidden
+                      name="satisfies"
+                      defaultValue={JSON.stringify([satisfiesArea])}
+                    />
+                    <Tag type="submit" size="sm">
+                      {satisfiesArea}
+                    </Tag>
+                  </form>
                 </div>
               </div>
             ) : null}
@@ -95,7 +102,7 @@ const SearchResult: React.FC<CourseSearch> = ({
                     <input
                       hidden
                       name="professors"
-                      defaultValue={JSON.stringify([prof])}
+                      defaultValue={JSON.stringify([prof.id])}
                     />
                     <Tag type="submit" size="sm">
                       {prof.name}
