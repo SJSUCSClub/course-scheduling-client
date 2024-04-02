@@ -7,7 +7,7 @@ import Button from '@/components/button';
 import Tag from '@/components/tag';
 import { CourseSearchRouteResponse } from '@/types/api/course/search';
 import getEvaluation from '@/utils/get-evaluation';
-import { Square2StackIcon, StarIcon } from '@heroicons/react/24/outline';
+import { Square2StackIcon } from '@heroicons/react/24/outline';
 
 type CourseSearch = CourseSearchRouteResponse['items'][number];
 
@@ -23,54 +23,69 @@ const SearchResult: React.FC<CourseSearch> = ({
   totalSections,
   openSections,
   units,
+  satisfiesArea,
 }) => {
   return (
     <div className="flex min-w-min gap-[10px] rounded-lg p-[10px] default-border max-lg:w-full max-lg:flex-col">
-      <div className="flex min-h-[100px] flex-1 gap-[20px]">
-        <div className="flex flex-1 flex-col items-start justify-between gap-[12px] p-[10px]">
-          <Link
-            href={`/courses/${department.toLowerCase()}${courseNumber}`}
-            className="flex flex-1 flex-col items-start gap-[3.75px]"
-          >
-            <div>
-              <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
-                {`${department.toUpperCase()} ${courseNumber}`}
-              </h3>
-              <p className="text-subheading italic text-neutral">{name}</p>
-            </div>
-            <p className="text-caption text-neutral">
-              {takeAgain ? (
-                <span
-                  style={{
-                    color: `rgb(var(--color-${getEvaluation(
-                      takeAgain,
-                      'percentage',
-                    )}))`,
-                  }}
-                >
-                  {takeAgain}% Would Take Again
-                </span>
-              ) : (
-                'No data'
-              )}
-              {` • `}
+      {/** Info */}
+      <div className="flex min-h-[100px] flex-1 flex-1 flex-col items-start justify-between p-[10px]">
+        {/**Header */}
+        <Link
+          href={`/courses/${department.toLowerCase()}${courseNumber}`}
+          className="flex flex-1 flex-col items-start gap-[3px]"
+        >
+          <div>
+            <h3 className="text-body-bold text-text hover:text-secondary hover:underline">
+              {`${department.toUpperCase()} ${courseNumber}`}
+            </h3>
+            <p className="text-subheading italic text-neutral">{name}</p>
+          </div>
+          <p className="text-caption text-neutral">
+            {takeAgain ? (
               <span
                 style={{
                   color: `rgb(var(--color-${getEvaluation(
-                    (openSections / totalSections) * 100,
+                    takeAgain,
                     'percentage',
                   )}))`,
                 }}
               >
-                {openSections}/{totalSections} Open Sections
+                {takeAgain}% Would Take Again
               </span>
-              {totalReviews ? ' • ' + `${totalReviews} Review` : null}
-              {units ? ` •  ${units} Units` : null}
-            </p>
-          </Link>
+            ) : (
+              'No data'
+            )}
+            {` • `}
+            <span
+              style={{
+                color: `rgb(var(--color-${getEvaluation(
+                  (openSections / totalSections) * 100,
+                  'percentage',
+                )}))`,
+              }}
+            >
+              {openSections}/{totalSections} Open Sections
+            </span>
+            {totalReviews ? ' • ' + `${totalReviews} Review` : null}
+            {units ? ` •  ${units} Units` : null}
+          </p>
+        </Link>
 
-          <div className="flex w-full items-end justify-between gap-[20px]">
-            <div className="flex flex-1 flex-col gap-[3.75px]">
+        {/** Actions */}
+        <div className="flex w-full items-end justify-between">
+          {/** Tags */}
+          <div className="flex flex-col items-start pr-[10px]">
+            {satisfiesArea ? (
+              <div className="flex flex-1 flex-col gap-[5px] py-[10px]">
+                <label className="text-caption">Satisfies</label>
+                <div className="flex flex-wrap gap-[10px]">
+                  <Tag type="submit" size="sm">
+                    {satisfiesArea}
+                  </Tag>
+                </div>
+              </div>
+            ) : null}
+            <div className="flex flex-1 flex-col gap-[5px] py-[10px]">
               {professors.length ? (
                 <label className="text-caption">Professors</label>
               ) : null}
@@ -89,15 +104,13 @@ const SearchResult: React.FC<CourseSearch> = ({
                 ))}
               </div>
             </div>
-
-            <div className="flex gap-[10px]">
-              <Button variant={<StarIcon />} />
-              <Button variant={<Square2StackIcon />} />
-            </div>
+          </div>
+          <div className="flex gap-[10px] py-[10px]">
+            <Button variant={<Square2StackIcon />} />
           </div>
         </div>
       </div>
-
+      {/** Grade and Rating */}
       <div className="flex gap-[10px] max-lg:flex-wrap">
         <div className="flex h-auto min-w-[100px] flex-col items-center justify-center gap-[5px] rounded-md bg-border p-[20px] text-caption max-lg:flex-1">
           {grade ? (

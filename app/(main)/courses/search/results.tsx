@@ -27,22 +27,75 @@ const Results: React.FC<{
         <div className="w-[250px] max-lg:hidden">
           <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
             <SectionLabel>Filters</SectionLabel>
-            <ParamsSearch
-              loading={loading}
-              setLoading={setLoading}
-              helper="Find specific words."
-            />
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
               label="Professors"
-              param="tags"
+              param="professors"
             >
               {
-                searchResults?.filters.professors.map(
-                  ({ name, count, ...rest }) => (
-                    <TagCheckbox key={name} value={name} count={count}>
-                      {name}
+                searchResults?.filters.professors.map((entry) => (
+                  <TagCheckbox
+                    key={entry.name}
+                    value={JSON.stringify(entry.id)}
+                    count={entry.count}
+                  >
+                    {entry.name}
+                  </TagCheckbox>
+                )) as React.ReactNode[]
+              }
+            </ParamsTagCheckboxGroup>
+            <ParamsTagCheckboxGroup
+              loading={loading}
+              setLoading={setLoading}
+              label="Departments"
+              param="departments"
+            >
+              {
+                searchResults?.filters.departments.map(
+                  ({ department, count, ...rest }) => (
+                    <TagCheckbox
+                      key={department}
+                      value={department}
+                      count={count}
+                    >
+                      {department}
+                    </TagCheckbox>
+                  ),
+                ) as React.ReactNode[]
+              }
+            </ParamsTagCheckboxGroup>
+            <ParamsTagCheckboxGroup
+              loading={loading}
+              setLoading={setLoading}
+              label="Units"
+              param="units"
+            >
+              {
+                searchResults?.filters.units.map(
+                  ({ units, count, ...rest }) => (
+                    <TagCheckbox key={units} value={units} count={count}>
+                      {units}
+                    </TagCheckbox>
+                  ),
+                ) as React.ReactNode[]
+              }
+            </ParamsTagCheckboxGroup>
+            <ParamsTagCheckboxGroup
+              loading={loading}
+              setLoading={setLoading}
+              label="Satisfies"
+              param="satisfies"
+            >
+              {
+                searchResults?.filters.satisfies.map(
+                  ({ satisfiesArea, count, ...rest }) => (
+                    <TagCheckbox
+                      key={satisfiesArea}
+                      value={satisfiesArea}
+                      count={count}
+                    >
+                      {satisfiesArea}
                     </TagCheckbox>
                   ),
                 ) as React.ReactNode[]

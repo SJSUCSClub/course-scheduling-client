@@ -8,7 +8,6 @@ import fuzzySearch from '@/utils/fuzzy-search';
 import getPaginatedItems from '@/utils/get-paginated-items';
 
 type CourseSearch = CourseSearchRouteResponse['items'][number];
-type ProfType = CourseSearch['professors'][number];
 
 const courses: CourseSearch[] = [
   {
@@ -86,19 +85,34 @@ const courses: CourseSearch[] = [
     totalSections: 3,
     openSections: 2,
     units: '3',
+    satisfiesArea: 'Area C1',
   },
   {
     name: 'Beginning Social Dance',
     overall: 4.5,
     grade: 'A',
-    totalReviews: 75,
+    totalReviews: 100,
     department: 'KIN',
     courseNumber: '46A',
     professors: [{ id: 69, name: 'Bud Ayers' }],
-    takeAgain: 75,
+    takeAgain: 100,
     totalSections: 2,
     openSections: 2,
     units: '1',
+    satisfiesArea: 'Area G',
+  },
+  {
+    name: 'Exercise Physiology',
+    overall: 3.2,
+    grade: 'B',
+    totalReviews: 35,
+    department: 'KIN',
+    courseNumber: '155',
+    professors: [{ id: 5, name: 'John Doe' }],
+    takeAgain: 35,
+    totalSections: 1,
+    openSections: 1,
+    units: '3',
   },
 ];
 
@@ -134,17 +148,42 @@ export const response: FakeResponseFunctionType<
           return false;
         }
       }
+      // check professors filter
       if (filters?.professors?.length) {
         if (
-          !filters.professors.some((prof) =>
-            course.professors.some(
-              (p) => p.id == prof.id && p.name == prof.name,
-            ),
+          !filters.professors.some((profId) =>
+            course.professors.some((p) => p.id == Number.parseInt(profId)),
           )
         ) {
           return false;
         }
       }
+      // check department filter
+      if (
+        filters?.departments?.length &&
+        !filters.departments.some(
+          (departmentName) => course.department === departmentName,
+        )
+      ) {
+        return false;
+      }
+      // check satisfies filter
+      if (
+        filters?.satisfies?.length &&
+        !filters.satisfies.some(
+          (satisfiesArea) => course.satisfiesArea === satisfiesArea,
+        )
+      ) {
+        return false;
+      }
+      // check units filter
+      if (
+        filters?.units?.length &&
+        !filters.units.some((units) => course.units === units)
+      ) {
+        return false;
+      }
+
       return true;
     })
     .sort((a, b) => {
@@ -162,24 +201,60 @@ export const response: FakeResponseFunctionType<
         return b.totalReviews - a.totalReviews;
       }
     });
-  const professorFilters = new Map<ProfType, number>();
+  const professorFilters = new Map<number, number>();
   result.forEach((course) => {
     course.professors.forEach((prof) => {
-      const currentCount = professorFilters.get(prof) ?? 0;
-      professorFilters.set(prof, currentCount + 1);
+      const currentCount = professorFilters.get(prof.id) ?? 0;
+      professorFilters.set(prof.id, currentCount + 1);
     });
   });
+  const professorNames = new Map<number, string>();
+  result.forEach((course) => {
+    course.professors.forEach((prof) => {
+      if (!professorNames.has(prof.id)) professorNames.set(prof.id, prof.name);
+    });
+  });
+  const departmentFilters = new Map<string, number>();
+  result.forEach((course) => {
+    const currentCount = departmentFilters.get(course.department) ?? 0;
+    departmentFilters.set(course.department, currentCount + 1);
+  });
+  const unitsFilters = new Map<string, number>();
+  result.forEach((course) => {
+    if (course.units) {
+      const currentCount = unitsFilters.get(course.units) ?? 0;
+      unitsFilters.set(course.units, currentCount + 1);
+    }
+  });
+  const satisfiesFilters = new Map<string, number>();
+  result.forEach((course) => {
+    if (course.satisfiesArea) {
+      const currentCount = satisfiesFilters.get(course.satisfiesArea) ?? 0;
+      satisfiesFilters.set(course.satisfiesArea, currentCount + 1);
+    }
+  });
+
   return {
     totalResults: result.length,
     filters: {
       search: filters?.search ?? '',
       sort: filters?.sort ?? 'most reviews',
       professors: Array.from(professorFilters.entries()).map(
-        ([prof, count]) => ({
-          id: prof.id,
-          name: prof.name,
+        ([profId, count]) => ({
+          id: profId,
+          name: professorNames.get(profId) ?? '',
           count,
         }),
+      ),
+      departments: Array.from(departmentFilters.entries()).map(
+        ([department, count]) => ({ department, count }),
+      ),
+      units: Array.from(unitsFilters.entries()).map(([units, count]) => ({
+        units,
+        count,
+      })),
+      satisfies: Array.from(satisfiesFilters.entries()).map(
+        ([satisfiesArea, count]) => ({ satisfiesArea, count }),
       ),
     },
     ...getPaginatedItems<CourseSearch>({

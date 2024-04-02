@@ -21,6 +21,9 @@ export default async function Page({
     tags?: string;
     sort?: string;
     professors?: string;
+    departments?: string;
+    satisfies?: string;
+    units?: string;
   };
 }) {
   const searchResults = await fakeFetch<
@@ -38,6 +41,9 @@ export default async function Page({
         search: searchParams?.query,
         sort: searchParams?.sort as any,
         professors: JSON.parse(searchParams?.professors ?? '[]'),
+        departments: JSON.parse(searchParams?.departments ?? '[]'),
+        satisfies: JSON.parse(searchParams?.satisfies ?? '[]'),
+        units: JSON.parse(searchParams?.units ?? '[]'),
       },
     },
     timeout: 2000,

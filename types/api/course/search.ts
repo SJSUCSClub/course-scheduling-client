@@ -1,4 +1,4 @@
-import { Course, Review, User } from '@/types/database';
+import { Course, Department, Review, User } from '@/types/database';
 import {
   PaginatedItems,
   PercentageType,
@@ -25,6 +25,9 @@ export interface CourseSearchRouteResponse
     search: string;
     sort: SearchResultSortType;
     professors: { id: User['id']; name: User['name']; count: number }[];
+    departments: { department: Course['department']; count: number }[];
+    satisfies: { satisfiesArea: string; count: number }[];
+    units: { units: string; count: number }[];
   };
 }
 export interface CourseSearchRouteParams
@@ -33,6 +36,9 @@ export interface CourseSearchRouteBody {
   filters?: {
     search?: string;
     sort?: SearchResultSortType;
-    professors?: { id: User['id']; name: User['name'] }[];
+    professors?: string[];
+    departments?: Course['department'][];
+    satisfies?: string[];
+    units?: string[];
   };
 }
