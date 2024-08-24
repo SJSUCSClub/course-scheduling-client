@@ -17,7 +17,8 @@ jobs:
           node-version: 20
 
       - name: Lint test
-        run: npm run lint
+        run: |
+          npm run lint
 
   typecheck:
     runs-on: ubuntu-latest
@@ -31,7 +32,8 @@ jobs:
           node-version: 20
 
       - name: Typecheck test
-        run: npm run typecheck
+        run: |
+          npm run typecheck
 
   build:
     runs-on: ubuntu-latest
@@ -45,7 +47,8 @@ jobs:
           node-version: 20
 
       - name: Build app
-        run: npm run build
+        run: |
+          npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
