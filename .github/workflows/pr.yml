@@ -1,0 +1,54 @@
+name: PR Build and Test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup node and install dependencies
+        uses: ./.github/actions/setup-node-and-install.yml
+        with:
+          node-version: 20
+
+      - name: Lint test
+        run: npm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup node and install dependencies
+        uses: ./.github/actions/setup-node-and-install.yml
+        with:
+          node-version: 20
+
+      - name: Typecheck test
+        run: npm run typecheck
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup node and install dependencies
+        uses: ./.github/actions/setup-node-and-install.yml
+        with:
+          node-version: 20
+
+      - name: Build app
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next/
