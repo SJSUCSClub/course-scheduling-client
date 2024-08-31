@@ -5,9 +5,7 @@ const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './utils/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './data/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     colors: {
@@ -26,33 +24,33 @@ const config: Config = {
       'hovered-border': 'rgb(var(--color-hovered-border)/ 0.5)',
     },
     fontSize: {
-      subtitle: ['13px', { lineHeight: '18px', fontWeight: 700 }],
+      subtitle: ['0.813rem', { lineHeight: '1.125rem', fontWeight: 700 }],
       'out-of': [
         '40px',
-        { lineHeight: '76px', letterSpacing: '-0.05em', fontWeight: 300 },
+        { lineHeight: '4.75rem', letterSpacing: '-0.05em', fontWeight: 300 },
       ],
       rating: [
         '72px',
-        { lineHeight: '76px', letterSpacing: '-0.05em', fontWeight: 800 },
+        { lineHeight: '4.75rem', letterSpacing: '-0.05em', fontWeight: 800 },
       ],
       'title-bold': [
         '34px',
-        { lineHeight: '41px', letterSpacing: '-0.05em', fontWeight: 800 },
+        { lineHeight: '2.563rem', letterSpacing: '-0.05em', fontWeight: 800 },
       ],
       title: [
         '34px',
-        { lineHeight: '41px', letterSpacing: '-0.05em', fontWeight: 700 },
+        { lineHeight: '2.563rem', letterSpacing: '-0.05em', fontWeight: 700 },
       ],
-      heading: ['17px', { lineHeight: '22px', fontWeight: 600 }],
-      subheading: ['15px', { lineHeight: '20px', fontWeight: 300 }],
-      'body-bold': ['17px', { lineHeight: '22px', fontWeight: 700 }],
-      body: ['17px', { lineHeight: '22px', fontWeight: 400 }],
+      heading: ['1.063rem', { lineHeight: '1.375rem', fontWeight: 600 }],
+      subheading: ['0.938rem', { lineHeight: '1.25rem', fontWeight: 300 }],
+      'body-bold': ['1.063rem', { lineHeight: '1.375rem', fontWeight: 700 }],
+      body: ['1.063rem', { lineHeight: '1.375rem', fontWeight: 400 }],
       button: [
-        '16px',
-        { letterSpacing: '-0.05em', lineHeight: '19.4px', fontWeight: 700 },
+        '1rem',
+        { letterSpacing: '-0.05em', lineHeight: '1.213rem', fontWeight: 700 },
       ],
-      tag: ['16px', { lineHeight: '19.4px', fontWeight: 400 }],
-      caption: ['12px', { lineHeight: '14.5px', fontWeight: 400 }],
+      tag: ['1rem', { lineHeight: '1.213rem', fontWeight: 400 }],
+      caption: ['0.75rem', { lineHeight: '0.906rem', fontWeight: 400 }],
     },
     borderRadius: {
       lg: '20px',
@@ -60,6 +58,14 @@ const config: Config = {
       sm: '6px',
     },
     extend: {
+      spacing: {
+        xs: '4px',
+        sm: '8px',
+        md: '16px',
+        lg: '24px',
+        xl: '32px',
+        xxl: '40px',
+      },
       boxShadow: {
         paper: '0px 4px 17px rgba(0, 0, 0, 0.05)',
       },
