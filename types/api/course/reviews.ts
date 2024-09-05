@@ -1,35 +1,49 @@
-import { Course, Review, User } from '@/types/database';
+import { Comment, Review } from '@/types/database';
 import {
-  GenericReviewType,
-  PaginatedItems,
-  SortType,
+  CourseIDType,
+  PaginatedRequest,
+  PaginatedResponse,
   TagType,
 } from '@/types/general';
 
-interface CourseReview extends GenericReviewType, Pick<Review, 'courseId'> {
-  professorId: User['id'];
-  professorName: User['name'];
+export interface CourseReviewsRouteParams extends CourseIDType {}
+export interface CourseReviewsRouteBody extends PaginatedRequest {
+  tags?: TagType[];
+  comments?: boolean;
 }
-
-export interface CourseReviewsRouteResponse
-  extends PaginatedItems<CourseReview> {
-  totalReviews: number;
-  filters: {
-    search: string;
-    sort: SortType;
-    tags: { tag: TagType; count: number }[];
-    professors: { name: string; count: number; id: number }[];
-  };
+interface Filters {
+  tags: TagType[];
 }
-export interface CourseReviewsRouteParams
-  extends Pick<PaginatedItems<CourseReview>, 'itemsPerPage' | 'page'> {
-  courseId: `${Course['department']}${Course['courseNumber']}`;
+interface Votes {
+  upvotes: number;
+  downvotes: number;
 }
-export interface CourseReviewsRouteBody {
-  filters?: {
-    search?: string;
-    sort?: SortType;
-    tags?: Review['tags'];
-    professors?: User['name'][];
-  };
+interface CourseReviewsReview
+  extends Pick<
+    Review,
+    | 'id'
+    | 'userId'
+    | 'courseNumber'
+    | 'department'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'professorId'
+    | 'content'
+    | 'quality'
+    | 'ease'
+    | 'grade'
+    | 'tags'
+    | 'takeAgain'
+    | 'isUserAnonymous'
+  > {
+  name?: string;
+  username?: string;
+  professorName: string;
+  professorEmail: string;
+  votes: Votes;
+  comments?: Comment[];
+}
+export interface CourseReviewsResponse extends PaginatedResponse {
+  filters: Filters;
+  reviews: CourseReviewsReview[];
 }

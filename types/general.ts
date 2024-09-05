@@ -19,15 +19,48 @@ export type GradeType =
   | 'D-'
   | 'F';
 export type TagType =
-  | 'Easy grader'
-  | 'Lots of assignments'
-  | 'Tough grader'
-  | 'Funny';
+  | 'Tough Grader'
+  | 'Get Ready To Read'
+  | 'Participation Matters'
+  | 'Extra Credit'
+  | 'Group Projects'
+  | 'Amazing Lectures'
+  | 'Clear Grading Criteria'
+  | 'Gives Good Feedback'
+  | 'Inspirational'
+  | 'Lots of Homework'
+  | 'Hilarious'
+  | 'Beware of Pop Quizzes'
+  | 'So Many Papers'
+  | 'Caring'
+  | 'Respected'
+  | 'Lecture Heavy'
+  | 'Test Heavy'
+  | 'Graded by Few Things'
+  | 'Accessible Outside Class'
+  | 'Online Savvy';
 export type RatingType = number;
 export type PercentageType = number;
 export type AvailabilityType = number;
 export type EvaluationType = 'bad' | 'ok' | 'good';
-export type DistributionType = [number, number, number, number, number];
+export type RatingDistributionType = [number, number, number, number, number];
+export type GradeDistributionType = [
+  // arry of 13 elements, corresponding to A+, A, A-, ... F
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+];
+export type TermType = 'Summer' | 'Fall' | 'Winter' | 'Spring';
 export type WeekdayType = 'M' | 'T' | 'W' | 'R' | 'F';
 export type SortType = 'relevant' | 'newest' | 'highest' | 'lowest';
 export type SearchResultSortType =
@@ -42,6 +75,14 @@ export type PaginatedItems<T> = {
   items: T[];
   itemsPerPage?: number;
   page: number;
+};
+export type PaginatedRequest = {
+  page?: number;
+  limit?: 10 | 20 | 50;
+};
+export type PaginatedResponse = {
+  total_results: number;
+  pages: number; // total pages
 };
 export type GenericScheduleType = Pick<
   Schedule,
@@ -73,7 +114,13 @@ export type GenericReviewType = Pick<
   upvotes: number;
   userName: User['name'];
 };
-export type CourseIDType = `${Course['department']}${Course['courseNumber']}`;
+export type AvgReviewType = {
+  avgRating: number;
+  avgQuality: number;
+  avgEase: number;
+  avgGrade: GradeType;
+};
+export type CourseIDType = Pick<Course, 'courseNumber' | 'department'>;
 export type RequestBodyType = object;
 export type RequestParamsType<P> = {
   [K in keyof P]: P[K] extends string | number | boolean | undefined | null

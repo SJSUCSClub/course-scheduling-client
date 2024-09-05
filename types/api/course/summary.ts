@@ -1,27 +1,30 @@
 import { Course, Review } from '@/types/database';
-import { DistributionType, PercentageType } from '@/types/general';
+import {
+  AvgReviewType,
+  CourseIDType,
+  GradeDistributionType,
+  PercentageType,
+  RatingDistributionType,
+} from '@/types/general';
 
-export interface CourseSummaryRouteParams {
-  courseId: string;
-}
+export interface CourseSummaryRouteParams extends CourseIDType {}
 export interface CourseSummaryRouteResponse
-  extends Pick<Review, 'quality' | 'ease' | 'overall' | 'grade' | 'tags'>,
+  extends AvgReviewType,
     Pick<
       Course,
       | 'name'
-      | 'description'
-      | 'courseNumber'
       | 'department'
-      | 'prereqs'
+      | 'courseNumber'
       | 'units'
+      | 'description'
+      | 'prereqs'
       | 'satisfiesArea'
-    > {
-  overallDistribution: DistributionType;
-  qualityDistribution: DistributionType;
-  easeDistribution: DistributionType;
-  gradeDistribution: DistributionType;
+    >,
+    Pick<Review, 'tags'> {
+  ratingDistribution: RatingDistributionType;
+  qualityDistribution: RatingDistributionType;
+  easeDistribution: RatingDistributionType;
+  gradeDistribution: GradeDistributionType;
   totalReviews: number;
-  takeAgain: PercentageType;
-  openSections: number;
-  totalSections: number;
+  takeAgainPercent: PercentageType;
 }
