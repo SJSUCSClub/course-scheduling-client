@@ -1,26 +1,26 @@
 import { Schedule, User } from '@/types/database';
-import {
-  CourseIDType,
-  GenericScheduleType,
-  PaginatedItems,
-} from '@/types/general';
 
-interface ProfessorSchedule
-  extends GenericScheduleType,
-    Pick<
-      Schedule,
-      | 'courseNumber'
-      | 'department'
-      | 'classType'
-      | 'courseTitle'
-      | 'units'
-      | 'satisfiesArea'
-    > {
-  professorId: User['id'];
-  courseId: CourseIDType;
+export interface ProfessorSchedulesRouteParams extends Pick<User, 'id'> {}
+interface ProfessorSchedulesSchedule
+  extends Pick<
+    Schedule,
+    | 'term'
+    | 'year'
+    | 'classNumber'
+    | 'section'
+    | 'days'
+    | 'dates'
+    | 'times'
+    | 'classType'
+    | 'units'
+    | 'location'
+    | 'modeOfInstruction'
+    | 'courseTitle'
+    | 'department'
+    | 'courseNumber'
+    | 'courseId'
+    | 'satisfiesArea'
+  > {}
+export interface ProfessorSchedulesResponse {
+  schedules: ProfessorSchedulesSchedule[];
 }
-export interface ProfessorSchedulesRouteResponse
-  extends PaginatedItems<ProfessorSchedule> {}
-export interface ProfessorSchedulesRouteParams
-  extends Pick<PaginatedItems<ProfessorSchedule>, 'itemsPerPage' | 'page'>,
-    Pick<ProfessorSchedule, 'professorId'> {}
