@@ -78,7 +78,7 @@ export type PaginatedItems<T> = {
 };
 export type PaginatedRequest = {
   page?: number;
-  limit?: 10 | 20 | 50;
+  limit?: 3 | 10 | 20 | 50;
 };
 export type PaginatedResponse = {
   total_results: number;
