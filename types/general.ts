@@ -81,7 +81,7 @@ export type PaginatedRequest = {
   limit?: 3 | 10 | 20 | 50;
 };
 export type PaginatedResponse<T> = {
-  total_results: number;
+  totalResults: number;
   pages: number; // total pages
   page: number; // current page
   items: T[];

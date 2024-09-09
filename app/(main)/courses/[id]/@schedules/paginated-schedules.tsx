@@ -8,19 +8,26 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
+  CourseSchedulesBody,
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 const PaginatedSchedules: React.FC<{
-  initialPaginatedItems: CourseSchedulesRouteResponse | null;
-  courseId: string;
-}> = ({ initialPaginatedItems, courseId }) => {
+  initialPaginatedItems: CourseSchedulesRouteResponse;
+  department: string;
+  courseNumber: string;
+}> = ({ initialPaginatedItems, department, courseNumber }) => {
   const initialFetchRequest = (page: number) =>
-    fakeFetch<CourseSchedulesRouteResponse, CourseSchedulesRouteParams>({
-      endpoint: '/course/schedules',
-      params: { itemsPerPage: 4, page: page, courseId: courseId },
+    serverFetch<
+      CourseSchedulesRouteResponse,
+      CourseSchedulesBody,
+      CourseSchedulesRouteParams
+    >({
+      endpoint: '/courses/schedules',
+      params: { department: department, courseNumber: courseNumber },
+      body: { page: page, limit: 3 },
       timeout: 2000,
     });
   const { error, loading, wrappedRequest } = useWrappedRequest();
@@ -36,18 +43,25 @@ const PaginatedSchedules: React.FC<{
       <SectionLabel info="Sessions">Courses in Session</SectionLabel>
 
       {paginatedItems?.items.map((schedule, i) => {
-        const { days, classType, professorId, name, section, ...rest } =
-          schedule;
+        const {
+          days,
+          classType,
+          professorId,
+          professorName,
+          section,
+          ...rest
+        } = schedule;
         return (
           <Schedule
             key={i}
-            heading={`${name}`}
+            heading={`${professorName}`}
             subheading={`Section ${section}`}
             days={new Set(days)}
             additionalInfo={[classType]}
             href={`/professors/${professorId}`}
             {...rest}
             section={section}
+            overall={0} // TODO - determine what to do here besides pass in hard value
           />
         );
       })}
@@ -61,6 +75,7 @@ const PaginatedSchedules: React.FC<{
           {paginatedItems?.items.length !== 0 ? 'Show More' : 'No Schedules ;('}
         </Button>
       ) : null}
+      {error && <p>{error.toString()}</p>}
     </section>
   );
 };

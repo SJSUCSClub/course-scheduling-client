@@ -1,23 +1,31 @@
 import PaginatedSchedules from '@/app/(main)/courses/[id]/@schedules/paginated-schedules';
 import {
+  CourseSchedulesBody,
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const initialPaginatedSchedules = await fakeFetch<
+  const [department, courseNumber] = params.id.split('-');
+  const initialPaginatedSchedules = await serverFetch<
     CourseSchedulesRouteResponse,
+    CourseSchedulesBody,
     CourseSchedulesRouteParams
   >({
-    endpoint: '/course/schedules',
-    params: { itemsPerPage: 4, page: 0, courseId: params.id },
+    endpoint: '/courses/schedules',
+    body: { limit: 3, page: 1 }, // backend is 1-indexed
+    params: {
+      department: department.toUpperCase(),
+      courseNumber: courseNumber,
+    },
     timeout: 2000,
   });
 
   return (
     <PaginatedSchedules
-      courseId={params.id}
+      department={department.toUpperCase()}
+      courseNumber={courseNumber}
       initialPaginatedItems={initialPaginatedSchedules}
     />
   );

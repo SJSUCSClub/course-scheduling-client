@@ -20,7 +20,7 @@ export interface ServerFetchOptions<
 }
 
 const formatCourseParams = (params: CourseIDType) => {
-  return params.department + '-' + params.courseNumber;
+  return params.department.toUpperCase() + '-' + params.courseNumber;
 };
 
 const formatProfessorParams = (params: ProfessorIDType) => {
@@ -33,22 +33,28 @@ const formatProfessorParams = (params: ProfessorIDType) => {
  * @param response the object to be formatted
  * @returns the formatted object
  */
-const formatResponse = async (response: object) => {
-  var newResponse = {};
-  Object.keys(response).forEach((key) => {
-    var newKey: string = key
-      .split('_')
-      .map((part, index) =>
-        index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1),
-      )
-      .join('');
+const formatResponse: (response: any) => any = (response: any) => {
+  if (typeof response !== 'object' || response === null) {
+    return response;
+  } else if (!Array.isArray(response)) {
+    var newResponse = {};
+    Object.keys(response).forEach((key) => {
+      var newKey: string = key
+        .split('_')
+        .map((part, index) =>
+          index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1),
+        )
+        .join('');
 
-    // ignore the below line since we're setting new keys with strings
-    // and an object of {} doesn't explicitly have a set method for strings
-    // @ts-ignore
-    newResponse[newKey] = response[key];
-  });
-  return newResponse;
+      // ignore the below line since we're setting new keys with strings
+      // and an object of {} doesn't explicitly have a set method for strings
+      // @ts-ignore
+      newResponse[newKey] = formatResponse(response[key]);
+    });
+    return newResponse;
+  } else {
+    return response.map(formatResponse);
+  }
 };
 
 /**
@@ -62,11 +68,8 @@ const formatResponse = async (response: object) => {
  *
  * @example
  * ```ts
- * // app/mock-api/hello-world.ts
- * export const response = ({ id }: { id: string }, { name }: { name: string }) => `Hello, numero ${id}! My name is ${name}`;
- *
  * // app/page.tsx
- * const response = await fakeFetch<string, { id: string }, { name: string }>({
+ * const response = await serverFetch<string, { id: string }, { name: string }>({
  *  endpoint: '/hello-world',
  *  timeout: 2000,
  *  params: { id: '1' },
@@ -88,12 +91,13 @@ const serverFetch = <
   new Promise<Data>((resolve) => {
     // route params provided, so use them
     const [_, base, section] = endpoint.split('/');
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000/core';
     var url;
     if (params) {
       if (endpoint.indexOf('courses') !== -1) {
         url = new URL(
           [
-            process.env.BACKEND_URL,
+            backendUrl,
             base,
             formatCourseParams(params as CourseIDType),
             section,
@@ -102,7 +106,7 @@ const serverFetch = <
       } else {
         url = new URL(
           [
-            process.env.BACKEND_URL,
+            backendUrl,
             base,
             formatProfessorParams(params as ProfessorIDType),
             section,
@@ -110,7 +114,7 @@ const serverFetch = <
         );
       }
     } else {
-      url = new URL(process.env.BACKEND_URL + endpoint);
+      url = new URL(backendUrl + endpoint);
     }
     for (const [key, value] of Object.entries(body || {})) {
       url.searchParams.set(key, value as string);
@@ -120,7 +124,7 @@ const serverFetch = <
         method: 'GET',
       })
         .then((resp) => resp.json())
-        .then((resp) => formatResponse(resp) as Promise<Data>),
+        .then((resp) => formatResponse(resp) as Data),
     );
   });
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { PaginatedItems } from '@/types/general';
+import { PaginatedResponse } from '@/types/general';
 
 export interface UsePaginatedItemsProps<Response> {
   initialPaginatedItems?: Response | null;
@@ -30,7 +30,7 @@ export interface UsePaginatedItemsProps<Response> {
  *  ).then((res) => res.json())
  * });
  */
-const usePaginatedItems = <Response extends PaginatedItems<object>>({
+const usePaginatedItems = <Response extends PaginatedResponse<object>>({
   initialPaginatedItems,
   initialFetchRequest,
 }: UsePaginatedItemsProps<Response>) => {
@@ -41,13 +41,13 @@ const usePaginatedItems = <Response extends PaginatedItems<object>>({
   const [paginatedItems, setPaginatedItems] = React.useState(
     initialPaginatedItems,
   );
-  const initialPage = paginatedItems?.page ? paginatedItems?.page : 0;
+  const initialPage = paginatedItems?.page ? paginatedItems?.page : 1; // 1-indexed
   const [page, setPage] = React.useState(initialPage);
 
   const revalidateItems = async (
     responseFetchRequest: (page: number) => Promise<Response | null>,
   ) => {
-    const responsePaginatedItems = await responseFetchRequest(0);
+    const responsePaginatedItems = await responseFetchRequest(1); // 1-indexed
     if (responsePaginatedItems?.items.length !== 0) setIsEndOfList(false);
     setFetchRequest(() => responseFetchRequest);
     setPaginatedItems(responsePaginatedItems);
@@ -56,7 +56,7 @@ const usePaginatedItems = <Response extends PaginatedItems<object>>({
 
   const loadMore = React.useCallback(async () => {
     if (isEndOfList) return;
-    const response = fetchRequest && (await fetchRequest(page));
+    const response = fetchRequest && (await fetchRequest(page + 1));
     setPage(response?.page ?? page);
     if (!response) return;
     if (response.items.length === 0) {

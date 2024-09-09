@@ -1,32 +1,34 @@
 import PaginatedReviews from '@/app/(main)/courses/[id]/@reviews/paginated-reviews';
 import {
-  CourseReviewsRouteParams,
-  CourseReviewsRouteResponse,
+  CourseReviewsResponse,
   CourseReviewsRouteBody,
+  CourseReviewsRouteParams,
 } from '@/types/api/course/reviews';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const initialPaginatedItems = await fakeFetch<
-    CourseReviewsRouteResponse,
+  const [department, courseNumber] = params.id.split('-');
+  const initialPaginatedItems = await serverFetch<
+    CourseReviewsResponse,
     CourseReviewsRouteBody,
     CourseReviewsRouteParams
   >({
-    endpoint: '/course/reviews',
+    endpoint: '/courses/reviews',
     params: {
-      itemsPerPage: 4,
-      courseId: params.id,
-      page: 0,
+      department: department.toUpperCase(),
+      courseNumber: courseNumber,
     },
     body: {
-      filters: {},
+      page: 1,
+      limit: 3,
     },
     timeout: 3000,
   });
 
   return (
     <PaginatedReviews
-      courseId={params.id}
+      department={department.toUpperCase()}
+      courseNumber={courseNumber}
       initialPaginatedItems={initialPaginatedItems}
     />
   );
