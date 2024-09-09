@@ -1,34 +1,31 @@
 import PaginatedReviews from '@/app/(main)/professors/[id]/@reviews/paginated-reviews';
 import {
-  ProfessorReviewsRouteBody,
+  ProfessorReviewsBody,
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const initialPaginatedSchedules = await fakeFetch<
+  const initialPaginatedSchedules = await serverFetch<
     ProfessorReviewsRouteResponse,
-    ProfessorReviewsRouteBody,
+    ProfessorReviewsBody,
     ProfessorReviewsRouteParams
   >({
-    endpoint: '/professor/reviews',
+    endpoint: '/professors/reviews',
     params: {
-      itemsPerPage: 4,
-      page: 0,
-      id: Number(params.id),
+      id: params.id,
     },
     body: {
-      filters: {
-        sort: 'relevant',
-      },
+      page: 1,
+      limit: 3,
     },
     timeout: 3000,
   });
   return (
     <PaginatedReviews
       initialPaginatedItems={initialPaginatedSchedules}
-      professorId={Number(params.id)}
+      professorId={params.id}
     />
   );
 }

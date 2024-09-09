@@ -40,7 +40,6 @@ export default async function Page({
       department: department,
     },
   });
-
   if (!courseSummary) notFound();
 
   const {

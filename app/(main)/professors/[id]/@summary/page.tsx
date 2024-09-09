@@ -16,8 +16,8 @@ import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/types/api/professor/summary';
-import fakeFetch from '@/utils/fake-fetch';
 import getEvaluation from '@/utils/get-evaluation';
+import serverFetch from '@/utils/server-fetch';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
@@ -33,31 +33,33 @@ export default async function Page({
   searchParams: { sort: string };
 }) {
   const professorSummary: ProfessorSummaryRouteResponse | null =
-    await fakeFetch<ProfessorSummaryRouteResponse, ProfessorSummaryRouteParams>(
-      {
-        endpoint: '/professor/summary',
-        params: { id: Number(params.id) },
-        timeout: 1000,
-      },
-    );
+    await serverFetch<
+      ProfessorSummaryRouteResponse,
+      {},
+      ProfessorSummaryRouteParams
+    >({
+      endpoint: '/professors/summary',
+      params: { id: params.id },
+      timeout: 1000,
+    });
 
   if (!professorSummary) notFound();
 
   const {
-    quality,
-    ease,
-    overall,
-    grade,
+    avgQuality,
+    avgEase,
+    avgRating,
+    avgGrade,
     tags,
     id,
     name,
     email,
-    overallDistribution,
+    ratingDistribution,
     qualityDistribution,
     easeDistribution,
     gradeDistribution,
     totalReviews,
-    takeAgain,
+    takeAgainPercent,
   } = professorSummary;
 
   const type = searchParams.sort;
@@ -72,7 +74,11 @@ export default async function Page({
           totalReviews={totalReviews}
           name={name}
           rating={
-            type === 'quality' ? quality : type === 'ease' ? ease : overall
+            type === 'quality'
+              ? Math.round(avgQuality * 10) / 10
+              : type === 'ease'
+              ? Math.round(avgEase * 10) / 10
+              : Math.round(avgRating * 10) / 10
           }
           email={email}
         >
@@ -80,15 +86,15 @@ export default async function Page({
         </RatingSummaryBoxProvider>
         <div className="flex gap-[10px] max-lg:flex-wrap lg:flex-col">
           <InfoCard
-            type={grade ? getEvaluation(grade, 'grade') : 'default'}
+            type={avgGrade ? getEvaluation(avgGrade, 'grade') : 'default'}
             icon={<ClipboardDocumentListIcon />}
-            title={grade ?? '-'}
+            title={avgGrade ?? '-'}
             subtitle="Average Grade"
           />
           <InfoCard
-            type={getEvaluation(takeAgain, 'percentage')}
+            type={getEvaluation(takeAgainPercent, 'percentage')}
             icon={<ArrowPathIcon />}
-            title={`${takeAgain}%`}
+            title={`${takeAgainPercent}%`}
             subtitle="Would Take Again"
           />
         </div>
@@ -127,7 +133,7 @@ export default async function Page({
                   ? qualityDistribution
                   : type === 'ease'
                   ? easeDistribution
-                  : overallDistribution
+                  : ratingDistribution
               }
             />
           </div>

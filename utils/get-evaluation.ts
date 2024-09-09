@@ -1,6 +1,6 @@
 import {
-  EvaluationType,
   AvailabilityType,
+  EvaluationType,
   GradeType,
   PercentageType,
   RatingType,
@@ -19,7 +19,9 @@ const getRatingEvaluation = (rating: RatingType): EvaluationType => {
 const getGradeEvaluation = (grade: GradeType): EvaluationType => {
   switch (grade) {
     case 'F':
+    case 'D-':
     case 'D':
+    case 'D+':
       return 'bad';
     case 'C-':
     case 'C':

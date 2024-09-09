@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Props } from 'react-apexcharts';
 
-import { DistributionType } from '@/types/general';
+import { GradeDistributionType } from '@/types/general';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -43,7 +43,21 @@ const chartConfig: Props = {
           fontWeight: 400,
         },
       },
-      categories: ['F', 'D', 'C', 'B', 'A'],
+      categories: [
+        'A+',
+        'A',
+        'A-',
+        'B+',
+        'B',
+        'B-',
+        'C+',
+        'C',
+        'C-',
+        'D+',
+        'D',
+        'D-',
+        'F',
+      ],
     },
     yaxis: {
       labels: {
@@ -77,7 +91,7 @@ const chartConfig: Props = {
 };
 
 interface LineChartProps {
-  chartData: DistributionType;
+  chartData: GradeDistributionType;
 }
 
 const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
