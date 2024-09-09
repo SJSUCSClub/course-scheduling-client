@@ -43,7 +43,7 @@ interface CourseReviewsReview
   votes: Votes;
   comments?: Comment[];
 }
-export interface CourseReviewsResponse extends PaginatedResponse {
+export interface CourseReviewsResponse
+  extends PaginatedResponse<CourseReviewsReview> {
   filters: Filters;
-  reviews: CourseReviewsReview[];
 }

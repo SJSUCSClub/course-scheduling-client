@@ -6,6 +6,5 @@ export interface ProfessorSearchBody extends PaginatedRequest {
 }
 interface ProfessorSearchProfessor
   extends Pick<User, 'id' | 'name' | 'email'> {}
-export interface ProfessorSearchResponse extends PaginatedResponse {
-  professors: ProfessorSearchProfessor[];
-}
+export interface ProfessorSearchResponse
+  extends PaginatedResponse<ProfessorSearchProfessor> {}

@@ -27,6 +27,5 @@ interface CourseSchedule
 }
 export interface CourseSchedulesRouteParams extends CourseIDType {}
 export interface CourseSchedulesBody extends PaginatedRequest {}
-export interface CourseSchedulesRouteResponse extends PaginatedResponse {
-  schedules: CourseSchedule[];
-}
+export interface CourseSchedulesRouteResponse
+  extends PaginatedResponse<CourseSchedule> {}

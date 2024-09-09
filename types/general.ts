@@ -80,9 +80,11 @@ export type PaginatedRequest = {
   page?: number;
   limit?: 3 | 10 | 20 | 50;
 };
-export type PaginatedResponse = {
+export type PaginatedResponse<T> = {
   total_results: number;
   pages: number; // total pages
+  page: number; // current page
+  items: T[];
 };
 export type GenericScheduleType = Pick<
   Schedule,

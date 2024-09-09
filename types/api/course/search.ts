@@ -21,7 +21,7 @@ interface CourseSearchCourse
 interface Filters {
   departments: string[];
 }
-export interface CourseSearchRouteResponse extends PaginatedResponse {
+export interface CourseSearchRouteResponse
+  extends PaginatedResponse<CourseSearchCourse> {
   filters: Filters;
-  courses: CourseSearchCourse[];
 }

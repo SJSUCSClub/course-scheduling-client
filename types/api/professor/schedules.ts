@@ -23,6 +23,5 @@ interface ProfessorSchedulesSchedule
     | 'satisfiesArea'
   > {}
 export interface ProfessorSchedulesBody extends PaginatedRequest {}
-export interface ProfessorSchedulesResponse extends PaginatedResponse {
-  schedules: ProfessorSchedulesSchedule[];
-}
+export interface ProfessorSchedulesResponse
+  extends PaginatedResponse<ProfessorSchedulesSchedule> {}
