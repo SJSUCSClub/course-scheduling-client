@@ -121,6 +121,7 @@ export type AvgReviewType = {
   avgGrade: GradeType;
 };
 export type CourseIDType = Pick<Course, 'courseNumber' | 'department'>;
+export type ProfessorIDType = Pick<User, 'id'>;
 export type RequestBodyType = object;
 export type RequestParamsType<P> = {
   [K in keyof P]: P[K] extends string | number | boolean | undefined | null
