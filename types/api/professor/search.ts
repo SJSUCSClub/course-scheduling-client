@@ -1,35 +1,11 @@
-import { Course, Review, User } from '@/types/database';
-import {
-  DistributionType,
-  PaginatedItems,
-  PercentageType,
-  SearchResultSortType,
-  SortType,
-} from '@/types/general';
+import { User } from '@/types/database';
+import { PaginatedRequest, PaginatedResponse } from '@/types/general';
 
-interface ProfessorSearch
-  extends Pick<Review, 'overall' | 'grade'>,
-    Pick<User, 'id' | 'name'> {
-  totalReviews: number;
-  takeAgain?: PercentageType;
-  coursesInSession: Course['courseNumber' | 'department'][];
+export interface ProfessorSearchBody extends PaginatedRequest {
+  search?: string;
 }
-
-export interface ProfessorSearchRouteResponse
-  extends PaginatedItems<ProfessorSearch> {
-  totalResults: number;
-  filters: {
-    search: string;
-    sort: SearchResultSortType;
-    coursesInSession: { courseInSession: string; count: number }[];
-  };
-}
-export interface ProfessorSearchRouteParams
-  extends Pick<PaginatedItems<ProfessorSearch>, 'itemsPerPage' | 'page'> {}
-export interface ProfessorSearchRouteBody {
-  filters?: {
-    search?: string;
-    sort?: SearchResultSortType;
-    coursesInSession?: Course['courseNumber' | 'department'][];
-  };
+interface ProfessorSearchProfessor
+  extends Pick<User, 'id' | 'name' | 'email'> {}
+export interface ProfessorSearchResponse extends PaginatedResponse {
+  professors: ProfessorSearchProfessor[];
 }

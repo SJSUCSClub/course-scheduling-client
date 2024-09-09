@@ -2,7 +2,13 @@
  * Database schema. Define the shape of the Database Schema types here.
  ***********************************************/
 
-import { DateType, GradeType, RatingType, TagType } from '@/types/general';
+import {
+  DateType,
+  GradeType,
+  RatingType,
+  TagType,
+  TermType,
+} from '@/types/general';
 
 export type Comment = {
   id: number;
@@ -68,6 +74,8 @@ export type Schedule = {
   days: string;
   dates: string;
   times: string;
+  term: TermType;
+  year: number;
   classType: string;
   courseTitle: string;
   availableSeats?: number;
