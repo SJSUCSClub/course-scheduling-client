@@ -16,7 +16,7 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
-  ProfessorReviewsBody,
+  ProfessorReviewsRouteBody,
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
@@ -34,7 +34,7 @@ const PaginatedReviews: React.FC<{
   const fetchRequest = (page: number) =>
     serverFetch<
       ProfessorReviewsRouteResponse,
-      ProfessorReviewsBody,
+      ProfessorReviewsRouteBody,
       ProfessorReviewsRouteParams
     >({
       endpoint: '/professors/reviews',
@@ -42,7 +42,8 @@ const PaginatedReviews: React.FC<{
         id: professorId,
       },
       body: {
-        // TODO - add tags here
+        // TODO - add search and other filters here
+        tags: tags.current,
         page: page,
         limit: 3,
       },

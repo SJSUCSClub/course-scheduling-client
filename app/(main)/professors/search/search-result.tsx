@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { ProfessorSearchResponse } from '@/types/api/professor/search';
+import { ProfessorSearchRouteResponse } from '@/types/api/professor/search';
 import getEvaluation from '@/utils/get-evaluation';
 
-type ProfessorSearch = ProfessorSearchResponse['items'][number];
+type ProfessorSearch = ProfessorSearchRouteResponse['items'][number];
 
 const SearchResult: React.FC<ProfessorSearch> = ({
   id,

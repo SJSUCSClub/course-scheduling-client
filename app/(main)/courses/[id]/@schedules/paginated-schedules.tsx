@@ -8,7 +8,7 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
-  CourseSchedulesBody,
+  CourseSchedulesRouteBody,
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
@@ -22,7 +22,7 @@ const PaginatedSchedules: React.FC<{
   const initialFetchRequest = (page: number) =>
     serverFetch<
       CourseSchedulesRouteResponse,
-      CourseSchedulesBody,
+      CourseSchedulesRouteBody,
       CourseSchedulesRouteParams
     >({
       endpoint: '/courses/schedules',

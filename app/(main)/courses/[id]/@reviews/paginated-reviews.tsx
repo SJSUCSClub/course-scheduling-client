@@ -13,22 +13,22 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
-  CourseReviewsResponse,
   CourseReviewsRouteBody,
   CourseReviewsRouteParams,
+  CourseReviewsRouteResponse,
 } from '@/types/api/course/reviews';
 import { SortType, TagType } from '@/types/general';
 import serverFetch from '@/utils/server-fetch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const PaginatedReviews: React.FC<{
-  initialPaginatedItems: CourseReviewsResponse | null;
+  initialPaginatedItems: CourseReviewsRouteResponse | null;
   department: string;
   courseNumber: string;
 }> = ({ initialPaginatedItems, department, courseNumber }) => {
   const fetchRequest = (page: number) =>
     serverFetch<
-      CourseReviewsResponse,
+      CourseReviewsRouteResponse,
       CourseReviewsRouteBody,
       CourseReviewsRouteParams
     >({
@@ -38,6 +38,7 @@ const PaginatedReviews: React.FC<{
         courseNumber: courseNumber,
       },
       body: {
+        // TODO - add search and other filters here
         tags: tags.current,
         page: page,
         limit: 3,
@@ -47,7 +48,7 @@ const PaginatedReviews: React.FC<{
 
   const { error, loading, wrappedRequest } = useWrappedRequest();
   const { isEndOfList, paginatedItems, loadMore, revalidateItems } =
-    usePaginatedItems<CourseReviewsResponse>({
+    usePaginatedItems<CourseReviewsRouteResponse>({
       initialPaginatedItems,
       initialFetchRequest: (page: number) =>
         wrappedRequest(() => fetchRequest(page)),

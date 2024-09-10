@@ -13,6 +13,7 @@ import {
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
 import {
+  ProfessorSummaryRouteBody,
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/types/api/professor/summary';
@@ -35,7 +36,7 @@ export default async function Page({
   const professorSummary: ProfessorSummaryRouteResponse | null =
     await serverFetch<
       ProfessorSummaryRouteResponse,
-      {},
+      ProfessorSummaryRouteBody,
       ProfessorSummaryRouteParams
     >({
       endpoint: '/professors/summary',

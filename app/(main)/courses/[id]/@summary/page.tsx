@@ -9,6 +9,7 @@ import LineChart from '@/components/line-chart';
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
 import {
+  CourseSummaryRouteBody,
   CourseSummaryRouteParams,
   CourseSummaryRouteResponse,
 } from '@/types/api/course/summary';
@@ -31,7 +32,7 @@ export default async function Page({
   const [department, courseNumber] = params.id.split('-');
   const courseSummary = await serverFetch<
     CourseSummaryRouteResponse,
-    {},
+    CourseSummaryRouteBody,
     CourseSummaryRouteParams
   >({
     endpoint: '/courses/summary',

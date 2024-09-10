@@ -1,15 +1,15 @@
 import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
 import {
-  ProfessorSchedulesBody,
-  ProfessorSchedulesResponse,
+  ProfessorSchedulesRouteBody,
   ProfessorSchedulesRouteParams,
+  ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
 import serverFetch from '@/utils/server-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const initialPaginatedSchedules = await serverFetch<
-    ProfessorSchedulesResponse,
-    ProfessorSchedulesBody,
+    ProfessorSchedulesRouteResponse,
+    ProfessorSchedulesRouteBody,
     ProfessorSchedulesRouteParams
   >({
     endpoint: '/professors/schedules',

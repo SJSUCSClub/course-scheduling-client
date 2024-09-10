@@ -3,9 +3,9 @@ import { Metadata } from 'next';
 
 import Results from '@/app/(main)/professors/search/results';
 import {
-  ProfessorSearchBody,
-  ProfessorSearchParams,
-  ProfessorSearchResponse,
+  ProfessorSearchRouteBody,
+  ProfessorSearchRouteParams,
+  ProfessorSearchRouteResponse,
 } from '@/types/api/professor/search';
 import serverFetch from '@/utils/server-fetch';
 
@@ -25,9 +25,9 @@ export default async function Page({
   };
 }) {
   const searchResults = await serverFetch<
-    ProfessorSearchResponse,
-    ProfessorSearchBody,
-    ProfessorSearchParams
+    ProfessorSearchRouteResponse,
+    ProfessorSearchRouteBody,
+    ProfessorSearchRouteParams
   >({
     endpoint: '/professors/search',
     params: {},

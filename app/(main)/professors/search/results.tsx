@@ -6,12 +6,12 @@ import SearchResult from '@/app/(main)/professors/search/search-result';
 import { ParamsDropdown } from '@/components/forms/dropdown';
 import PaginationButtons from '@/components/pagination';
 import SectionLabel from '@/components/section-label';
-import { ProfessorSearchResponse } from '@/types/api/professor/search';
+import { ProfessorSearchRouteResponse } from '@/types/api/professor/search';
 import { SearchResultSortType } from '@/types/general';
 
 const Results: React.FC<{
   query: string;
-  searchResults: ProfessorSearchResponse | null;
+  searchResults: ProfessorSearchRouteResponse | null;
 }> = ({ query, searchResults }) => {
   const [loading, setLoading] = React.useState(false);
   return (

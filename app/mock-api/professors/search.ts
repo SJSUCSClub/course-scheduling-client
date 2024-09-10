@@ -3,7 +3,6 @@ import {
   ProfessorSearchRouteParams,
   ProfessorSearchRouteResponse,
 } from '@/types/api/professor/search';
-import { TagType } from '@/types/general';
 import { FakeResponseFunctionType } from '@/utils/fake-fetch';
 import fuzzySearch from '@/utils/fuzzy-search';
 import getPaginatedItems from '@/utils/get-paginated-items';
@@ -12,91 +11,94 @@ type ProfessorSearch = ProfessorSearchRouteResponse['items'][number];
 
 const professors: ProfessorSearch[] = [
   {
-    id: 2,
+    id: '2',
     name: 'Jahan Ghofraniha',
-    overall: 2.4,
-    grade: 'A-',
-    totalReviews: 47,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 52,
+    //overall: 2.4,
+    //grade: 'A-',
+    //totalReviews: 47,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 52,
+    email: 'johan.ghofraniha@sjsu.edu',
   },
   {
-    id: 3,
+    id: '3',
     name: 'Kurt Mammen',
-    overall: 5,
-    grade: 'B-',
-    totalReviews: 60,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 90,
+    //overall: 5,
+    //grade: 'B-',
+    //totalReviews: 60,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 90,
+    email: 'kurt.mammen@sjsu.edu',
   },
   {
-    id: 4,
+    id: '4',
     name: 'Sara Sarrafi',
-    overall: 3.3,
-    grade: 'C-',
-    totalReviews: 30,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 70,
+    //overall: 3.3,
+    //grade: 'C-',
+    //totalReviews: 30,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 70,
+    email: 'sara.sarrafi@sjsu.edu',
   },
   {
-    id: 5,
+    id: '5',
     name: 'Shadi Noghabi',
-    overall: 4.1,
-    grade: 'A+',
-    totalReviews: 40,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 80,
+    //overall: 4.1,
+    //grade: 'A+',
+    //totalReviews: 40,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 80,
+    email: 'shadi.noghabi@sjsu.edu',
   },
   {
-    id: 6,
+    id: '6',
     name: 'Ying Liu',
-    overall: 3.8,
-    grade: 'C-',
-    totalReviews: 35,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 60,
+    //overall: 3.8,
+    //grade: 'C-',
+    //totalReviews: 35,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 60,
+    email: 'ying.liu@sjsu.edu',
   },
   {
-    id: 7,
+    id: '7',
     name: 'Zahra Nazari',
-    overall: 4.7,
-    grade: 'A+',
-    totalReviews: 50,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 100,
+    //overall: 4.7,
+    //grade: 'A+',
+    //totalReviews: 50,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 100,
+    email: 'zahra.nazari@sjsu.edu',
   },
   {
-    id: 8,
+    id: '8',
     name: 'Negin Ghazanfari',
-    overall: 3.7,
-    grade: 'B-',
-    totalReviews: 45,
-    coursesInSession: ['CMPE132'],
-    takeAgain: 80,
+    //overall: 3.7,
+    //grade: 'B-',
+    //totalReviews: 45,
+    //coursesInSession: ['CMPE132'],
+    //takeAgain: 80,
+    email: 'negin.ghazanfari@sjsu.edu',
   },
 ];
 
 export const response: FakeResponseFunctionType<
   ProfessorSearchRouteParams,
   ProfessorSearchRouteBody
-> = (
-  { itemsPerPage, page },
-  { filters },
-): ProfessorSearchRouteResponse | null => {
-  const result = professors
-    .filter((professor) => {
-      if (filters?.search) {
-        const wordsArray = professor.name
-          .toLowerCase()
-          .replace(/[^a-zA-Z0-9 ]/g, ' ')
-          .trim()
-          .split(/\s+/);
-        const searchQuery = filters.search.toLowerCase();
-        if (fuzzySearch(searchQuery, wordsArray, 2).length === 0) {
-          return false;
-        }
+> = ({}, { search, page, limit }): ProfessorSearchRouteResponse | null => {
+  const result = professors.filter((professor) => {
+    if (search) {
+      const wordsArray = professor.name
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9 ]/g, ' ')
+        .trim()
+        .split(/\s+/);
+      const searchQuery = search.toLowerCase();
+      if (fuzzySearch(searchQuery, wordsArray, 2).length === 0) {
+        return false;
       }
-      if (filters?.coursesInSession?.length) {
+    }
+    /*if (filters?.coursesInSession?.length) {
         if (
           !filters.coursesInSession.every((courseInSession) =>
             professor.coursesInSession.includes(courseInSession),
@@ -104,10 +106,10 @@ export const response: FakeResponseFunctionType<
         ) {
           return false;
         }
-      }
-      return true;
-    })
-    .sort((a, b) => {
+      }*/
+    return true;
+  });
+  /*.sort((a, b) => {
       if (filters?.sort === 'highest overall') {
         return b.overall - a.overall;
       } else if (filters?.sort === 'lowest overall') {
@@ -121,17 +123,17 @@ export const response: FakeResponseFunctionType<
       } else {
         return b.totalReviews - a.totalReviews;
       }
-    });
+    });*/
   const courseInSessionFilters = new Map<string, number>();
-  result.forEach((professor) => {
+  /*result.forEach((professor) => {
     professor.coursesInSession.forEach((courseInSession) => {
       const currentCount = courseInSessionFilters.get(courseInSession) ?? 0;
       courseInSessionFilters.set(courseInSession, currentCount + 1);
     });
-  });
+  });*/
   return {
     totalResults: result.length,
-    filters: {
+    /*filters: {
       search: filters?.search ?? '',
       sort: filters?.sort ?? 'most reviews',
       coursesInSession: Array.from(courseInSessionFilters.entries()).map(
@@ -140,11 +142,13 @@ export const response: FakeResponseFunctionType<
           count,
         }),
       ),
-    },
+    },*/
     ...getPaginatedItems<ProfessorSearch>({
       items: result,
-      itemsPerPage,
-      page,
+      itemsPerPage: limit,
+      page: page || 0,
     }),
+    page: page || 1,
+    pages: Math.ceil(result.length / (limit || 3)),
   };
 };

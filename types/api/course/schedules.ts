@@ -26,6 +26,6 @@ interface CourseSchedule
   professorName: User['name'];
 }
 export interface CourseSchedulesRouteParams extends CourseIDType {}
-export interface CourseSchedulesBody extends PaginatedRequest {}
+export interface CourseSchedulesRouteBody extends PaginatedRequest {}
 export interface CourseSchedulesRouteResponse
   extends PaginatedResponse<CourseSchedule> {}

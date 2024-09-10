@@ -8,20 +8,20 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
-  ProfessorSchedulesBody,
-  ProfessorSchedulesResponse,
+  ProfessorSchedulesRouteBody,
   ProfessorSchedulesRouteParams,
+  ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
 import serverFetch from '@/utils/server-fetch';
 
 const PaginatedSchedules: React.FC<{
-  initialPaginatedItems: ProfessorSchedulesResponse | null;
+  initialPaginatedItems: ProfessorSchedulesRouteResponse | null;
   professorId: string;
 }> = ({ initialPaginatedItems, professorId }) => {
   const initialFetchRequest = (page: number) =>
     serverFetch<
-      ProfessorSchedulesResponse,
-      ProfessorSchedulesBody,
+      ProfessorSchedulesRouteResponse,
+      ProfessorSchedulesRouteBody,
       ProfessorSchedulesRouteParams
     >({
       endpoint: '/professors/schedules',
@@ -34,7 +34,7 @@ const PaginatedSchedules: React.FC<{
     });
   const { error, loading, wrappedRequest } = useWrappedRequest();
   const { isEndOfList, paginatedItems, loadMore } =
-    usePaginatedItems<ProfessorSchedulesResponse>({
+    usePaginatedItems<ProfessorSchedulesRouteResponse>({
       initialPaginatedItems,
       initialFetchRequest: (page: number) =>
         wrappedRequest(() => initialFetchRequest(page)),
