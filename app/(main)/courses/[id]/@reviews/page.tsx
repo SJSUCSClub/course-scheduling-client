@@ -2,6 +2,7 @@ import PaginatedReviews from '@/app/(main)/courses/[id]/@reviews/paginated-revie
 import {
   CourseReviewsRouteBody,
   CourseReviewsRouteParams,
+  CourseReviewsRouteResponse,
 } from '@/types/api/course/reviews';
 import serverFetch from '@/utils/server-fetch';
 

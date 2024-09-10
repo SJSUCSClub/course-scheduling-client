@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { Props } from 'react-apexcharts';
 
-import { DistributionType } from '@/types/general';
+import { RatingDistributionType } from '@/types/general';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -76,7 +76,7 @@ const chartConfig: Props = {
 };
 
 interface BarChartProps {
-  chartData: DistributionType;
+  chartData: RatingDistributionType;
 }
 
 const BarChart: React.FC<BarChartProps> = ({ chartData }) => {
