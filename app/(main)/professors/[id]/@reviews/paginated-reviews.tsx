@@ -21,7 +21,7 @@ import {
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
 import { SortType, TagType } from '@/types/general';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
@@ -29,27 +29,23 @@ import {
 
 const PaginatedReviews: React.FC<{
   initialPaginatedItems: ProfessorReviewsRouteResponse | null;
-  professorId: number;
+  professorId: string;
 }> = ({ initialPaginatedItems, professorId }) => {
   const fetchRequest = (page: number) =>
-    fakeFetch<
+    serverFetch<
       ProfessorReviewsRouteResponse,
       ProfessorReviewsRouteBody,
       ProfessorReviewsRouteParams
     >({
-      endpoint: '/professor/reviews',
+      endpoint: '/professors/reviews',
       params: {
-        itemsPerPage: 4,
         id: professorId,
-        page,
       },
       body: {
-        filters: {
-          search: search.current,
-          sort: sort.current,
-          tags: tags.current,
-          courses: courses.current,
-        },
+        // TODO - add search and other filters here
+        tags: tags.current,
+        page: page,
+        limit: 3,
       },
       timeout: 3000,
     });
@@ -115,13 +111,14 @@ const PaginatedReviews: React.FC<{
           >
             {
               paginatedItems?.filters.tags.map((tag) => (
-                <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
-                  {tag.tag}
+                // TODO - get an actual value here
+                <TagCheckbox key={tag} value={tag} count={-1}>
+                  {tag}
                 </TagCheckbox>
               )) as React.ReactNode[]
             }
           </TagCheckboxGroup>
-          <TagCheckboxGroup
+          {/*<TagCheckboxGroup
             onChange={handleSetCourses}
             label="Courses"
             disabled={loading}
@@ -137,13 +134,13 @@ const PaginatedReviews: React.FC<{
                 </TagCheckbox>
               )) as React.ReactNode[]
             }
-          </TagCheckboxGroup>
+          </TagCheckboxGroup>*/}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-[10px] pb-[10px]">
         <div className="flex justify-between">
           <SectionLabel info="Reviews">
-            {paginatedItems?.totalReviews} Reviews
+            {paginatedItems?.totalResults} Reviews
           </SectionLabel>
           <Dropdown
             options={['Relevant', 'Newest', 'Highest', 'Lowest']}
@@ -161,24 +158,28 @@ const PaginatedReviews: React.FC<{
           </ButtonBoxProvider>
         </div>
         {paginatedItems?.items.map((review, i) => {
-          const { courseNumber, department, courseId, ...rest } = review;
+          const { courseNumber, department, ...rest } = review;
           return (
             <Review
               key={i}
               title={`${department}${courseNumber}`}
               href={`courses/${department}${courseNumber}`}
               {...rest}
+              // TODO - get a real value here
+              overall={-1}
+              upvotes={rest.votes.upvotes}
+              userName={rest.username}
             />
           );
         })}
         {!isEndOfList ? (
           <Button
             variant="tertiary"
-            disabled={paginatedItems?.totalReviews === 0}
+            disabled={paginatedItems?.totalResults === 0}
             onClick={loadMore}
             loading={loading}
           >
-            {paginatedItems?.totalReviews !== 0 ? 'Show More' : 'No Reviews ;('}
+            {paginatedItems?.totalResults !== 0 ? 'Show More' : 'No Reviews ;('}
           </Button>
         ) : null}
       </div>

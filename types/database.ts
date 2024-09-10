@@ -39,7 +39,7 @@ export type Review = {
 };
 
 export type User = {
-  id: number;
+  id: string;
   createdAt: DateType;
   name: string;
   email: string;

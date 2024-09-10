@@ -8,19 +8,28 @@ import SectionLabel from '@/components/section-label';
 import usePaginatedItems from '@/hooks/use-paginated-items';
 import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
+  ProfessorSchedulesRouteBody,
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 const PaginatedSchedules: React.FC<{
   initialPaginatedItems: ProfessorSchedulesRouteResponse | null;
-  professorId: number;
+  professorId: string;
 }> = ({ initialPaginatedItems, professorId }) => {
   const initialFetchRequest = (page: number) =>
-    fakeFetch<ProfessorSchedulesRouteResponse, ProfessorSchedulesRouteParams>({
-      endpoint: '/professor/schedules',
-      params: { itemsPerPage: 4, page: page, professorId: professorId },
+    serverFetch<
+      ProfessorSchedulesRouteResponse,
+      ProfessorSchedulesRouteBody,
+      ProfessorSchedulesRouteParams
+    >({
+      endpoint: '/professors/schedules',
+      body: {
+        page: page,
+        limit: 3,
+      },
+      params: { id: professorId },
       timeout: 2000,
     });
   const { error, loading, wrappedRequest } = useWrappedRequest();
@@ -44,7 +53,6 @@ const PaginatedSchedules: React.FC<{
           units,
           classType,
           courseId,
-          professorId,
           ...rest
         } = schedule;
         return (
@@ -60,6 +68,8 @@ const PaginatedSchedules: React.FC<{
             ]}
             href={`/courses/${department}${courseNumber}`}
             {...rest}
+            // TODO - get real data for this
+            overall={-1}
           />
         );
       })}

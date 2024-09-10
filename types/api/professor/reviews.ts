@@ -2,7 +2,7 @@ import { Comment, Review, User } from '@/types/database';
 import { PaginatedRequest, PaginatedResponse, TagType } from '@/types/general';
 
 export interface ProfessorReviewsRouteParams extends Pick<User, 'id'> {}
-export interface ProfessorReviewsBody extends PaginatedRequest {
+export interface ProfessorReviewsRouteBody extends PaginatedRequest {
   tags?: TagType[];
   comments?: boolean;
 }
@@ -37,7 +37,7 @@ interface ProfessorReviewsReview
   votes: Votes;
   comments?: Comment[];
 }
-export interface ProfessorReviewsRouteResponse extends PaginatedResponse {
+export interface ProfessorReviewsRouteResponse
+  extends PaginatedResponse<ProfessorReviewsReview> {
   filters: Filters;
-  reviews: ProfessorReviewsReview[];
 }

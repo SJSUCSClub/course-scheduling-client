@@ -1,11 +1,11 @@
 import { User } from '@/types/database';
 import { PaginatedRequest, PaginatedResponse } from '@/types/general';
 
-export interface ProfessorSearchBody extends PaginatedRequest {
+export interface ProfessorSearchRouteBody extends PaginatedRequest {
   search?: string;
 }
+export interface ProfessorSearchRouteParams {}
 interface ProfessorSearchProfessor
   extends Pick<User, 'id' | 'name' | 'email'> {}
-export interface ProfessorSearchResponse extends PaginatedResponse {
-  professors: ProfessorSearchProfessor[];
-}
+export interface ProfessorSearchRouteResponse
+  extends PaginatedResponse<ProfessorSearchProfessor> {}

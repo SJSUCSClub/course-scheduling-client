@@ -10,14 +10,13 @@ import { ProfessorSearchRouteResponse } from '@/types/api/professor/search';
 import { SearchResultSortType } from '@/types/general';
 
 const Results: React.FC<{
+  query: string;
   searchResults: ProfessorSearchRouteResponse | null;
-}> = ({ searchResults }) => {
+}> = ({ query, searchResults }) => {
   const [loading, setLoading] = React.useState(false);
   return (
     <section className="flex flex-col gap-[10px] pb-[10px]">
-      <h3 className="py-[10px]">
-        Search results for {`"${searchResults?.filters.search}"`}
-      </h3>
+      <h3 className="py-[10px]">Search results for {`"${query}"`}</h3>
       <div className="flex items-stretch gap-[10px]">
         {/* <div className="w-[250px] max-lg:hidden">
           <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">

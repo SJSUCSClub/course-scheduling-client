@@ -3,13 +3,10 @@
 import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
+import Button from '@/components/button';
 import Dropdown from '@/components/forms/dropdown';
 import { TagCheckbox, TagCheckboxGroup } from '@/components/forms/tag-checkbox';
-import TextInput, {
-  TextInputBox,
-  TextInputBoxProvider,
-} from '@/components/forms/text-input';
+import TextInput from '@/components/forms/text-input';
 import LoadingSpinner from '@/components/loading-spinner';
 import Review from '@/components/review';
 import SectionLabel from '@/components/section-label';
@@ -20,37 +17,31 @@ import {
   CourseReviewsRouteParams,
   CourseReviewsRouteResponse,
 } from '@/types/api/course/reviews';
-import { Course } from '@/types/database';
 import { SortType, TagType } from '@/types/general';
-import fakeFetch from '@/utils/fake-fetch';
-import {
-  ChevronRightIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/react/24/outline';
+import serverFetch from '@/utils/server-fetch';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const PaginatedReviews: React.FC<{
   initialPaginatedItems: CourseReviewsRouteResponse | null;
-  courseId: `${Course['department']}${Course['courseNumber']}`;
-}> = ({ initialPaginatedItems, courseId }) => {
+  department: string;
+  courseNumber: string;
+}> = ({ initialPaginatedItems, department, courseNumber }) => {
   const fetchRequest = (page: number) =>
-    fakeFetch<
+    serverFetch<
       CourseReviewsRouteResponse,
       CourseReviewsRouteBody,
       CourseReviewsRouteParams
     >({
-      endpoint: '/course/reviews',
+      endpoint: '/courses/reviews',
       params: {
-        itemsPerPage: 4,
-        courseId: courseId,
-        page: page,
+        department: department,
+        courseNumber: courseNumber,
       },
       body: {
-        filters: {
-          search: search.current,
-          sort: sort.current,
-          tags: tags.current,
-          professors: professors.current,
-        },
+        // TODO - add search and other filters here
+        tags: tags.current,
+        page: page,
+        limit: 3,
       },
       timeout: 3000,
     });
@@ -116,13 +107,14 @@ const PaginatedReviews: React.FC<{
           >
             {
               paginatedItems?.filters.tags.map((tag) => (
-                <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
-                  {tag.tag}
+                // TODO - put real value, not just -1
+                <TagCheckbox key={tag} value={tag} count={-1}>
+                  {tag}
                 </TagCheckbox>
               )) as React.ReactNode[]
             }
           </TagCheckboxGroup>
-          <TagCheckboxGroup
+          {/*<TagCheckboxGroup
             onChange={handleSetProfessors}
             label="Professors"
             disabled={loading}
@@ -134,13 +126,13 @@ const PaginatedReviews: React.FC<{
                 </TagCheckbox>
               )) as React.ReactNode[]
             }
-          </TagCheckboxGroup>
+          </TagCheckboxGroup>*/}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-[10px] pb-[10px]">
         <div className="flex justify-between">
           <SectionLabel info="Reviews">
-            {paginatedItems?.totalReviews} Reviews
+            {paginatedItems?.totalResults} Reviews
           </SectionLabel>
           <Dropdown
             options={['Relevant', 'Newest', 'Highest', 'Lowest']}
@@ -157,17 +149,20 @@ const PaginatedReviews: React.FC<{
               title={`${professorName}`}
               href={`/professors/${professorId}`}
               {...rest}
+              userName={rest.username || ''}
+              upvotes={rest.votes.upvotes}
+              overall={rest.quality}
             />
           );
         })}
         {!isEndOfList ? (
           <Button
             variant="tertiary"
-            disabled={paginatedItems?.totalReviews === 0}
+            disabled={paginatedItems?.totalResults === 0}
             onClick={loadMore}
             loading={loading}
           >
-            {paginatedItems?.totalReviews !== 0 ? 'Show More' : 'No Reviews ;('}
+            {paginatedItems?.totalResults !== 0 ? 'Show More' : 'No Reviews ;('}
           </Button>
         ) : null}
       </div>

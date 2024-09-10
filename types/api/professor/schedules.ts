@@ -1,4 +1,5 @@
 import { Schedule, User } from '@/types/database';
+import { PaginatedRequest, PaginatedResponse } from '@/types/general';
 
 export interface ProfessorSchedulesRouteParams extends Pick<User, 'id'> {}
 interface ProfessorSchedulesSchedule
@@ -21,6 +22,6 @@ interface ProfessorSchedulesSchedule
     | 'courseId'
     | 'satisfiesArea'
   > {}
-export interface ProfessorSchedulesResponse {
-  schedules: ProfessorSchedulesSchedule[];
-}
+export interface ProfessorSchedulesRouteBody extends PaginatedRequest {}
+export interface ProfessorSchedulesRouteResponse
+  extends PaginatedResponse<ProfessorSchedulesSchedule> {}

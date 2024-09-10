@@ -11,11 +11,16 @@ type ProfessorSearch = ProfessorSearchRouteResponse['items'][number];
 const SearchResult: React.FC<ProfessorSearch> = ({
   id,
   name,
-  overall,
-  grade,
-  totalReviews,
-  takeAgain,
+  //overall,
+  //grade,
+  //totalReviews,
+  //takeAgain,
 }) => {
+  // TODO - get actual data for these
+  const overall = 1;
+  const grade = 'A';
+  const totalReviews = -1;
+  const takeAgain = 85.2;
   return (
     <div className="flex min-w-min gap-[10px] rounded-lg p-[10px] default-border max-lg:w-full max-lg:flex-col">
       <div className="flex min-h-fit flex-1 gap-[20px]">

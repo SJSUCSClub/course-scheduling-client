@@ -1,11 +1,10 @@
 import {
+  ProfessorReviewsRouteBody,
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteResponse,
-  ProfessorReviewsRouteBody,
 } from '@/types/api/professor/reviews';
 import { TagType } from '@/types/general';
 import { FakeResponseFunctionType } from '@/utils/fake-fetch';
-import fuzzySearch from '@/utils/fuzzy-search';
 import getPaginatedItems from '@/utils/get-paginated-items';
 
 type ProfessorReview = ProfessorReviewsRouteResponse['items'][number];
@@ -20,6 +19,7 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
       createdAt: 'August 19, 2002',
       courseNumber: '132',
       department: 'CMPE',
+      name: 'John Doe',
       content:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'.slice(
           0,
@@ -27,19 +27,22 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
         ),
       quality,
       ease,
-      overall: Math.max(0.5, Math.ceil(((quality + ease) / 2) * 10) / 10),
+      //overall: Math.max(0.5, Math.ceil(((quality + ease) / 2) * 10) / 10),
       grade: k % 3 === 0 ? 'A+' : k % 2 === 0 ? 'C-' : 'F',
       takeAgain: k % 2 === 0,
       tags:
         k % 5 === 0
-          ? ['Easy grader', 'Funny']
-          : ['Easy grader', 'Tough grader'],
-      courseId: 'CMPE132',
+          ? ['Caring', 'Extra Credit']
+          : ['Extra Credit', 'Tough Grader'],
+      //courseId: 'CMPE132',
       isUserAnonymous: k % 5 === 0,
-      userId: 1,
-      upvotes: k,
-      userName: 'John Doe',
-      professorId: k % 2 === 0 ? 2 : 3,
+      userId: '1',
+      votes: {
+        upvotes: k,
+        downvotes: 0,
+      },
+      username: 'John Doe',
+      professorId: k % 2 === 0 ? '2' : '3',
     };
   },
 );
@@ -47,13 +50,9 @@ const reviews: ProfessorReview[] = Array.from<undefined, ProfessorReview>(
 export const response: FakeResponseFunctionType<
   ProfessorReviewsRouteParams,
   ProfessorReviewsRouteBody
-> = (
-  { id, itemsPerPage, page },
-  { filters },
-): ProfessorReviewsRouteResponse => {
-  const result = reviews
-    .filter((review) => {
-      if (filters?.search) {
+> = ({ id }, { tags, page, limit }): ProfessorReviewsRouteResponse => {
+  const result = reviews.filter((review) => {
+    /*if (filters?.search) {
         const wordsArray = review.content
           .toLowerCase()
           .replace(/[^a-zA-Z0-9 ]/g, ' ')
@@ -63,23 +62,23 @@ export const response: FakeResponseFunctionType<
         if (fuzzySearch(searchQuery, wordsArray, 2).length === 0) {
           return false;
         }
+      }*/
+    if (tags?.length) {
+      if (!tags.every((tag) => review.tags.includes(tag))) {
+        return false;
       }
-      if (filters?.tags?.length) {
-        if (!filters.tags.every((tag) => review.tags.includes(tag))) {
-          return false;
-        }
-      }
-      if (filters?.courses?.length) {
+    }
+    /*if (filters?.courses?.length) {
         if (!filters.courses.includes(review.courseId)) {
           return false;
         }
-      }
-      if (id !== review.professorId) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
+      }*/
+    if (id !== review.professorId) {
+      return false;
+    }
+    return true;
+  });
+  /*.sort((a, b) => {
       if (filters?.sort === 'newest') {
         return (
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -91,7 +90,7 @@ export const response: FakeResponseFunctionType<
       } else {
         return b.upvotes - a.upvotes;
       }
-    });
+    });*/
   const tagFilters = new Map<TagType, number>();
   result.forEach((review) => {
     review.tags.forEach((tag) => {
@@ -101,12 +100,19 @@ export const response: FakeResponseFunctionType<
   });
   const courseFilters = new Map<string, number>();
   result.forEach((review) => {
-    const currentCount = courseFilters.get(review.courseId) ?? 0;
-    courseFilters.set(review.courseId, currentCount + 1);
+    const currentCount =
+      courseFilters.get(review.department + review.courseNumber) ?? 0;
+    courseFilters.set(
+      review.department + review.courseNumber,
+      currentCount + 1,
+    );
   });
   return {
-    totalReviews: result.length,
+    totalResults: result.length,
     filters: {
+      tags: Array.from(tagFilters.entries()).map(([tag, count]) => tag),
+    },
+    /*filters: {
       search: filters?.search ?? '',
       sort: filters?.sort ?? 'relevant',
       tags: Array.from(tagFilters.entries()).map(([tag, count]) => ({
@@ -117,11 +123,13 @@ export const response: FakeResponseFunctionType<
         course,
         count,
       })),
-    },
+    },*/
     ...getPaginatedItems<ProfessorReview>({
       items: result,
-      itemsPerPage,
-      page,
+      itemsPerPage: limit,
+      page: page || 0,
     }),
+    page: page || 1,
+    pages: Math.ceil(result.length / (limit || 3)),
   };
 };

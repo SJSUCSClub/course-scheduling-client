@@ -7,6 +7,7 @@ import {
   RatingDistributionType,
 } from '@/types/general';
 
+export interface CourseSummaryRouteBody {}
 export interface CourseSummaryRouteParams extends CourseIDType {}
 export interface CourseSummaryRouteResponse
   extends AvgReviewType,

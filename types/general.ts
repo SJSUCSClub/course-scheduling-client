@@ -80,9 +80,11 @@ export type PaginatedRequest = {
   page?: number;
   limit?: 3 | 10 | 20 | 50;
 };
-export type PaginatedResponse = {
-  total_results: number;
+export type PaginatedResponse<T> = {
+  totalResults: number;
   pages: number; // total pages
+  page: number; // current page
+  items: T[];
 };
 export type GenericScheduleType = Pick<
   Schedule,
@@ -121,6 +123,7 @@ export type AvgReviewType = {
   avgGrade: GradeType;
 };
 export type CourseIDType = Pick<Course, 'courseNumber' | 'department'>;
+export type ProfessorIDType = Pick<User, 'id'>;
 export type RequestBodyType = object;
 export type RequestParamsType<P> = {
   [K in keyof P]: P[K] extends string | number | boolean | undefined | null

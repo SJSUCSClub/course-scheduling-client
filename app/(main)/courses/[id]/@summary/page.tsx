@@ -9,11 +9,12 @@ import LineChart from '@/components/line-chart';
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
 import {
+  CourseSummaryRouteBody,
   CourseSummaryRouteParams,
   CourseSummaryRouteResponse,
 } from '@/types/api/course/summary';
-import fakeFetch from '@/utils/fake-fetch';
 import getEvaluation from '@/utils/get-evaluation';
+import serverFetch from '@/utils/server-fetch';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
@@ -28,39 +29,41 @@ export default async function Page({
   params: { id: string };
   searchParams: { sort: string };
 }) {
-  const courseSummary = await fakeFetch<
+  const [department, courseNumber] = params.id.split('-');
+  const courseSummary = await serverFetch<
     CourseSummaryRouteResponse,
+    CourseSummaryRouteBody,
     CourseSummaryRouteParams
   >({
-    endpoint: '/course/summary',
-    params: { courseId: params.id },
-    timeout: 1000,
+    endpoint: '/courses/summary',
+    params: {
+      courseNumber: courseNumber,
+      department: department,
+    },
   });
-
   if (!courseSummary) notFound();
 
   const {
-    department,
-    courseNumber,
     satisfiesArea,
     prereqs,
     description,
-    openSections,
-    totalSections,
     totalReviews,
     name,
     units,
-    quality,
-    ease,
-    grade,
-    overall,
+    avgQuality,
+    avgEase,
+    avgGrade,
+    avgRating,
     qualityDistribution,
     gradeDistribution,
     easeDistribution,
     tags,
-    takeAgain,
-    overallDistribution,
+    takeAgainPercent,
+    ratingDistribution,
   } = courseSummary;
+  // TODO - figure out what to do besides hardcode
+  const openSections = 0;
+  const totalSections = 0;
 
   const type = searchParams.sort;
   return (
@@ -76,7 +79,14 @@ export default async function Page({
           department={department}
           courseNumber={courseNumber}
           name={name}
-          rating={type == 'quality' ? quality : type == 'ease' ? ease : overall}
+          rating={
+            // round to 1 decimal place
+            type == 'quality'
+              ? Math.round(avgQuality * 10) / 10
+              : type == 'ease'
+              ? Math.round(avgEase * 10) / 10
+              : Math.round(avgRating * 10) / 10
+          }
           totalReviews={totalReviews}
           units={units}
         />
@@ -89,22 +99,22 @@ export default async function Page({
             subtitle="Sections Open"
           />
           <InfoCard
-            type={grade ? getEvaluation(grade, 'grade') : 'default'}
+            type={avgGrade ? getEvaluation(avgGrade, 'grade') : 'default'}
             icon={<ClipboardDocumentListIcon />}
-            title={grade ?? '-'}
+            title={avgGrade ?? '-'}
             subtitle="Average Grade"
           />
           <InfoCard
-            type={getEvaluation(takeAgain, 'percentage')}
+            type={getEvaluation(takeAgainPercent, 'percentage')}
             icon={<ArrowPathIcon />}
-            title={`${takeAgain}%`}
+            title={`${takeAgainPercent}%`}
             subtitle="Would Take Again"
           />
         </div>
       </div>
 
       <div className="flex min-w-min flex-wrap justify-center gap-[10px]">
-        {tags.map((tag) => (
+        {(tags || []).map((tag) => (
           <Tag key={tag} size="lg">
             {tag}
           </Tag>
@@ -130,7 +140,7 @@ export default async function Page({
                   ? qualityDistribution
                   : type === 'ease'
                   ? easeDistribution
-                  : overallDistribution
+                  : ratingDistribution
               }
             />
           </div>

@@ -15,23 +15,29 @@ const SearchResult: React.FC<CourseSearch> = ({
   department,
   courseNumber,
   name,
-  takeAgain,
-  totalReviews,
-  professors,
-  grade,
-  overall,
-  totalSections,
-  openSections,
+  // takeAgain,
+  // totalReviews,
+  // professors,
+  // grade,
+  // overall,
+  // totalSections,
+  // openSections,
   units,
   satisfiesArea,
 }) => {
+  // TODO - put real values here
+  const professors: any[] = [];
+  const grade = 'A';
+  const overall = 5;
+  const takeAgain = 80.5;
+  const totalReviews = 0;
   return (
     <div className="flex min-w-min gap-[10px] rounded-lg p-[10px] default-border max-lg:w-full max-lg:flex-col">
       {/** Info */}
       <div className="flex min-h-[100px] flex-1 flex-1 flex-col items-start justify-between p-[10px]">
         {/**Header */}
         <Link
-          href={`/courses/${department.toLowerCase()}${courseNumber}`}
+          href={`/courses/${department.toUpperCase()}-${courseNumber}`}
           className="flex flex-1 flex-col items-start gap-[3px]"
         >
           <div>
@@ -59,12 +65,14 @@ const SearchResult: React.FC<CourseSearch> = ({
             <span
               style={{
                 color: `rgb(var(--color-${getEvaluation(
-                  (openSections / totalSections) * 100,
+                  // TODO - put real values here
+                  (0 / 1) * 100,
                   'percentage',
                 )}))`,
               }}
             >
-              {openSections}/{totalSections} Open Sections
+              {/* TODO - put real values here */}
+              {0}/{1} Open Sections
             </span>
             {totalReviews ? ' • ' + `${totalReviews} Review` : null}
             {units ? ` •  ${units} Units` : null}

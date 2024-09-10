@@ -19,3 +19,4 @@ export interface ProfessorSummaryRouteResponse
   takeAgainPercent: PercentageType;
 }
 export interface ProfessorSummaryRouteParams extends Pick<User, 'id'> {}
+export interface ProfessorSummaryRouteBody {}

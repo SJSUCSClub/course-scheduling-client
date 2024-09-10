@@ -1,25 +1,30 @@
 import PaginatedSchedules from '@/app/(main)/professors/[id]/@schedules/paginated-schedules';
-import SectionLabel from '@/components/section-label';
 import {
+  ProfessorSchedulesRouteBody,
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const initialPaginatedSchedules = await fakeFetch<
+  const initialPaginatedSchedules = await serverFetch<
     ProfessorSchedulesRouteResponse,
+    ProfessorSchedulesRouteBody,
     ProfessorSchedulesRouteParams
   >({
-    endpoint: '/professor/schedules',
-    params: { itemsPerPage: 4, page: 0, professorId: Number(params.id) },
+    endpoint: '/professors/schedules',
+    body: {
+      limit: 3,
+      page: 1,
+    },
+    params: { id: params.id },
     timeout: 2000,
   });
 
   return (
     <PaginatedSchedules
       initialPaginatedItems={initialPaginatedSchedules}
-      professorId={Number(params.id)}
+      professorId={params.id}
     />
   );
 }

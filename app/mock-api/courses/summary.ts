@@ -13,29 +13,30 @@ const courses: CourseSummaryRouteResponse[] = [
     prereqs: 'CMPE 126',
     units: '3',
     satisfiesArea: 'Area G',
-    openSections: 3,
-    totalSections: 5,
-    quality: 4,
-    ease: 1,
-    overall: 3,
-    grade: 'A-',
-    overallDistribution: [11, 5, 1, 7, 23],
+    //openSections: 3,
+    //totalSections: 5,
+    avgQuality: 4,
+    avgEase: 1,
+    avgRating: 3,
+    avgGrade: 'A-',
+    ratingDistribution: [11, 5, 1, 7, 23],
     qualityDistribution: [4, 3, 2, 9, 29],
     easeDistribution: [2, 15, 11, 20, 9],
-    gradeDistribution: [2, 15, 11, 20, 9],
+    gradeDistribution: [2, 15, 11, 20, 9, 0, 0, 0, 0, 0, 0, 0, 0],
     totalReviews: 47,
-    takeAgain: 52,
-    tags: ['Easy grader', 'Funny', 'Lots of assignments', 'Tough grader'],
+    takeAgainPercent: 52,
+    tags: ['Tough Grader', 'Test Heavy'],
   },
 ];
 
 export const response = ({
-  courseId,
+  courseNumber,
+  department,
 }: CourseSummaryRouteParams): CourseSummaryRouteResponse | null => {
   const course = courses.find(
     (course) =>
       (course.department + course.courseNumber).toLowerCase() ===
-      courseId.toLowerCase(),
+      (department + courseNumber).toLowerCase(),
   );
   if (!course) {
     return null;
