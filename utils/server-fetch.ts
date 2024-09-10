@@ -84,16 +84,15 @@ const serverFetch = <
   Params = {},
 >({
   endpoint,
-  timeout,
+  timeout, // TODO - make timeout do something
   params,
   body,
 }: ServerFetchOptions<Body, Params>): Promise<Data> =>
   new Promise<Data>((resolve) => {
     // route params provided, so use them
     const [_, base, section] = endpoint.split('/');
-    // TODO - figure out what to do if this is running on the client
-    // which will not have a BACKEND_URL (currently is hardcoded to localhost)
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000/core';
+    // TODO - should this link not be available to the public?
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || '';
     var url;
     if (Object.keys(params || {}).length > 0) {
       if (endpoint.indexOf('courses') !== -1) {
