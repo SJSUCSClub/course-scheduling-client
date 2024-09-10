@@ -91,9 +91,11 @@ const serverFetch = <
   new Promise<Data>((resolve) => {
     // route params provided, so use them
     const [_, base, section] = endpoint.split('/');
+    // TODO - figure out what to do if this is running on the client
+    // which will not have a BACKEND_URL (currently is hardcoded to localhost)
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000/core';
     var url;
-    if (params) {
+    if (Object.keys(params || {}).length > 0) {
       if (endpoint.indexOf('courses') !== -1) {
         url = new URL(
           [
@@ -117,7 +119,17 @@ const serverFetch = <
       url = new URL(backendUrl + endpoint);
     }
     for (const [key, value] of Object.entries(body || {})) {
-      url.searchParams.set(key, value as string);
+      if (value !== undefined && value !== null) {
+        // workaround because our backend is django and it doesn't support arrays,
+        // so we just have to "append" the same key multiple times
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            url.searchParams.append(key, v);
+          }
+        } else {
+          url.searchParams.append(key, value as string);
+        }
+      }
     }
     resolve(
       fetch(url.href, {

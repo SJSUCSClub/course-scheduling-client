@@ -6,7 +6,7 @@ import {
   CourseSearchRouteParams,
   CourseSearchRouteResponse,
 } from '@/types/api/course/search';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export const metadata: Metadata = {
   title: 'Search Results',
@@ -26,17 +26,19 @@ export default async function Page({
     units?: string;
   };
 }) {
-  const searchResults = await fakeFetch<
+  const searchResults = await serverFetch<
     CourseSearchRouteResponse,
     CourseSearchRouteBody,
     CourseSearchRouteParams
   >({
-    endpoint: '/course/search',
-    params: {
-      itemsPerPage: 4,
-      page: Math.max(Number(searchParams?.page) - 1, 0) || 0,
-    },
+    endpoint: '/courses/search',
+    params: {},
     body: {
+      page: Number(searchParams?.page) || 1,
+      search: searchParams?.query,
+      department: searchParams?.departments,
+      limit: 3,
+      /*
       filters: {
         search: searchParams?.query,
         sort: searchParams?.sort as any,
@@ -44,13 +46,16 @@ export default async function Page({
         departments: JSON.parse(searchParams?.departments ?? '[]'),
         satisfies: JSON.parse(searchParams?.satisfies ?? '[]'),
         units: JSON.parse(searchParams?.units ?? '[]'),
-      },
+      },*/
     },
     timeout: 2000,
   });
   return (
     <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <Results searchResults={searchResults} />
+      <Results
+        searchResults={searchResults}
+        query={searchParams?.query || ''}
+      />
     </main>
   );
 }

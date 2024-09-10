@@ -8,25 +8,24 @@ import {
   ParamsTagCheckboxGroup,
   TagCheckbox,
 } from '@/components/forms/tag-checkbox';
-import { ParamsSearch } from '@/components/forms/text-input';
 import PaginationButtons from '@/components/pagination';
 import SectionLabel from '@/components/section-label';
 import { CourseSearchRouteResponse } from '@/types/api/course/search';
 import { SearchResultSortType } from '@/types/general';
 
 const Results: React.FC<{
+  query: string;
   searchResults: CourseSearchRouteResponse | null;
-}> = ({ searchResults }) => {
+}> = ({ query, searchResults }) => {
   const [loading, setLoading] = React.useState(false);
   return (
     <section className="flex flex-col gap-[10px] pb-[10px]">
-      <h3 className="py-[10px]">
-        Search results for {`"${searchResults?.filters.search}"`}
-      </h3>
+      <h3 className="py-[10px]">Search results for {`"${query}"`}</h3>
       <div className="flex items-stretch gap-[10px]">
         <div className="w-[250px] max-lg:hidden">
           <div className="sticky top-0 flex max-h-[100dvh] w-full flex-col gap-[10px] overflow-y-auto">
             <SectionLabel>Filters</SectionLabel>
+            {/* TODO - pass this data
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -45,6 +44,7 @@ const Results: React.FC<{
                 )) as React.ReactNode[]
               }
             </ParamsTagCheckboxGroup>
+            */}
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -52,19 +52,18 @@ const Results: React.FC<{
               param="departments"
             >
               {
-                searchResults?.filters.departments.map(
-                  ({ department, count, ...rest }) => (
-                    <TagCheckbox
-                      key={department}
-                      value={department}
-                      count={count}
-                    >
-                      {department}
-                    </TagCheckbox>
-                  ),
-                ) as React.ReactNode[]
+                searchResults?.filters.departments.map((value) => (
+                  <TagCheckbox
+                    key={value}
+                    value={value}
+                    count={-1} // TODO - add this data
+                  >
+                    {value}
+                  </TagCheckbox>
+                )) as React.ReactNode[]
               }
             </ParamsTagCheckboxGroup>
+            {/* TODO - fill this out }
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -80,7 +79,8 @@ const Results: React.FC<{
                   ),
                 ) as React.ReactNode[]
               }
-            </ParamsTagCheckboxGroup>
+            </ParamsTagCheckboxGroup> */}
+            {/* TODO - fill this out }
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -100,7 +100,7 @@ const Results: React.FC<{
                   ),
                 ) as React.ReactNode[]
               }
-            </ParamsTagCheckboxGroup>
+            </ParamsTagCheckboxGroup> */}
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-[10px] pb-[10px]">
@@ -142,7 +142,7 @@ const Results: React.FC<{
         <PaginationButtons
           totalPages={
             searchResults?.totalResults
-              ? Math.ceil(searchResults?.totalResults / 4)
+              ? Math.ceil(searchResults?.totalResults / 3) // 3 because that's limit per page
               : 0
           }
         />

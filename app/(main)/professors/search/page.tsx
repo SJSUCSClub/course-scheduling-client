@@ -2,14 +2,12 @@
 import { Metadata } from 'next';
 
 import Results from '@/app/(main)/professors/search/results';
-import Dropdown from '@/components/forms/dropdown';
-import SectionLabel from '@/components/section-label';
 import {
-  ProfessorSearchRouteBody,
-  ProfessorSearchRouteParams,
-  ProfessorSearchRouteResponse,
+  ProfessorSearchBody,
+  ProfessorSearchParams,
+  ProfessorSearchResponse,
 } from '@/types/api/professor/search';
-import fakeFetch from '@/utils/fake-fetch';
+import serverFetch from '@/utils/server-fetch';
 
 export const metadata: Metadata = {
   title: 'Search Results',
@@ -26,28 +24,31 @@ export default async function Page({
     coursesInSession?: string;
   };
 }) {
-  const searchResults = await fakeFetch<
-    ProfessorSearchRouteResponse,
-    ProfessorSearchRouteBody,
-    ProfessorSearchRouteParams
+  const searchResults = await serverFetch<
+    ProfessorSearchResponse,
+    ProfessorSearchBody,
+    ProfessorSearchParams
   >({
-    endpoint: '/professor/search',
-    params: {
-      itemsPerPage: 10,
-      page: Math.max(Number(searchParams?.page) - 1, 0) || 0,
-    },
+    endpoint: '/professors/search',
+    params: {},
     body: {
-      filters: {
+      page: Number(searchParams?.page) || 1, // 1-indexed
+      limit: 3,
+      search: searchParams?.query,
+      /*filters: {
         search: searchParams?.query,
         sort: searchParams?.sort as any,
         coursesInSession: JSON.parse(searchParams?.coursesInSession ?? '[]'),
-      },
+      },*/
     },
     timeout: 2000,
   });
   return (
     <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <Results searchResults={searchResults} />
+      <Results
+        searchResults={searchResults}
+        query={searchParams?.query || ''}
+      />
     </main>
   );
 }
