@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   async rewrites() {
     return [
-      {"source": "/api/core/:slug*", "destination": `${process.env.BACKEND_URL}/:slug*/`}
+      {"source": "/api/core/:slug*", "destination": `${process.env.BACKEND_URL||''}/:slug*/`}
     ]
   },
   skipTrailingSlashRedirect: true,

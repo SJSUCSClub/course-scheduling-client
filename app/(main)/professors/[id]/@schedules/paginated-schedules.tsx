@@ -73,7 +73,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({
               `${units} units`,
               classType,
             ]}
-            href={`/courses/${department}${courseNumber}`}
+            href={`/courses/${department}-${courseNumber}`}
             {...rest}
             // TODO - get real data for this
             overall={-1}
