@@ -6,7 +6,7 @@ import {
   CourseSearchRouteParams,
   CourseSearchRouteResponse,
 } from '@/types/api/course/search';
-import serverFetch from '@/utils/server-fetch';
+import { serverFetch } from '@/utils/fetches';
 
 export const metadata: Metadata = {
   title: 'Search Results',

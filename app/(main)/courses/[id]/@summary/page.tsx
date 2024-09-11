@@ -13,8 +13,8 @@ import {
   CourseSummaryRouteParams,
   CourseSummaryRouteResponse,
 } from '@/types/api/course/summary';
+import { serverFetch } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
-import serverFetch from '@/utils/server-fetch';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,

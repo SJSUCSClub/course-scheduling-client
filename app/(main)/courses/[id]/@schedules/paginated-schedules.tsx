@@ -1,20 +1,41 @@
 'use client';
 
 import React, { useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { Fetcher } from 'swr';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
 import SectionLabel from '@/components/section-label';
-import { CourseSchedulesRouteResponse } from '@/types/api/course/schedules';
+import {
+  CourseSchedulesRouteBody,
+  CourseSchedulesRouteParams,
+  CourseSchedulesRouteResponse,
+} from '@/types/api/course/schedules';
+import { clientFetch } from '@/utils/fetches';
 
-interface SchedulePageProps {
+const useCourseSchedules = (
+  params: CourseSchedulesRouteParams,
+  body: CourseSchedulesRouteBody,
+) =>
+  useSWR<CourseSchedulesRouteResponse>(['/courses/schedules', params, body], (([
+    url,
+    p,
+    b,
+  ]: [any, any, any]) =>
+    clientFetch<
+      CourseSchedulesRouteResponse,
+      CourseSchedulesRouteBody,
+      CourseSchedulesRouteParams
+    >({
+      endpoint: url,
+      params: p,
+      body: b,
+    })) as Fetcher<CourseSchedulesRouteResponse>);
+interface SchedulePageProps
+  extends CourseSchedulesRouteParams,
+    CourseSchedulesRouteBody {
   loadMore: () => void;
   isLastPage: boolean;
-  page: number;
-  department: string;
-  courseNumber: string;
-  limit: number;
 }
 const SchedulePage: React.FC<SchedulePageProps> = ({
   loadMore,
@@ -24,14 +45,9 @@ const SchedulePage: React.FC<SchedulePageProps> = ({
   courseNumber,
   limit,
 }) => {
-  const { data, error, isLoading } = useSWR<CourseSchedulesRouteResponse>(
-    `/api/core/courses/${department.toUpperCase()}-${courseNumber}/schedules?page=${page}&limit=${limit}`,
-    (key: string) =>
-      fetch(process.env.NEXT_PUBLIC_FRONTEND_URL + key, {
-        headers: {
-          'ngrok-skip-browser-warning': '***',
-        },
-      }).then((resp) => resp.json()),
+  const { data, error } = useCourseSchedules(
+    { department, courseNumber },
+    { page, limit },
   );
 
   // display data

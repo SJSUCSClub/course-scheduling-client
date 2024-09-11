@@ -1,5 +1,8 @@
 /***********************************************
- * This file is used to make a real fetch request to a server.
+ * This file is used to make a real fetch request from the server
+ * Fetch requests from the client should be made w/ useSWR instead
+ * of this function. This function was defined PURELY for use on
+ * the server side (since SWR is not available on the server).
  ***********************************************/
 
 import {
@@ -78,7 +81,7 @@ const formatResponse: (response: any) => any = (response: any) => {
  * console.log(response); // 'Hello, numero 1! My name is John'
  * ```
  */
-const serverFetch = <
+export const serverFetch = <
   Data,
   Body extends RequestBodyType = RequestBodyType,
   Params = {},
@@ -91,8 +94,10 @@ const serverFetch = <
   new Promise<Data>((resolve) => {
     // route params provided, so use them
     const [_, base, section] = endpoint.split('/');
-    // TODO - should this link not be available to the public?
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+    const backendUrl = process.env.BACKEND_URL;
+    if (backendUrl === undefined) {
+      throw new Error('BACKEND_URL is not defined');
+    }
     var url;
     if (Object.keys(params || {}).length > 0) {
       if (endpoint.indexOf('courses') !== -1) {
@@ -139,4 +144,84 @@ const serverFetch = <
     );
   });
 
-export default serverFetch;
+/**
+ * Makes a fetch request to a server from the client.
+ *
+ * @param endpoint - The endpoint name.
+ * @param timeout - The request timeout. Defaults to 5000ms.
+ * @param params - The request parameters.
+ * @param body - The request body.
+ * @returns The response from the server.
+ *
+ * @example
+ * ```ts
+ * // app/page.tsx
+ * const response = await serverFetch<string, { id: string }, { name: string }>({
+ *  endpoint: '/hello-world',
+ *  timeout: 2000,
+ *  params: { id: '1' },
+ *  body: { name: 'John' },
+ * });
+ * console.log(response); // 'Hello, numero 1! My name is John'
+ * ```
+ */
+export const clientFetch = <
+  Data,
+  Body extends RequestBodyType = RequestBodyType,
+  Params = {},
+>({
+  endpoint,
+  timeout, // TODO - make timeout do something
+  params,
+  body,
+}: ServerFetchOptions<Body, Params>): Promise<Data> =>
+  new Promise<Data>((resolve) => {
+    // route params provided, so use them
+    const [_, base, section] = endpoint.split('/');
+    const backendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL + '/api/core/';
+    var url;
+    if (Object.keys(params || {}).length > 0) {
+      if (endpoint.indexOf('courses') !== -1) {
+        url = new URL(
+          [
+            backendUrl,
+            base,
+            formatCourseParams(params as CourseIDType),
+            section,
+          ].join('/'),
+        );
+      } else {
+        url = new URL(
+          [
+            backendUrl,
+            base,
+            formatProfessorParams(params as ProfessorIDType),
+            section,
+          ].join('/'),
+        );
+      }
+    } else {
+      url = new URL(backendUrl + endpoint);
+    }
+    for (const [key, value] of Object.entries(body || {})) {
+      if (value !== undefined && value !== null) {
+        // workaround because our backend is django and it doesn't support arrays,
+        // so we just have to "append" the same key multiple times
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            url.searchParams.append(key, v);
+          }
+        } else {
+          url.searchParams.append(key, value as string);
+        }
+      }
+    }
+    resolve(
+      fetch(url.href, {
+        method: 'GET',
+        headers: { 'ngrok-skip-browser-warning': '***' },
+      })
+        .then((resp) => resp.json())
+        .then((resp) => formatResponse(resp) as Data),
+    );
+  });
