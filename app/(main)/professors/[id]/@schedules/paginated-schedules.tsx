@@ -1,49 +1,56 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import useSWR, { Fetcher } from 'swr';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
 import SectionLabel from '@/components/section-label';
-import usePaginatedItems from '@/hooks/use-paginated-items';
-import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
   ProfessorSchedulesRouteBody,
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import serverFetch from '@/utils/server-fetch';
+import { clientFetch } from '@/utils/fetches';
 
-const PaginatedSchedules: React.FC<{
-  initialPaginatedItems: ProfessorSchedulesRouteResponse | null;
-  professorId: string;
-}> = ({ initialPaginatedItems, professorId }) => {
-  const initialFetchRequest = (page: number) =>
-    serverFetch<
-      ProfessorSchedulesRouteResponse,
-      ProfessorSchedulesRouteBody,
-      ProfessorSchedulesRouteParams
-    >({
-      endpoint: '/professors/schedules',
-      body: {
-        page: page,
-        limit: 3,
-      },
-      params: { id: professorId },
-      timeout: 2000,
-    });
-  const { error, loading, wrappedRequest } = useWrappedRequest();
-  const { isEndOfList, paginatedItems, loadMore } =
-    usePaginatedItems<ProfessorSchedulesRouteResponse>({
-      initialPaginatedItems,
-      initialFetchRequest: (page: number) =>
-        wrappedRequest(() => initialFetchRequest(page)),
-    });
+const useProfessorSchedules = (
+  params: ProfessorSchedulesRouteParams,
+  body: ProfessorSchedulesRouteBody,
+) =>
+  useSWR<ProfessorSchedulesRouteResponse>(
+    ['/professors/schedules', params, body],
+    (([url, p, b]: [any, any, any]) =>
+      clientFetch<
+        ProfessorSchedulesRouteResponse,
+        ProfessorSchedulesRouteBody,
+        ProfessorSchedulesRouteParams
+      >({
+        endpoint: url,
+        body: b,
+        params: p,
+      })) as Fetcher<ProfessorSchedulesRouteResponse>,
+  );
 
+interface SchedulePageProps
+  extends ProfessorSchedulesRouteParams,
+    ProfessorSchedulesRouteBody {
+  loadMore: () => void;
+  isLastPage: boolean;
+}
+const SchedulePage: React.FC<SchedulePageProps> = ({
+  loadMore,
+  isLastPage,
+  id,
+  page,
+  limit,
+}) => {
+  const { data, error } = useProfessorSchedules({ id }, { page, limit });
+
+  const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
+  const noMoreItems = isLastPage && page === data?.pages;
   return (
-    <section className="flex flex-col gap-[10px] pb-[10px]">
-      <SectionLabel info="Statistics">Schedule</SectionLabel>
-      {paginatedItems?.items.map((schedule, i) => {
+    <>
+      {data?.items.map((schedule, i) => {
         const {
           courseNumber,
           department,
@@ -72,17 +79,49 @@ const PaginatedSchedules: React.FC<{
             overall={-1}
           />
         );
+        {
+          error && <p>{error.toString()}</p>;
+        }
+        {
+          isLastPage ? (
+            <Button
+              variant="tertiary"
+              disabled={noMoreItems}
+              onClick={loadMore}
+              loading={false}
+            >
+              {noItemsAtAll ? 'No Schedules ;(' : 'Show More'}
+            </Button>
+          ) : null;
+        }
       })}
-      {!isEndOfList ? (
-        <Button
-          variant="tertiary"
-          disabled={paginatedItems?.items.length === 0}
-          onClick={loadMore}
-          loading={loading}
-        >
-          {paginatedItems?.items.length !== 0 ? 'Show More' : 'No Schedules ;('}
-        </Button>
-      ) : null}
+    </>
+  );
+};
+
+const PaginatedSchedules: React.FC<{
+  professorId: string;
+}> = ({ professorId }) => {
+  const [cnt, setCnt] = useState(1);
+  const loadMore = () => setCnt(cnt + 1);
+  const pages = [];
+  for (let i = 1; i <= cnt; ++i) {
+    pages.push(
+      <SchedulePage
+        page={i}
+        limit={3}
+        id={professorId}
+        loadMore={loadMore}
+        isLastPage={i === cnt}
+        key={i}
+      />,
+    );
+  }
+
+  return (
+    <section className="flex flex-col gap-[10px] pb-[10px]">
+      <SectionLabel info="Statistics">Schedule</SectionLabel>
+      {pages}
     </section>
   );
 };

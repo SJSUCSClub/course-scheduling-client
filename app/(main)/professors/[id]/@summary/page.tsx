@@ -17,8 +17,8 @@ import {
   ProfessorSummaryRouteParams,
   ProfessorSummaryRouteResponse,
 } from '@/types/api/professor/summary';
+import { serverFetch } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
-import serverFetch from '@/utils/server-fetch';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,

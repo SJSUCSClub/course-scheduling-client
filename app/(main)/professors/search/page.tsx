@@ -7,7 +7,7 @@ import {
   ProfessorSearchRouteParams,
   ProfessorSearchRouteResponse,
 } from '@/types/api/professor/search';
-import serverFetch from '@/utils/server-fetch';
+import { serverFetch } from '@/utils/fetches';
 
 export const metadata: Metadata = {
   title: 'Search Results',
