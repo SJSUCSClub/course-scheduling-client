@@ -23,76 +23,106 @@ const config: Config = {
       border: 'rgb(var(--color-border)/ 0.5)',
       'hovered-border': 'rgb(var(--color-hovered-border)/ 0.5)',
     },
+    borderRadius: {
+      lg: '22px',
+      md: '14px',
+      sm: '6px',
+      none: '0',
+    },
     fontSize: {
-      subtitle: ['0.813rem', { lineHeight: '1.125rem', fontWeight: 700 }],
-      'out-of': [
-        '40px',
-        { lineHeight: '4.75rem', letterSpacing: '-0.05em', fontWeight: 300 },
+      'h1-mobile-lg': [
+        '2rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
       ],
-      rating: [
-        '72px',
-        { lineHeight: '4.75rem', letterSpacing: '-0.05em', fontWeight: 800 },
+      'h1-mobile-sm': [
+        '1.476rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
       ],
-      'title-bold': [
-        '34px',
-        { lineHeight: '2.563rem', letterSpacing: '-0.05em', fontWeight: 800 },
+      'h2-mobile': [
+        '1.383rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
       ],
-      title: [
-        '34px',
-        { lineHeight: '2.563rem', letterSpacing: '-0.05em', fontWeight: 700 },
+      'h3-mobile': [
+        '1.296rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
       ],
-      heading: ['1.063rem', { lineHeight: '1.375rem', fontWeight: 600 }],
-      subheading: ['0.938rem', { lineHeight: '1.25rem', fontWeight: 300 }],
-      'body-bold': ['1.063rem', { lineHeight: '1.375rem', fontWeight: 700 }],
-      body: ['1.063rem', { lineHeight: '1.375rem', fontWeight: 400 }],
+      'h4-mobile': [
+        '1.215rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h5-mobile': [
+        '1.139rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 400 },
+      ],
+      'h6-mobile': [
+        '1.067rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 400 },
+      ],
+      'h1-desktop-lg': [
+        '4.5rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h1-desktop-sm': [
+        '2.988rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h2-desktop': [
+        '2.488rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h3-desktop': [
+        '2.074rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h4-desktop': [
+        '1.728rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 700 },
+      ],
+      'h5-desktop': [
+        '1.44rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 400 },
+      ],
+      'h6-desktop': [
+        '1.2rem',
+        { lineHeight: '1.15em', letterSpacing: '-0.02em', fontWeight: 400 },
+      ],
       button: [
         '1rem',
-        { letterSpacing: '-0.05em', lineHeight: '1.213rem', fontWeight: 700 },
+        { lineHeight: '1.6em', letterSpacing: '-0.02em', fontWeight: 700 },
       ],
-      tag: ['1rem', { lineHeight: '1.213rem', fontWeight: 400 }],
-      caption: ['0.75rem', { lineHeight: '0.906rem', fontWeight: 400 }],
-    },
-    borderRadius: {
-      lg: '20px',
-      md: '12px',
-      sm: '6px',
+      p: ['1rem', { lineHeight: '1.6em', fontWeight: 400 }],
+      'small-lg': ['0.831rem', { lineHeight: '1.6em', fontWeight: 400 }],
+      'small-lg-bold': ['0.831rem', { lineHeight: '1.6em', fontWeight: 700 }],
+      'small-sm': ['0.694rem', { lineHeight: '1.6em', fontWeight: 400 }],
+      'small-sm-bold': ['0.694rem', { lineHeight: '1.6em', fontWeight: 700 }],
     },
     extend: {
       spacing: {
-        xs: '4px',
-        sm: '8px',
-        md: '16px',
-        lg: '24px',
-        xl: '32px',
-        xxl: '40px',
+        xs: '0.25rem',
+        sm: '0.5rem',
+        md: '1rem',
+        lg: '1.5rem',
+        xl: '2rem',
+        xxl: '2.5rem',
       },
       boxShadow: {
         paper: '0px 4px 17px rgba(0, 0, 0, 0.05)',
       },
       backdropBlur: {
-        10: '17px',
+        default: '17px',
       },
     },
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-unimportant'),
     plugin(({ addUtilities }) => {
       addUtilities({
         '.animation': {
           '@apply transition-all duration-100 ease-in-out': {},
         },
-        '.max-width': {
-          '@apply w-full max-w-[1076px]': {},
-        },
-        '.default-border': {
-          '@apply border-2 border-border': {},
-        },
-        '.default-border-focus': {
-          '@apply border-2 border-primary': {},
-        },
       });
     }),
   ],
 };
+
 export default config;
