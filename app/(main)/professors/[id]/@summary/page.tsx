@@ -12,12 +12,8 @@ import {
 } from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
-import {
-  ProfessorSummaryRouteBody,
-  ProfessorSummaryRouteParams,
-  ProfessorSummaryRouteResponse,
-} from '@/types/api/professor/summary';
-import { serverFetch } from '@/utils/fetches';
+import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
+import { formatResponse } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
 import {
   ArrowPathIcon,
@@ -33,17 +29,11 @@ export default async function Page({
   params: { id: string };
   searchParams: { sort: string };
 }) {
-  const professorSummary: ProfessorSummaryRouteResponse | null =
-    await serverFetch<
-      ProfessorSummaryRouteResponse,
-      ProfessorSummaryRouteBody,
-      ProfessorSummaryRouteParams
-    >({
-      endpoint: '/professors/summary',
-      params: { id: params.id },
-      timeout: 1000,
-    });
-
+  const professorSummary: ProfessorSummaryRouteResponse = await fetch(
+    process.env.BACKEND_URL + `/professors/${params.id}/summary`,
+  )
+    .then((res) => res.json())
+    .then(formatResponse);
   if (!professorSummary) notFound();
 
   const {

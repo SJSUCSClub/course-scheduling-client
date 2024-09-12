@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
 
 import Button, { ButtonBox, ButtonBoxProvider } from '@/components/button';
@@ -20,29 +20,11 @@ import {
   ProfessorReviewsRouteResponse,
 } from '@/types/api/professor/reviews';
 import { SortType, TagType } from '@/types/general';
-import { clientFetch } from '@/utils/fetches';
+import { formatSearchParams } from '@/utils/fetches';
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
-
-const useReviews = (
-  params: ProfessorReviewsRouteParams,
-  body: ProfessorReviewsRouteBody,
-) =>
-  useSWR<ProfessorReviewsRouteResponse>(
-    ['/professors/reviews', params, body],
-    (([url, p, b]: [any, any, any]) =>
-      clientFetch<
-        ProfessorReviewsRouteResponse,
-        ProfessorReviewsRouteBody,
-        ProfessorReviewsRouteParams
-      >({
-        endpoint: url,
-        params: p,
-        body: body,
-      })) as Fetcher<ProfessorReviewsRouteResponse>,
-  );
 
 interface ReviewsPageProps
   extends ProfessorReviewsRouteBody,
@@ -58,7 +40,10 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({
   loadMore,
   isLastPage,
 }) => {
-  const { data, error, isLoading } = useReviews({ id }, { page, limit, tags });
+  const { data, error, isLoading } = useSWR<ProfessorReviewsRouteResponse>([
+    `/professors/${id}/reviews` + formatSearchParams({ page, limit, tags }),
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   // display data
   const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
@@ -135,10 +120,11 @@ const PaginatedReviews: React.FC<{
     handleSetFilters();
   };
 
-  const { data, isLoading } = useReviews(
-    { id: professorId },
-    { page: 1, tags: tags, limit: 3 },
-  );
+  const { data, isLoading } = useSWR<ProfessorReviewsRouteResponse>([
+    `/professors/${professorId}/reviews` +
+      formatSearchParams({ page: 1, tags, limit: 3 }),
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   const pages = [];
   for (let i = 1; i <= cnt; ++i) {

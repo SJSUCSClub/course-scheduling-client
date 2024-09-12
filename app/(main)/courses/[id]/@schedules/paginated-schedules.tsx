@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
@@ -11,26 +11,7 @@ import {
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
-import { clientFetch } from '@/utils/fetches';
 
-const useCourseSchedules = (
-  params: CourseSchedulesRouteParams,
-  body: CourseSchedulesRouteBody,
-) =>
-  useSWR<CourseSchedulesRouteResponse>(['/courses/schedules', params, body], (([
-    url,
-    p,
-    b,
-  ]: [any, any, any]) =>
-    clientFetch<
-      CourseSchedulesRouteResponse,
-      CourseSchedulesRouteBody,
-      CourseSchedulesRouteParams
-    >({
-      endpoint: url,
-      params: p,
-      body: b,
-    })) as Fetcher<CourseSchedulesRouteResponse>);
 interface SchedulePageProps
   extends CourseSchedulesRouteParams,
     CourseSchedulesRouteBody {
@@ -45,10 +26,10 @@ const SchedulePage: React.FC<SchedulePageProps> = ({
   courseNumber,
   limit,
 }) => {
-  const { data, error } = useCourseSchedules(
-    { department, courseNumber },
-    { page, limit },
-  );
+  const { data, error } = useSWR<CourseSchedulesRouteResponse>([
+    `/courses/${department}-${courseNumber}/schedules`,
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   // display data
   const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
@@ -101,7 +82,7 @@ const PaginatedSchedules: React.FC<{
   const loadMore = () => setCnt(cnt + 1);
 
   const pages = [];
-  for (var i = 1; i <= cnt; ++i) {
+  for (let i = 1; i <= cnt; ++i) {
     pages.push(
       <SchedulePage
         key={i}

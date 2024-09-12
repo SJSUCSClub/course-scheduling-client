@@ -3,8 +3,12 @@ const nextConfig = {
   reactStrictMode: false,
   async rewrites() {
     return [
-      {"source": "/api/core/:slug*", "destination": `${process.env.BACKEND_URL||''}/:slug*/`}
-    ]
+      {
+        // match everything except the auth route
+        source: '/api/:root((?!auth).*)/:slug*',
+        destination: `${process.env.BACKEND_URL || ''}/:root/:slug*/`,
+      },
+    ];
   },
   skipTrailingSlashRedirect: true,
 };

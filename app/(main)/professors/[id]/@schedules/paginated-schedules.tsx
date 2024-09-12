@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
@@ -11,25 +11,7 @@ import {
   ProfessorSchedulesRouteParams,
   ProfessorSchedulesRouteResponse,
 } from '@/types/api/professor/schedules';
-import { clientFetch } from '@/utils/fetches';
-
-const useProfessorSchedules = (
-  params: ProfessorSchedulesRouteParams,
-  body: ProfessorSchedulesRouteBody,
-) =>
-  useSWR<ProfessorSchedulesRouteResponse>(
-    ['/professors/schedules', params, body],
-    (([url, p, b]: [any, any, any]) =>
-      clientFetch<
-        ProfessorSchedulesRouteResponse,
-        ProfessorSchedulesRouteBody,
-        ProfessorSchedulesRouteParams
-      >({
-        endpoint: url,
-        body: b,
-        params: p,
-      })) as Fetcher<ProfessorSchedulesRouteResponse>,
-  );
+import { formatSearchParams } from '@/utils/fetches';
 
 interface SchedulePageProps
   extends ProfessorSchedulesRouteParams,
@@ -44,7 +26,10 @@ const SchedulePage: React.FC<SchedulePageProps> = ({
   page,
   limit,
 }) => {
-  const { data, error } = useProfessorSchedules({ id }, { page, limit });
+  const { data, error } = useSWR<ProfessorSchedulesRouteResponse>([
+    `/professors/${id}/schedules` + formatSearchParams({ page, limit }),
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
   const noMoreItems = isLastPage && page === data?.pages;

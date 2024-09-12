@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 import { useDebouncedCallback } from 'use-debounce';
 
 import Button from '@/components/button';
@@ -17,27 +17,8 @@ import {
   CourseReviewsRouteResponse,
 } from '@/types/api/course/reviews';
 import { SortType, TagType } from '@/types/general';
-import { clientFetch } from '@/utils/fetches';
+import { formatSearchParams } from '@/utils/fetches';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-
-const useReviews = (
-  params: CourseReviewsRouteParams,
-  body: CourseReviewsRouteBody,
-) =>
-  useSWR<CourseReviewsRouteResponse>([`/courses/reviews`, params, body], (([
-    url,
-    p,
-    b,
-  ]: [any, any, any]) =>
-    clientFetch<
-      CourseReviewsRouteResponse,
-      CourseReviewsRouteBody,
-      CourseReviewsRouteParams
-    >({
-      endpoint: url,
-      params: p,
-      body: b,
-    })) as Fetcher<CourseReviewsRouteResponse>);
 
 interface ReviewsPageProps
   extends CourseReviewsRouteBody,
@@ -54,10 +35,11 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({
   isLastPage,
   loadMore,
 }) => {
-  const { data, error, isLoading } = useReviews(
-    { courseNumber, department },
-    { page, limit, tags },
-  );
+  const { data, error, isLoading } = useSWR<CourseReviewsRouteResponse>([
+    `/courses/${department}-${courseNumber}/reviews` +
+      formatSearchParams({ page, limit, tags }),
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   // display data
   const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
@@ -151,10 +133,11 @@ const PaginatedReviews: React.FC<{
 
   // initial data used for populating tags;
   // because of caching, shouldn't incur much overhead
-  const { data, error, isLoading } = useReviews(
-    { department: department, courseNumber: courseNumber },
-    { page: 1, limit: 3, tags: tags },
-  );
+  const { data, error, isLoading } = useSWR<CourseReviewsRouteResponse>([
+    `/courses/${department}-${courseNumber}/reviews` +
+      formatSearchParams({ page: 1, limit: 3, tags }),
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
   return (
     <section className="flex items-stretch gap-[10px]">
