@@ -8,13 +8,9 @@ import InfoCard from '@/components/info-card';
 import LineChart from '@/components/line-chart';
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
-import {
-  CourseSummaryRouteBody,
-  CourseSummaryRouteParams,
-  CourseSummaryRouteResponse,
-} from '@/types/api/course/summary';
+import { CourseSummaryRouteResponse } from '@/types/api/course/summary';
+import { formatResponse } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
-import serverFetch from '@/utils/server-fetch';
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
@@ -30,17 +26,12 @@ export default async function Page({
   searchParams: { sort: string };
 }) {
   const [department, courseNumber] = params.id.split('-');
-  const courseSummary = await serverFetch<
-    CourseSummaryRouteResponse,
-    CourseSummaryRouteBody,
-    CourseSummaryRouteParams
-  >({
-    endpoint: '/courses/summary',
-    params: {
-      courseNumber: courseNumber,
-      department: department,
-    },
-  });
+  const courseSummary: CourseSummaryRouteResponse = await fetch(
+    process.env.BACKEND_URL +
+      `/courses/${department.toUpperCase()}-${courseNumber}/summary`,
+  )
+    .then((res) => res.json())
+    .then(formatResponse);
   if (!courseSummary) notFound();
 
   const {
