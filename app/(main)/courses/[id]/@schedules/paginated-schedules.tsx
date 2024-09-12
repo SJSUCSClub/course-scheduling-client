@@ -1,48 +1,42 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import useSWR from 'swr';
 
 import Button from '@/components/button';
 import Schedule from '@/components/schedule/schedule';
 import SectionLabel from '@/components/section-label';
-import usePaginatedItems from '@/hooks/use-paginated-items';
-import useWrappedRequest from '@/hooks/use-wrapped-request';
 import {
   CourseSchedulesRouteBody,
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
-import serverFetch from '@/utils/server-fetch';
 
-const PaginatedSchedules: React.FC<{
-  initialPaginatedItems: CourseSchedulesRouteResponse;
-  department: string;
-  courseNumber: string;
-}> = ({ initialPaginatedItems, department, courseNumber }) => {
-  const initialFetchRequest = (page: number) =>
-    serverFetch<
-      CourseSchedulesRouteResponse,
-      CourseSchedulesRouteBody,
-      CourseSchedulesRouteParams
-    >({
-      endpoint: '/courses/schedules',
-      params: { department: department, courseNumber: courseNumber },
-      body: { page: page, limit: 3 },
-      timeout: 2000,
-    });
-  const { error, loading, wrappedRequest } = useWrappedRequest();
-  const { isEndOfList, paginatedItems, loadMore } =
-    usePaginatedItems<CourseSchedulesRouteResponse>({
-      initialPaginatedItems,
-      initialFetchRequest: (page: number) =>
-        wrappedRequest(() => initialFetchRequest(page)),
-    });
+interface SchedulePageProps
+  extends CourseSchedulesRouteParams,
+    CourseSchedulesRouteBody {
+  loadMore: () => void;
+  isLastPage: boolean;
+}
+const SchedulePage: React.FC<SchedulePageProps> = ({
+  loadMore,
+  isLastPage,
+  page,
+  department,
+  courseNumber,
+  limit,
+}) => {
+  const { data, error } = useSWR<CourseSchedulesRouteResponse>([
+    `/courses/${department}-${courseNumber}/schedules`,
+    { headers: { 'ngrok-skip-browser-warning': '***' } },
+  ]);
 
+  // display data
+  const noItemsAtAll = isLastPage && page === 1 && data?.items.length === 0;
+  const noMoreItems = isLastPage && page === data?.pages;
   return (
-    <section className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      <SectionLabel info="Sessions">Courses in Session</SectionLabel>
-
-      {paginatedItems?.items.map((schedule, i) => {
+    <>
+      {data?.items.map((schedule, i) => {
         const {
           days,
           classType,
@@ -65,17 +59,48 @@ const PaginatedSchedules: React.FC<{
           />
         );
       })}
-      {!isEndOfList ? (
+      {error && <p>{error.toString()}</p>}
+      {isLastPage ? (
         <Button
           variant="tertiary"
-          disabled={paginatedItems?.items.length === 0}
+          disabled={noMoreItems}
           onClick={loadMore}
-          loading={loading}
+          loading={false}
         >
-          {paginatedItems?.items.length !== 0 ? 'Show More' : 'No Schedules ;('}
+          {noItemsAtAll ? 'No Schedules ;(' : 'Show More'}
         </Button>
       ) : null}
-      {error && <p>{error.toString()}</p>}
+    </>
+  );
+};
+
+const PaginatedSchedules: React.FC<{
+  department: string;
+  courseNumber: string;
+}> = ({ department, courseNumber }) => {
+  const [cnt, setCnt] = useState(1);
+  const loadMore = () => setCnt(cnt + 1);
+
+  const pages = [];
+  for (let i = 1; i <= cnt; ++i) {
+    pages.push(
+      <SchedulePage
+        key={i}
+        page={i}
+        loadMore={loadMore}
+        isLastPage={i === cnt}
+        department={department}
+        courseNumber={courseNumber}
+        limit={3}
+      />,
+    );
+  }
+
+  return (
+    <section className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
+      <SectionLabel info="Sessions">Courses in Session</SectionLabel>
+
+      {pages}
     </section>
   );
 };

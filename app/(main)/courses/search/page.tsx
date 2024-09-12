@@ -1,12 +1,8 @@
 import { Metadata } from 'next';
 
 import Results from '@/app/(main)/courses/search/results';
-import {
-  CourseSearchRouteBody,
-  CourseSearchRouteParams,
-  CourseSearchRouteResponse,
-} from '@/types/api/course/search';
-import serverFetch from '@/utils/server-fetch';
+import { CourseSearchRouteResponse } from '@/types/api/course/search';
+import { formatResponse, formatSearchParams } from '@/utils/fetches';
 
 export const metadata: Metadata = {
   title: 'Search Results',
@@ -26,30 +22,27 @@ export default async function Page({
     units?: string;
   };
 }) {
-  const searchResults = await serverFetch<
-    CourseSearchRouteResponse,
-    CourseSearchRouteBody,
-    CourseSearchRouteParams
-  >({
-    endpoint: '/courses/search',
-    params: {},
-    body: {
-      page: Number(searchParams?.page) || 1,
-      search: searchParams?.query,
-      department: searchParams?.departments,
-      limit: 3,
-      /*
-      filters: {
+  const searchResults: CourseSearchRouteResponse = await fetch(
+    process.env.BACKEND_URL +
+      `/courses/search` +
+      formatSearchParams({
+        page: Number(searchParams?.page) || 1,
         search: searchParams?.query,
-        sort: searchParams?.sort as any,
-        professors: JSON.parse(searchParams?.professors ?? '[]'),
-        departments: JSON.parse(searchParams?.departments ?? '[]'),
-        satisfies: JSON.parse(searchParams?.satisfies ?? '[]'),
-        units: JSON.parse(searchParams?.units ?? '[]'),
-      },*/
-    },
-    timeout: 2000,
-  });
+        department: searchParams?.departments,
+        limit: 3,
+        /*
+    filters: {
+      search: searchParams?.query,
+      sort: searchParams?.sort as any,
+      professors: JSON.parse(searchParams?.professors ?? '[]'),
+      departments: JSON.parse(searchParams?.departments ?? '[]'),
+      satisfies: JSON.parse(searchParams?.satisfies ?? '[]'),
+      units: JSON.parse(searchParams?.units ?? '[]'),
+    },*/
+      }),
+  )
+    .then((res) => res.json())
+    .then(formatResponse);
   return (
     <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
       <Results
