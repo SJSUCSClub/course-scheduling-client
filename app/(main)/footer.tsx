@@ -1,9 +1,26 @@
+import Link from 'next/link';
 import React from 'react';
 
 import ACMLogo from '@/components/acm-logo';
 import Discord from '@/components/discord';
 import Instagram from '@/components/instagram';
 import LinkedIn from '@/components/linkedin';
+
+const Socials: React.FC = () => {
+  return (
+    <>
+      <Link href="https://discord.gg/4cXE636ax4">
+        <Discord />
+      </Link>
+      <Link href="https://www.instagram.com/sjsuacm/">
+        <Instagram />
+      </Link>
+      <Link href="https://www.linkedin.com/company/sjsu-computer-science-club/about/">
+        <LinkedIn />
+      </Link>
+    </>
+  );
+};
 
 const Footer: React.FC<{}> = () => {
   return (
@@ -15,9 +32,7 @@ const Footer: React.FC<{}> = () => {
 
       {/* Mobile Socials */}
       <div className="flex h-min flex-row gap-[5px] lg:hidden">
-        <Discord />
-        <Instagram />
-        <LinkedIn />
+        <Socials />
       </div>
 
       {/* Location */}
@@ -28,14 +43,12 @@ const Footer: React.FC<{}> = () => {
         </div>
         <div className="lg:hidden">Room MQH 227, San Jose State University</div>
         <div className="lg:hidden">1 Washington Sq, San Jose, CA 95192</div>
-        <div>Brought to you by ACM-CS@SJSU © 2023</div>
+        <div>Brought to you by ACM-CS@SJSU © 2024</div>
       </div>
 
       {/* Desktop Socials */}
       <div className="flex h-min flex-row gap-[5px] max-lg:hidden">
-        <Discord />
-        <Instagram />
-        <LinkedIn />
+        <Socials />
       </div>
     </footer>
   );
