@@ -11,6 +11,7 @@ import {
   CourseSchedulesRouteParams,
   CourseSchedulesRouteResponse,
 } from '@/types/api/course/schedules';
+import { formatSearchParams } from '@/utils/fetches';
 
 interface SchedulePageProps
   extends CourseSchedulesRouteParams,
@@ -27,7 +28,8 @@ const SchedulePage: React.FC<SchedulePageProps> = ({
   limit,
 }) => {
   const { data, error } = useSWR<CourseSchedulesRouteResponse>([
-    `/courses/${department}-${courseNumber}/schedules`,
+    `/courses/${department}/${courseNumber}/schedules` +
+      formatSearchParams({ page, limit }),
     { headers: { 'ngrok-skip-browser-warning': '***' } },
   ]);
 

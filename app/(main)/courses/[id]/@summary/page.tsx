@@ -7,7 +7,7 @@ import Button from '@/components/button';
 import InfoCard from '@/components/info-card';
 import LineChart from '@/components/line-chart';
 import SectionLabel from '@/components/section-label';
-import Tag from '@/components/tag';
+import { CourseReviewsStatsRouteResponse } from '@/types/api/course/reviews-stats';
 import { CourseSummaryRouteResponse } from '@/types/api/course/summary';
 import { formatResponse } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
@@ -28,11 +28,18 @@ export default async function Page({
   const [department, courseNumber] = params.id.split('-');
   const courseSummary: CourseSummaryRouteResponse = await fetch(
     process.env.BACKEND_URL +
-      `/courses/${department.toUpperCase()}-${courseNumber}/summary`,
+      `/courses/${department.toUpperCase()}/${courseNumber}/summary`,
   )
     .then((res) => res.json())
     .then(formatResponse);
   if (!courseSummary) notFound();
+  const reviewsStats: CourseReviewsStatsRouteResponse = await fetch(
+    process.env.BACKEND_URL +
+      `/courses/${department.toUpperCase()}/${courseNumber}/reviews-stats`,
+  )
+    .then((res) => res.json())
+    .then(formatResponse);
+  if (!reviewsStats) notFound();
 
   const {
     satisfiesArea,
@@ -48,10 +55,9 @@ export default async function Page({
     qualityDistribution,
     gradeDistribution,
     easeDistribution,
-    tags,
     takeAgainPercent,
     ratingDistribution,
-  } = courseSummary;
+  } = { ...courseSummary, ...reviewsStats };
   // TODO - figure out what to do besides hardcode
   const openSections = 0;
   const totalSections = 0;
@@ -102,14 +108,6 @@ export default async function Page({
             subtitle="Would Take Again"
           />
         </div>
-      </div>
-
-      <div className="flex min-w-min flex-wrap justify-center gap-[10px]">
-        {(tags || []).map((tag) => (
-          <Tag key={tag} size="lg">
-            {tag}
-          </Tag>
-        ))}
       </div>
 
       <div className="flex min-w-min flex-wrap justify-center gap-[10px] pt-[10px] text-button">
