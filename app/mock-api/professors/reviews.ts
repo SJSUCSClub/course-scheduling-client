@@ -110,7 +110,9 @@ export const response: FakeResponseFunctionType<
   return {
     totalResults: result.length,
     filters: {
-      tags: Array.from(tagFilters.entries()).map(([tag, count]) => tag),
+      tags: Array.from(tagFilters.entries()).map(([tag, count]) => {
+        return { tag, count };
+      }),
     },
     /*filters: {
       search: filters?.search ?? '',

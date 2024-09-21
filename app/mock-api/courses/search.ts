@@ -134,7 +134,7 @@ export const response: FakeResponseFunctionType<
   CourseSearchRouteBody
 > = (
   {},
-  { limit, page, search, department },
+  { limit, page, query, department },
 ): CourseSearchRouteResponse | null => {
   const result = courses.filter((course) => {
     /*if (filters?.search) {
@@ -269,7 +269,9 @@ export const response: FakeResponseFunctionType<
     },*/
     filters: {
       departments: Array.from(departmentFilters.entries()).map(
-        ([department, count]) => department,
+        ([department, count]) => {
+          return { department, count };
+        },
       ),
     },
     ...getPaginatedItems<CourseSearch>({

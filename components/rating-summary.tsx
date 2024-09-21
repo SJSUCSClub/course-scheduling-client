@@ -3,9 +3,10 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { ButtonBoxProvider, ButtonBox } from '@/components/button';
-import { Popover, PopoverTrigger, PopoverBox } from '@/components/popover';
+import { ButtonBox, ButtonBoxProvider } from '@/components/button';
+import { Popover, PopoverBox, PopoverTrigger } from '@/components/popover';
 import Stars from '@/components/stars';
+import { ProfessorReviewsStatsRouteResponse } from '@/types/api/professor/reviews-stats';
 import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
 import { RatingType } from '@/types/general';
 import getCustomizableComponents from '@/utils/get-customizable-components';
@@ -33,10 +34,8 @@ const Options: React.FC = () => {
 };
 
 interface RatingSummaryProps
-  extends Pick<
-    ProfessorSummaryRouteResponse,
-    'totalReviews' | 'name' | 'email'
-  > {
+  extends Pick<ProfessorSummaryRouteResponse, 'name' | 'email'>,
+    Pick<ProfessorReviewsStatsRouteResponse, 'totalReviews'> {
   rating?: RatingType;
 }
 

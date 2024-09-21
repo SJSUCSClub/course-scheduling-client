@@ -171,7 +171,9 @@ export const response: FakeResponseFunctionType<
     filters: {
       //search: filters?.search ?? '',
       //sort: filters?.sort ?? 'relevant',
-      tags: Array.from(tagFilters.entries()).map(([tag, count]) => tag),
+      tags: Array.from(tagFilters.entries()).map(([tag, count]) => {
+        return { tag, count };
+      }),
       //professors: Array.from(professorFilters.entries()).map(([id, count]) => ({
       //  id,
       //  name: professorNames.get(id) || '',

@@ -85,15 +85,15 @@ const professors: ProfessorSearch[] = [
 export const response: FakeResponseFunctionType<
   ProfessorSearchRouteParams,
   ProfessorSearchRouteBody
-> = ({}, { search, page, limit }): ProfessorSearchRouteResponse | null => {
+> = ({}, { query, page, limit }): ProfessorSearchRouteResponse | null => {
   const result = professors.filter((professor) => {
-    if (search) {
+    if (query) {
       const wordsArray = professor.name
         .toLowerCase()
         .replace(/[^a-zA-Z0-9 ]/g, ' ')
         .trim()
         .split(/\s+/);
-      const searchQuery = search.toLowerCase();
+      const searchQuery = query.toLowerCase();
       if (fuzzySearch(searchQuery, wordsArray, 2).length === 0) {
         return false;
       }

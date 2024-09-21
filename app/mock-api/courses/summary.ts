@@ -15,17 +15,6 @@ const courses: CourseSummaryRouteResponse[] = [
     satisfiesArea: 'Area G',
     //openSections: 3,
     //totalSections: 5,
-    avgQuality: 4,
-    avgEase: 1,
-    avgRating: 3,
-    avgGrade: 'A-',
-    ratingDistribution: [11, 5, 1, 7, 23],
-    qualityDistribution: [4, 3, 2, 9, 29],
-    easeDistribution: [2, 15, 11, 20, 9],
-    gradeDistribution: [2, 15, 11, 20, 9, 0, 0, 0, 0, 0, 0, 0, 0],
-    totalReviews: 47,
-    takeAgainPercent: 52,
-    tags: ['Tough Grader', 'Test Heavy'],
   },
 ];
 
