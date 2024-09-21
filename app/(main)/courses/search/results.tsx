@@ -54,11 +54,11 @@ const Results: React.FC<{
               {
                 searchResults?.filters.departments.map((value) => (
                   <TagCheckbox
-                    key={value}
-                    value={value}
-                    count={-1} // TODO - add this data
+                    key={value.department}
+                    value={value.department}
+                    count={value.count}
                   >
-                    {value}
+                    {value.department}
                   </TagCheckbox>
                 )) as React.ReactNode[]
               }

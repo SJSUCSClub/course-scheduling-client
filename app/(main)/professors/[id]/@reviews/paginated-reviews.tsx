@@ -59,8 +59,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({
             title={`${department}${courseNumber}`}
             href={`courses/${department}${courseNumber}`}
             {...rest}
-            // TODO - get a real value here
-            overall={-1}
+            overall={rest.quality}
             upvotes={rest.votes.upvotes}
             userName={rest.username}
           />
@@ -165,9 +164,8 @@ const PaginatedReviews: React.FC<{
           >
             {
               data?.filters.tags.map((tag) => (
-                // TODO - get an actual value here
-                <TagCheckbox key={tag} value={tag} count={-1}>
-                  {tag}
+                <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
+                  {tag.tag}
                 </TagCheckbox>
               )) as React.ReactNode[]
             }

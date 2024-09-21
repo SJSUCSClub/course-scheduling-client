@@ -87,7 +87,7 @@ const Results: React.FC<{
         <PaginationButtons
           totalPages={
             searchResults?.totalResults
-              ? Math.ceil(searchResults?.totalResults / 4)
+              ? Math.ceil(searchResults?.totalResults / 3)
               : 0
           }
         />

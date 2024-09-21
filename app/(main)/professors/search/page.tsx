@@ -26,7 +26,7 @@ export default async function Page({
       formatSearchParams({
         page: Number(searchParams?.page) || 1, // 1-indexed
         limit: 3,
-        search: searchParams?.query,
+        query: searchParams?.query,
         /*filters: {
           search: searchParams?.query,
           sort: searchParams?.sort as any,

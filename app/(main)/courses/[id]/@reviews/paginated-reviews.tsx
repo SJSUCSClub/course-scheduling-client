@@ -138,7 +138,6 @@ const PaginatedReviews: React.FC<{
       formatSearchParams({ page: 1, limit: 3, tags }),
     { headers: { 'ngrok-skip-browser-warning': '***' } },
   ]);
-  console.log(data);
 
   return (
     <section className="flex items-stretch gap-[10px]">

@@ -12,6 +12,7 @@ import {
 } from '@/components/rating-summary';
 import SectionLabel from '@/components/section-label';
 import Tag from '@/components/tag';
+import { ProfessorReviewsStatsRouteResponse } from '@/types/api/professor/reviews-stats';
 import { ProfessorSummaryRouteResponse } from '@/types/api/professor/summary';
 import { formatResponse } from '@/utils/fetches';
 import getEvaluation from '@/utils/get-evaluation';
@@ -35,6 +36,12 @@ export default async function Page({
     .then((res) => res.json())
     .then(formatResponse);
   if (!professorSummary) notFound();
+  const reviewsStats: ProfessorReviewsStatsRouteResponse = await fetch(
+    process.env.BACKEND_URL + `/professors/${params.id}/reviews-stats`,
+  )
+    .then((res) => res.json())
+    .then(formatResponse);
+  if (!reviewsStats) notFound();
 
   const {
     avgQuality,
@@ -51,7 +58,7 @@ export default async function Page({
     gradeDistribution,
     totalReviews,
     takeAgainPercent,
-  } = professorSummary;
+  } = { ...professorSummary, ...reviewsStats };
 
   const type = searchParams.sort;
 
@@ -93,8 +100,8 @@ export default async function Page({
 
       <div className="flex min-w-min flex-wrap justify-center gap-[10px]">
         {tags.map((tag) => (
-          <Tag key={tag} size="lg">
-            {tag}
+          <Tag key={tag.tag} size="lg">
+            {tag.tag}
           </Tag>
         ))}
       </div>
