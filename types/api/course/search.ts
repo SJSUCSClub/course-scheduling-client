@@ -23,8 +23,18 @@ interface Department {
   department: string;
   count: number;
 }
+interface Units {
+  units: string;
+  count: number;
+}
+interface SatisfiesArea {
+  satisfiesArea: string;
+  count: number;
+}
 interface Filters {
   departments: Department[];
+  units: Units[];
+  satisfiesArea: SatisfiesArea[];
 }
 export interface CourseSearchRouteResponse
   extends PaginatedResponse<CourseSearchCourse> {

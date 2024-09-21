@@ -30,14 +30,14 @@ export default async function Page({
         query: searchParams?.query,
         department: JSON.parse(searchParams?.departments || '[]'),
         limit: 3,
+        units: JSON.parse(searchParams?.units || '[]'),
+        satisfies_area: JSON.parse(searchParams?.satisfies || '[]'),
         /*
     filters: {
       search: searchParams?.query,
       sort: searchParams?.sort as any,
       professors: JSON.parse(searchParams?.professors ?? '[]'),
       departments: JSON.parse(searchParams?.departments ?? '[]'),
-      satisfies: JSON.parse(searchParams?.satisfies ?? '[]'),
-      units: JSON.parse(searchParams?.units ?? '[]'),
     },*/
       }),
   )

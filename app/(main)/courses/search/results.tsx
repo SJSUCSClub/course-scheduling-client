@@ -63,7 +63,6 @@ const Results: React.FC<{
                 )) as React.ReactNode[]
               }
             </ParamsTagCheckboxGroup>
-            {/* TODO - fill this out }
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -71,16 +70,13 @@ const Results: React.FC<{
               param="units"
             >
               {
-                searchResults?.filters.units.map(
-                  ({ units, count, ...rest }) => (
-                    <TagCheckbox key={units} value={units} count={count}>
-                      {units}
-                    </TagCheckbox>
-                  ),
-                ) as React.ReactNode[]
+                searchResults?.filters.units.map(({ units, count }) => (
+                  <TagCheckbox key={units} value={units} count={count}>
+                    {units}
+                  </TagCheckbox>
+                )) as React.ReactNode[]
               }
-            </ParamsTagCheckboxGroup> */}
-            {/* TODO - fill this out }
+            </ParamsTagCheckboxGroup>
             <ParamsTagCheckboxGroup
               loading={loading}
               setLoading={setLoading}
@@ -88,7 +84,7 @@ const Results: React.FC<{
               param="satisfies"
             >
               {
-                searchResults?.filters.satisfies.map(
+                searchResults?.filters.satisfiesArea.map(
                   ({ satisfiesArea, count, ...rest }) => (
                     <TagCheckbox
                       key={satisfiesArea}
@@ -100,7 +96,7 @@ const Results: React.FC<{
                   ),
                 ) as React.ReactNode[]
               }
-            </ParamsTagCheckboxGroup> */}
+            </ParamsTagCheckboxGroup>
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-[10px] pb-[10px]">

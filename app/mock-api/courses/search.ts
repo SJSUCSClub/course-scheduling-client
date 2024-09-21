@@ -229,7 +229,7 @@ export const response: FakeResponseFunctionType<
     const currentCount = departmentFilters.get(course.department) ?? 0;
     departmentFilters.set(course.department, currentCount + 1);
   });
-  /*const unitsFilters = new Map<string, number>();
+  const unitsFilters = new Map<string, number>();
   result.forEach((course) => {
     if (course.units) {
       const currentCount = unitsFilters.get(course.units) ?? 0;
@@ -242,7 +242,7 @@ export const response: FakeResponseFunctionType<
       const currentCount = satisfiesFilters.get(course.satisfiesArea) ?? 0;
       satisfiesFilters.set(course.satisfiesArea, currentCount + 1);
     }
-  });*/
+  });
 
   return {
     totalResults: result.length,
@@ -271,6 +271,14 @@ export const response: FakeResponseFunctionType<
       departments: Array.from(departmentFilters.entries()).map(
         ([department, count]) => {
           return { department, count };
+        },
+      ),
+      units: Array.from(unitsFilters.entries()).map(([units, count]) => {
+        return { units, count };
+      }),
+      satisfiesArea: Array.from(satisfiesFilters.entries()).map(
+        ([satisfiesArea, count]) => {
+          return { satisfiesArea, count };
         },
       ),
     },
