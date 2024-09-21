@@ -36,7 +36,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({
   loadMore,
 }) => {
   const { data, error, isLoading } = useSWR<CourseReviewsRouteResponse>([
-    `/courses/${department}-${courseNumber}/reviews` +
+    `/courses/${department}/${courseNumber}/reviews` +
       formatSearchParams({ page, limit, tags }),
     { headers: { 'ngrok-skip-browser-warning': '***' } },
   ]);
@@ -134,7 +134,7 @@ const PaginatedReviews: React.FC<{
   // initial data used for populating tags;
   // because of caching, shouldn't incur much overhead
   const { data, error, isLoading } = useSWR<CourseReviewsRouteResponse>([
-    `/courses/${department}-${courseNumber}/reviews` +
+    `/courses/${department}/${courseNumber}/reviews` +
       formatSearchParams({ page: 1, limit: 3, tags }),
     { headers: { 'ngrok-skip-browser-warning': '***' } },
   ]);
@@ -163,9 +163,8 @@ const PaginatedReviews: React.FC<{
           >
             {
               data?.filters.tags.map((tag) => (
-                // TODO - put real value, not just -1
-                <TagCheckbox key={tag} value={tag} count={-1}>
-                  {tag}
+                <TagCheckbox key={tag.tag} value={tag.tag} count={tag.count}>
+                  {tag.tag}
                 </TagCheckbox>
               )) as React.ReactNode[]
             }

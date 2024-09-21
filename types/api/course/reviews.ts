@@ -11,8 +11,12 @@ export interface CourseReviewsRouteBody extends PaginatedRequest {
   tags?: TagType[];
   comments?: boolean;
 }
+interface Tag {
+  tag: TagType;
+  count: number;
+}
 interface Filters {
-  tags: TagType[];
+  tags: Tag[];
 }
 interface Votes {
   upvotes: number;

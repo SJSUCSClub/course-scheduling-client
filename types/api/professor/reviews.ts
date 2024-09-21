@@ -7,8 +7,12 @@ export interface ProfessorReviewsRouteBody extends PaginatedRequest {
   comments?: boolean;
 }
 
+interface Tag {
+  tag: TagType;
+  count: number;
+}
 interface Filters {
-  tags: TagType[];
+  tags: Tag[];
 }
 interface Votes {
   upvotes: number;

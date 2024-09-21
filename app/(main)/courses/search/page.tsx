@@ -27,8 +27,8 @@ export default async function Page({
       `/courses/search` +
       formatSearchParams({
         page: Number(searchParams?.page) || 1,
-        search: searchParams?.query,
-        department: searchParams?.departments,
+        query: searchParams?.query,
+        department: JSON.parse(searchParams?.departments || '[]'),
         limit: 3,
         /*
     filters: {

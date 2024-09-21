@@ -2,7 +2,7 @@ import { Course } from '@/types/database';
 import { PaginatedRequest, PaginatedResponse } from '@/types/general';
 
 export interface CourseSearchRouteBody extends PaginatedRequest {
-  search?: string;
+  query?: string;
   department?: string;
 }
 export interface CourseSearchRouteParams {}
@@ -18,8 +18,13 @@ interface CourseSearchCourse
     | 'prereqs'
     | 'satisfiesArea'
   > {}
+
+interface Department {
+  department: string;
+  count: number;
+}
 interface Filters {
-  departments: string[];
+  departments: Department[];
 }
 export interface CourseSearchRouteResponse
   extends PaginatedResponse<CourseSearchCourse> {

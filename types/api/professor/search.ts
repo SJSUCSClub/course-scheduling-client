@@ -2,7 +2,7 @@ import { User } from '@/types/database';
 import { PaginatedRequest, PaginatedResponse } from '@/types/general';
 
 export interface ProfessorSearchRouteBody extends PaginatedRequest {
-  search?: string;
+  query?: string;
 }
 export interface ProfessorSearchRouteParams {}
 interface ProfessorSearchProfessor
