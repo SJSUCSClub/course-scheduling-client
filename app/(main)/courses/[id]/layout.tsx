@@ -1,15 +1,26 @@
+import { BreadcrumbMenu } from '@/components/atoms';
+import Link from 'next/link';
+
 export default function Layout({
-  summary,
+  statistics,
   schedules,
   reviews,
+  params,
 }: {
-  summary: React.ReactNode;
+  statistics: React.ReactNode;
   schedules: React.ReactNode;
   reviews: React.ReactNode;
+  params: { id: string };
 }) {
   return (
-    <main className="mx-auto flex flex-col gap-[10px] p-[10px] max-width">
-      {summary}
+    <main>
+      <BreadcrumbMenu className="mx-auto w-full max-w-content-width px-md py-lg">
+        <li>
+          <Link href="/courses">Courses</Link>
+        </li>
+        <li>{params.id}</li>
+      </BreadcrumbMenu>
+      {statistics}
       {schedules}
       {reviews}
     </main>

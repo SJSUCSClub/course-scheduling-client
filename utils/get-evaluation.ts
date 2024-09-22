@@ -1,12 +1,6 @@
-import {
-  EvaluationType,
-  AvailabilityType,
-  GradeType,
-  PercentageType,
-  RatingType,
-} from '@/types/general';
+import { EvaluationType } from '@/types';
 
-const getRatingEvaluation = (rating: RatingType): EvaluationType => {
+const getRatingEvaluation = (rating: number): EvaluationType => {
   if (rating < 2) {
     return 'bad';
   } else if (rating < 4) {
@@ -16,10 +10,12 @@ const getRatingEvaluation = (rating: RatingType): EvaluationType => {
   }
 };
 
-const getGradeEvaluation = (grade: GradeType): EvaluationType => {
+const getGradeEvaluation = (grade: string): EvaluationType => {
   switch (grade) {
     case 'F':
+    case 'D-':
     case 'D':
+    case 'D+':
       return 'bad';
     case 'C-':
     case 'C':
@@ -37,24 +33,10 @@ const getGradeEvaluation = (grade: GradeType): EvaluationType => {
   }
 };
 
-const getPercentageEvaluation = (
-  percentage: PercentageType,
-): EvaluationType => {
+const getPercentageEvaluation = (percentage: number): EvaluationType => {
   if (percentage < 50) {
     return 'bad';
   } else if (percentage < 80) {
-    return 'ok';
-  } else {
-    return 'good';
-  }
-};
-
-const getAvailabilityEvaluation = (
-  availability: AvailabilityType,
-): EvaluationType => {
-  if (availability < 3) {
-    return 'bad';
-  } else if (availability < 10) {
     return 'ok';
   } else {
     return 'good';
@@ -78,18 +60,16 @@ const getAvailabilityEvaluation = (
  * )
  */
 const getEvaluation = (
-  input: GradeType | RatingType | PercentageType | AvailabilityType,
-  type: 'rating' | 'grade' | 'percentage' | 'availability' = 'rating',
+  input: string | number,
+  type: 'rating' | 'grade' | 'percentage' = 'rating',
 ): EvaluationType => {
   switch (type) {
     case 'rating':
-      return getRatingEvaluation(input as RatingType);
+      return getRatingEvaluation(input as number);
     case 'grade':
-      return getGradeEvaluation(input as GradeType);
+      return getGradeEvaluation(input as string);
     case 'percentage':
-      return getPercentageEvaluation(input as PercentageType);
-    case 'availability':
-      return getAvailabilityEvaluation(input as AvailabilityType);
+      return getPercentageEvaluation(input as number);
     default:
       throw new Error('Invalid input type');
   }

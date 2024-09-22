@@ -1,13 +1,24 @@
-import { ScheduleBox } from '@/components/schedule/schedule';
-import { SectionLabelBox } from '@/components/section-label';
+import { Schedule } from '@/components/organisms';
 
 export default function Loading() {
   return (
-    <section className="flex flex-col gap-[10px] pb-[10px] opacity-30">
-      <SectionLabelBox className="mt-[20px] h-[20px] w-[80px] flex-initial animate-pulse rounded-sm bg-neutral p-0" />
-      {Array.from({ length: 4 }, (_, i) => (
-        <ScheduleBox key={i} className="h-[122px] animate-pulse bg-border" />
-      ))}
+    <section className="mx-auto w-full max-w-content-width animate-pulse px-md text-neutral">
+      <p className="pb-md">- Schedule(s)</p>
+      <div className="grid gap-md pb-md max-lg:grid-cols-1 lg:grid-cols-2">
+        {Array.from({ length: 4 }, (_, i) => (
+          <Schedule
+            key={i}
+            link="#"
+            subtitle="-"
+            title="Loading..."
+            dates="-"
+            times="-"
+            location="-"
+            modeOfInstruction="-"
+            days=""
+          />
+        ))}
+      </div>
     </section>
   );
 }
