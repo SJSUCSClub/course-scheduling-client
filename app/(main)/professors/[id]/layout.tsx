@@ -22,6 +22,7 @@ export default function Layout({
       </BreadcrumbMenu>
       {statistics}
       {schedules}
+      {reviews}
     </main>
   );
 }
