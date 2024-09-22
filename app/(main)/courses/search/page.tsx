@@ -17,7 +17,7 @@ export default async function Page({
   };
 }) {
   const requestParams = new URLSearchParams();
-  searchParams.query && requestParams.append('search', searchParams.query);
+  searchParams.query && requestParams.append('query', searchParams.query);
   searchParams.department &&
     requestParams.append('department', searchParams.department);
   searchParams.units && requestParams.append('units', searchParams.units);

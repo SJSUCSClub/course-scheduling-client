@@ -178,7 +178,7 @@ export const NavSearchBar: React.FC = () => {
         param="navQuery"
         shouldResetPageOnChange={false}
         className="peer flex-1 [&>input]:!rounded-r-none"
-        name="search"
+        name="query"
       />
       <ParamSelect
         param="navOption"

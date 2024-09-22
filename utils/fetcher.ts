@@ -16,8 +16,8 @@ class FetchError extends Error {
 const fetcher = async (url: string) => {
   console.log('fetching', url);
   const res = await fetch(url);
-  //artificial timeout to see loading state
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  // artificial timeout to see loading state
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   // If the status code is not in the range 200-299,
   // we still try to parse and throw it.
   if (!res.ok) {
