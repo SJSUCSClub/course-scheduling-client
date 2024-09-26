@@ -12,7 +12,7 @@ const getKey =
   (pageIndex: number, previousPageData: CoursesIDSchedulesResponse) => {
     if (previousPageData && previousPageData.page === previousPageData.pages)
       return null;
-    return `/api/core/courses/${id}/schedules?page=${pageIndex + 1}`;
+    return `/django/core/courses/${id}/schedules?page=${pageIndex + 1}`;
   };
 
 export default function Page({ params }: { params: { id: string } }) {

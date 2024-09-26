@@ -4,8 +4,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:root*',
-        destination: `${process.env.BASE_API_URL || ''}/:root*`,
+        source: '/django/:root*',
+        destination: `${process.env.BASE_API_URL || ''}/:root*/`,
       },
     ];
   },
