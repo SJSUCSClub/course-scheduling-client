@@ -187,6 +187,7 @@ export const NavSearchBar: React.FC = () => {
         param="navOption"
         shouldResetPageOnChange={false}
         className="rounded-l-none border-border bg-background"
+        value={currentOption}
       >
         <option value="courses">Courses</option>
         <option value="professors">Professors</option>

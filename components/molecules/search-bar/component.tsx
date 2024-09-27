@@ -43,6 +43,10 @@ export const SearchBar: React.FC<Props> = ({
     debouncedReplace(`${pathname}?${params.toString()}#${scrollTarget || ''}`);
   }
 
+  React.useEffect(() => {
+    setPendingParam(currentParam);
+  }, [currentParam]);
+
   return (
     <span className={cn('relative', className)} {...props}>
       <TextInput
