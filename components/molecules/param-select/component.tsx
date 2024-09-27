@@ -39,7 +39,9 @@ export const ParamSelect: React.FC<Props> = ({
 
   return (
     <Select
-      disabled={disabled || currentParam !== pendingParam}
+      disabled={
+        disabled || (currentParam !== pendingParam && currentParam !== null)
+      }
       onChange={(e) => handleChange(e.target.value)}
       defaultValue={currentParam ?? ''}
       {...props}

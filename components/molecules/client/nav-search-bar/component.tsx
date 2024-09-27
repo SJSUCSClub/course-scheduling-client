@@ -11,6 +11,7 @@ import {
   SchedulesSearchResponse,
 } from '@/types';
 import SWRConfigProvider from '@/wrappers/swr-config';
+import Link from 'next/link';
 
 type Error = { message: string };
 
@@ -83,7 +84,7 @@ const CourseSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((course, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <a
+              <Link
                 href={`/courses/${course.department}-${course.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
@@ -93,7 +94,7 @@ const CourseSearchResults: React.FC = () => {
                 <span className="overflow-ellipsis text-p font-bold">
                   {course.name}
                 </span>
-              </a>
+              </Link>
             </li>
           ))
         : null}
@@ -112,7 +113,7 @@ const ProfessorSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((professor, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <a
+              <Link
                 href={`/professors/${professor.email.split('@')[0]}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
@@ -122,7 +123,7 @@ const ProfessorSearchResults: React.FC = () => {
                 <span className="overflow-ellipsis text-p font-bold">
                   {professor.name}
                 </span>
-              </a>
+              </Link>
             </li>
           ))
         : null}
@@ -141,7 +142,7 @@ const ScheduleSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((schedule, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <a
+              <Link
                 href={`/courses/${schedule.department}-${schedule.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
@@ -159,7 +160,7 @@ const ScheduleSearchResults: React.FC = () => {
                     ? `• Satisfies ${schedule.satisfies_area}`
                     : ''}
                 </span>
-              </a>
+              </Link>
             </li>
           ))
         : null}
@@ -173,6 +174,7 @@ export const NavSearchBar: React.FC = () => {
   const currentQuery = searchParams.get('navQuery') ?? '';
   return (
     <form
+      key={Date.now()}
       action={`/${currentOption}/search`}
       className="relative flex whitespace-nowrap"
     >

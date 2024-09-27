@@ -53,7 +53,7 @@ export const SearchBar: React.FC<Props> = ({
         defaultValue={currentParam ?? ''}
         className="w-full pl-xxl"
       />
-      {currentParam !== pendingParam ? (
+      {currentParam !== pendingParam && currentParam !== null ? (
         <Spinner className="absolute left-3 top-0 flex h-full items-center" />
       ) : (
         <MagnifyingGlassIcon
