@@ -20,6 +20,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface Props {
@@ -54,6 +55,11 @@ interface Props {
 
 export const Review: React.FC<Props> = (props) => {
   const session = useSession();
+  const isAuthenticated = session !== null;
+  const userId = session?.email.split('@')[0] ?? null;
+  const router = useRouter();
+  const isOwner =
+    isAuthenticated && props.userId !== null && userId === props.userId;
   const [isShownComments, setIsShownComments] = React.useState(false);
   const toggleComments = () => setIsShownComments(!isShownComments);
   const [optimisticComments, setOptimisticComments] = React.useState<
@@ -70,7 +76,6 @@ export const Review: React.FC<Props> = (props) => {
   const [isDownvoted, setIsDownvoted] = React.useState(false);
   const [isFlagged, setIsFlagged] = React.useState(false);
   const rating = Math.round(((props.quality + props.ease) / 2) * 10) / 10;
-  const userId = session?.email.split('@')[0] ?? null;
   const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
     // TODO: Implement add comment
     e.preventDefault();
@@ -94,11 +99,19 @@ export const Review: React.FC<Props> = (props) => {
   };
   const handleUpvote = () => {
     // TODO: Implement upvote
+    if (!isAuthenticated) {
+      router.push('/django/google/authorize');
+      return;
+    }
     setIsUpvoted(!isUpvoted);
     setIsDownvoted(false);
   };
   const handleDownvote = () => {
     // TODO: Implement downvote
+    if (!isAuthenticated) {
+      router.push('/django/google/authorize');
+      return;
+    }
     setIsDownvoted(!isDownvoted);
     setIsUpvoted(false);
   };
@@ -107,6 +120,10 @@ export const Review: React.FC<Props> = (props) => {
   };
   const handleReport = () => {
     // TODO: Implement report
+    if (!isAuthenticated) {
+      router.push('/django/google/authorize');
+      return;
+    }
     setIsFlagged(!isFlagged);
   };
   const handleDeleteComment = () => {
@@ -273,7 +290,7 @@ export const Review: React.FC<Props> = (props) => {
               </Btn>
             </div>
             <div className="flex gap-sm">
-              {true ? (
+              {isOwner ? (
                 <>
                   <LinkBtn
                     className="gap-sm rounded-sm p-0"
@@ -427,21 +444,36 @@ export const Review: React.FC<Props> = (props) => {
                 </div>
               ))}
             </div>
-          ) : null}
-          <form className="flex gap-sm pt-sm" onSubmit={handleAddComment}>
-            <Textarea
-              className="w-full"
-              placeholder="Add your comment here..."
-              name="comment"
-            />
-            <Btn
-              className="rounded-md bg-background p-lg text-primary"
-              variant="primary"
-              type="submit"
-            >
-              <ChevronRightIcon width={24} height={24} />
-            </Btn>
-          </form>
+          ) : (
+            <p className="px-sm py-md text-center">No comments yet.</p>
+          )}
+          {isAuthenticated ? (
+            <form className="flex gap-sm pt-sm" onSubmit={handleAddComment}>
+              <Textarea
+                className="w-full"
+                placeholder="Add your comment here..."
+                name="comment"
+              />
+              <Btn
+                className="rounded-md bg-background p-lg text-primary"
+                variant="primary"
+                type="submit"
+              >
+                <ChevronRightIcon width={24} height={24} />
+              </Btn>
+            </form>
+          ) : (
+            <span className="flex w-full items-center justify-center py-md">
+              <LinkBtn
+                variant="tertiary"
+                className="w-fit px-sm"
+                href="/django/google/authorize"
+              >
+                Log in
+              </LinkBtn>{' '}
+              to add a comment.
+            </span>
+          )}
         </>
       ) : null}
     </Card>

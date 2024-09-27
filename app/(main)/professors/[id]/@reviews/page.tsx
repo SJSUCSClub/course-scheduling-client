@@ -4,8 +4,8 @@ import { ProfessorsIDReviewsResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
 import useSWRInfinite from 'swr/infinite';
 import { Review } from '@/components/organisms';
-import SessionProvider from '@/wrappers/session-provider';
-import { Btn, Spinner, Textarea } from '@/components/atoms';
+import SessionProvider, { useSession } from '@/wrappers/session-provider';
+import { Btn, LinkBtn, Spinner, Textarea } from '@/components/atoms';
 import { ChevronRightIcon } from '@heroicons/react/16/solid';
 import { FilterGroup } from '@/components/molecules';
 import { useSearchParams } from 'next/navigation';
@@ -44,6 +44,8 @@ const Skeleton = () =>
     </div>
   ));
 export default function Page({ params }: { params: { id: string } }) {
+  const session = useSession();
+  const isAuthenticated = session !== null;
   const searchParams = useSearchParams();
   const requestParams = new URLSearchParams();
   requestParams.append('comments', 'true');
@@ -59,6 +61,8 @@ export default function Page({ params }: { params: { id: string } }) {
     );
   if (error) throw error;
   const results = data ? data[0] : null;
+  // TODO: Add has_reviewed to the response and check if the user has already reviewed the professor
+  // const hasReviewed = results?.has_reviewed;
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
     <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md pb-lg">
@@ -89,21 +93,34 @@ export default function Page({ params }: { params: { id: string } }) {
       <SessionProvider>
         <div className="flex flex-1 flex-col items-stretch gap-md pt-lg">
           <p id="reviews">{results?.total_results ?? '-'} Review(s)</p>
-          <form action="/professors/review" className="flex gap-sm">
-            <input type="hidden" name="professor_id" value={params.id} />
-            <Textarea
-              className="w-full"
-              placeholder="Write a review..."
-              name="review"
-            />
-            <Btn
-              className="rounded-md bg-background p-lg text-primary"
-              variant="primary"
-              type="submit"
-            >
-              <ChevronRightIcon width={24} height={24} />
-            </Btn>
-          </form>
+          {isAuthenticated ? (
+            <form action="/professors/review" className="flex gap-sm">
+              <input type="hidden" name="professor_id" value={params.id} />
+              <Textarea
+                className="w-full"
+                placeholder="Write a review..."
+                name="review"
+              />
+              <Btn
+                className="rounded-md bg-background p-lg text-primary"
+                variant="primary"
+                type="submit"
+              >
+                <ChevronRightIcon width={24} height={24} />
+              </Btn>
+            </form>
+          ) : (
+            <span className="flex w-full items-center justify-center py-md">
+              <LinkBtn
+                variant="tertiary"
+                className="w-fit px-sm"
+                href="/django/google/authorize"
+              >
+                Log in
+              </LinkBtn>{' '}
+              to add a review.
+            </span>
+          )}
           {isLoading || isValidating ? <Skeleton /> : null}
           {!isLoading && !isValidating
             ? items.map((item, i) => (
