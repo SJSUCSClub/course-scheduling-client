@@ -61,9 +61,9 @@ export default function Page({ params }: { params: { id: string } }) {
   const results = data ? data[0] : null;
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
-    <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md pb-lg">
+    <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
       <div className="w-[250px] max-lg:hidden">
-        <div className="sticky top-0 flex min-h-[50dvh] w-full flex-col gap-sm pt-lg">
+        <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pt-lg">
           <p className="pb-md">Filters</p>
           <p className="pb-sm text-small-lg">Limit</p>
           <FilterGroup
