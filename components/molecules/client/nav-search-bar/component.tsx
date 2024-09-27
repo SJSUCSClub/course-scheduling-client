@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
 
@@ -75,6 +74,7 @@ const StatusMessage: React.FC<StatusMessageProps> = ({
 
 const CourseSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useCoursesSearchResults(currentQuery);
   return (
@@ -83,8 +83,8 @@ const CourseSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((course, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <Link
-                href={`/courses/${course.department}-${course.course_number}`}
+              <a
+                href={`/courses/${course.department}-${course.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -93,7 +93,7 @@ const CourseSearchResults: React.FC = () => {
                 <span className="overflow-ellipsis text-p font-bold">
                   {course.name}
                 </span>
-              </Link>
+              </a>
             </li>
           ))
         : null}
@@ -103,6 +103,7 @@ const CourseSearchResults: React.FC = () => {
 
 const ProfessorSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useProfessorsSearchResults(currentQuery);
   return (
@@ -111,8 +112,8 @@ const ProfessorSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((professor, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <Link
-                href={`/professors/${professor.email.split('@')[0]}`}
+              <a
+                href={`/professors/${professor.email.split('@')[0]}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -121,7 +122,7 @@ const ProfessorSearchResults: React.FC = () => {
                 <span className="overflow-ellipsis text-p font-bold">
                   {professor.name}
                 </span>
-              </Link>
+              </a>
             </li>
           ))
         : null}
@@ -131,6 +132,7 @@ const ProfessorSearchResults: React.FC = () => {
 
 const ScheduleSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useSchedulesSearchResults(currentQuery);
   return (
@@ -139,8 +141,8 @@ const ScheduleSearchResults: React.FC = () => {
       {data && data.total_results > 0
         ? data.items.map((schedule, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
-              <Link
-                href={`/courses/${schedule.department}-${schedule.course_number}`}
+              <a
+                href={`/courses/${schedule.department}-${schedule.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -157,7 +159,7 @@ const ScheduleSearchResults: React.FC = () => {
                     ? `• Satisfies ${schedule.satisfies_area}`
                     : ''}
                 </span>
-              </Link>
+              </a>
             </li>
           ))
         : null}
