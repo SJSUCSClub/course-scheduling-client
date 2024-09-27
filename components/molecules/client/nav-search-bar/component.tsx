@@ -174,7 +174,6 @@ export const NavSearchBar: React.FC = () => {
   const currentQuery = searchParams.get('navQuery') ?? '';
   return (
     <form
-      key={Date.now()}
       action={`/${currentOption}/search`}
       className="relative flex whitespace-nowrap"
     >
@@ -194,7 +193,7 @@ export const NavSearchBar: React.FC = () => {
         <option value="schedules">Schedules</option>
       </ParamSelect>
       {currentQuery ? (
-        <Card className="absolute left-0 top-[50px] z-50 block w-[500px] max-w-[100dvw] shadow-paper peer-has-[:placeholder-shown]:hidden max-lg:hidden">
+        <Card className="absolute left-0 top-[50px] z-50 hidden w-[500px] max-w-[100dvw] shadow-paper hover:block peer-focus-within:block peer-has-[:placeholder-shown]:hidden max-lg:hidden">
           <SWRConfigProvider>
             {currentOption === 'courses' ? (
               <CourseSearchResults />
