@@ -20,7 +20,7 @@ const useCoursesSearchResults = (currentQuery: string) => {
   apiQueryParams.set('query', currentQuery);
   apiQueryParams.set('limit', '3');
   const { data, error, isLoading } = useSWR<CoursesSearchResponse, Error>(
-    `/api/core/courses/search?${apiQueryParams.toString()}`,
+    `/django/core/courses/search?${apiQueryParams.toString()}`,
   );
   return { data, error, isLoading };
 };
@@ -31,7 +31,7 @@ const useProfessorsSearchResults = (currentQuery: string) => {
   apiQueryParams.set('limit', '3');
 
   const { data, error, isLoading } = useSWR<ProfessorsSearchResponse, Error>(
-    `/api/core/professors/search?${apiQueryParams.toString()}`,
+    `/django/core/professors/search?${apiQueryParams.toString()}`,
   );
   return { data, error, isLoading };
 };
@@ -41,7 +41,7 @@ const useSchedulesSearchResults = (currentQuery: string) => {
   apiQueryParams.set('query', currentQuery);
   apiQueryParams.set('limit', '3');
   const { data, error, isLoading } = useSWR<SchedulesSearchResponse, Error>(
-    `/api/core/schedules/search?${apiQueryParams.toString()}`,
+    `/django/core/schedules/search?${apiQueryParams.toString()}`,
   );
   return { data, error, isLoading };
 };
