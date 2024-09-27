@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
 
@@ -12,6 +11,7 @@ import {
   SchedulesSearchResponse,
 } from '@/types';
 import SWRConfigProvider from '@/wrappers/swr-config';
+import Link from 'next/link';
 
 type Error = { message: string };
 
@@ -75,6 +75,7 @@ const StatusMessage: React.FC<StatusMessageProps> = ({
 
 const CourseSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useCoursesSearchResults(currentQuery);
   return (
@@ -84,7 +85,7 @@ const CourseSearchResults: React.FC = () => {
         ? data.items.map((course, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
               <Link
-                href={`/courses/${course.department}-${course.course_number}`}
+                href={`/courses/${course.department}-${course.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -103,6 +104,7 @@ const CourseSearchResults: React.FC = () => {
 
 const ProfessorSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useProfessorsSearchResults(currentQuery);
   return (
@@ -112,7 +114,7 @@ const ProfessorSearchResults: React.FC = () => {
         ? data.items.map((professor, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
               <Link
-                href={`/professors/${professor.email.split('@')[0]}`}
+                href={`/professors/${professor.email.split('@')[0]}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -131,6 +133,7 @@ const ProfessorSearchResults: React.FC = () => {
 
 const ScheduleSearchResults: React.FC = () => {
   const searchParams = useSearchParams();
+  const currentOption = searchParams.get('navOption') ?? 'courses';
   const currentQuery = searchParams.get('navQuery') ?? '';
   const { data, error, isLoading } = useSchedulesSearchResults(currentQuery);
   return (
@@ -140,7 +143,7 @@ const ScheduleSearchResults: React.FC = () => {
         ? data.items.map((schedule, i) => (
             <li key={i} className="border-b-2 border-border last:border-b-0">
               <Link
-                href={`/courses/${schedule.department}-${schedule.course_number}`}
+                href={`/courses/${schedule.department}-${schedule.course_number}?navOption=${currentOption}`}
                 className="flex flex-col px-lg py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
               >
                 <span className="overflow-ellipsis text-small-lg text-neutral">
@@ -184,13 +187,14 @@ export const NavSearchBar: React.FC = () => {
         param="navOption"
         shouldResetPageOnChange={false}
         className="rounded-l-none border-border bg-background"
+        value={currentOption}
       >
         <option value="courses">Courses</option>
         <option value="professors">Professors</option>
         <option value="schedules">Schedules</option>
       </ParamSelect>
       {currentQuery ? (
-        <Card className="absolute left-0 top-[50px] z-50 block w-[500px] max-w-[100dvw] shadow-paper peer-has-[:placeholder-shown]:hidden max-lg:hidden">
+        <Card className="absolute left-0 top-[50px] z-50 hidden w-[500px] max-w-[100dvw] shadow-paper hover:block peer-focus-within:block peer-has-[:placeholder-shown]:hidden max-lg:hidden">
           <SWRConfigProvider>
             {currentOption === 'courses' ? (
               <CourseSearchResults />

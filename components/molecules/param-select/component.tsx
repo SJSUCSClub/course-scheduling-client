@@ -37,9 +37,15 @@ export const ParamSelect: React.FC<Props> = ({
     replace(`${pathname}?${params.toString()}`);
   }
 
+  React.useEffect(() => {
+    setPendingParam(currentParam);
+  }, [currentParam]);
+
   return (
     <Select
-      disabled={disabled || currentParam !== pendingParam}
+      disabled={
+        disabled || (currentParam !== pendingParam && currentParam !== null)
+      }
       onChange={(e) => handleChange(e.target.value)}
       defaultValue={currentParam ?? ''}
       {...props}
