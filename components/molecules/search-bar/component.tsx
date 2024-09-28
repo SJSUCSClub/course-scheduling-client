@@ -43,6 +43,10 @@ export const SearchBar: React.FC<Props> = ({
     debouncedReplace(`${pathname}?${params.toString()}#${scrollTarget || ''}`);
   }
 
+  React.useEffect(() => {
+    setPendingParam(currentParam);
+  }, [currentParam]);
+
   return (
     <span className={cn('relative', className)} {...props}>
       <TextInput
@@ -53,7 +57,7 @@ export const SearchBar: React.FC<Props> = ({
         defaultValue={currentParam ?? ''}
         className="w-full pl-xxl"
       />
-      {currentParam !== pendingParam ? (
+      {currentParam !== pendingParam && currentParam !== null ? (
         <Spinner className="absolute left-3 top-0 flex h-full items-center" />
       ) : (
         <MagnifyingGlassIcon
