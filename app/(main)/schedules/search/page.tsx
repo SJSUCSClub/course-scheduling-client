@@ -48,9 +48,9 @@ export default async function Page({
       <div className="mx-auto w-full max-w-content-width px-md py-lg">
         <p>Search results for &quot;{searchParams.query}&quot;</p>
       </div>
-      <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md pb-lg">
+      <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
         <div className="w-[250px] max-lg:hidden">
-          <div className="sticky top-0 flex min-h-[50dvh] w-full flex-col gap-sm pt-lg">
+          <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
             <p className="pb-md">Filters</p>
             <p className="pb-sm text-small-lg">Limit</p>
             <FilterGroup
@@ -124,7 +124,7 @@ export default async function Page({
             </LinkBtn>
           </div>
         </div>
-        <div className="flex flex-1 flex-col items-stretch gap-md pt-lg">
+        <div className="flex flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
           <p>{total_results ?? '-'} Courses(s)</p>
 
           {items && total_results > 0
