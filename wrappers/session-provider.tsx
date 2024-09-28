@@ -3,13 +3,18 @@
 import React from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
-type SessionContext = {
-  email: string;
-  first_name: string;
-  last_name: string;
-} | null;
+type SessionContext =
+  | {
+      email: string;
+      first_name: string;
+      last_name: string;
+    }
+  | null
+  | undefined;
 
-const SessionContext = React.createContext<SessionContext>(null);
+// initialize to undefined since null is a possible value and undefined
+// will only happen if there is no above context
+const SessionContext = React.createContext<SessionContext>(undefined);
 
 interface SessionProviderProps {
   children: React.ReactNode;
