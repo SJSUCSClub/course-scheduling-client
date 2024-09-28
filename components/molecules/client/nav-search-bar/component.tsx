@@ -177,6 +177,7 @@ export const NavSearchBar: React.FC = () => {
       action={`/${currentOption}/search`}
       className="relative flex whitespace-nowrap"
     >
+      <input type="hidden" name="navOption" value={currentOption} />
       <SearchBar
         param="navQuery"
         shouldResetPageOnChange={false}
