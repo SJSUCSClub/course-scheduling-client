@@ -72,7 +72,7 @@ export default async function Page({
             <LinkBtn
               variant="primary"
               className="flex justify-center bg-background text-primary"
-              href={`/courses/search?query=${searchParams.query}`}
+              href={`/courses/search?query=${searchParams.query ?? ''}`}
             >
               Reset
             </LinkBtn>
