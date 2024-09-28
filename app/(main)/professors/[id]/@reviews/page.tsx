@@ -1,14 +1,14 @@
 'use client';
 
+import { Btn, LinkBtn, Spinner, Textarea } from '@/components/atoms';
+import { FilterGroup } from '@/components/molecules';
+import { Review } from '@/components/organisms';
 import { ProfessorsIDReviewsResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
-import useSWRInfinite from 'swr/infinite';
-import { Review } from '@/components/organisms';
 import SessionProvider, { useSession } from '@/wrappers/session-provider';
-import { Btn, LinkBtn, Spinner, Textarea } from '@/components/atoms';
 import { ChevronRightIcon } from '@heroicons/react/16/solid';
-import { FilterGroup } from '@/components/molecules';
 import { useSearchParams } from 'next/navigation';
+import useSWRInfinite from 'swr/infinite';
 
 const getKey =
   (id: string, params: string) =>
@@ -43,9 +43,41 @@ const Skeleton = () =>
       />
     </div>
   ));
-export default function Page({ params }: { params: { id: string } }) {
+
+const WriteReview = ({ id }: { id: string }) => {
   const session = useSession();
   const isAuthenticated = session !== null;
+  return isAuthenticated ? (
+    <form action="/professors/review" className="flex gap-sm">
+      <input type="hidden" name="professor_id" value={id} />
+      <Textarea
+        className="w-full"
+        placeholder="Write a review..."
+        name="review"
+      />
+      <Btn
+        className="rounded-md bg-background p-lg text-primary"
+        variant="primary"
+        type="submit"
+      >
+        <ChevronRightIcon width={24} height={24} />
+      </Btn>
+    </form>
+  ) : (
+    <span className="flex w-full items-center justify-center py-md">
+      <LinkBtn
+        variant="tertiary"
+        className="w-fit px-sm"
+        href="/django/google/authorize"
+      >
+        Log in
+      </LinkBtn>{' '}
+      to add a review.
+    </span>
+  );
+};
+
+export default function Page({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams();
   const requestParams = new URLSearchParams();
   requestParams.append('comments', 'true');
@@ -93,34 +125,7 @@ export default function Page({ params }: { params: { id: string } }) {
       <SessionProvider>
         <div className="flex flex-1 flex-col items-stretch gap-md pt-lg">
           <p id="reviews">{results?.total_results ?? '-'} Review(s)</p>
-          {isAuthenticated ? (
-            <form action="/professors/review" className="flex gap-sm">
-              <input type="hidden" name="professor_id" value={params.id} />
-              <Textarea
-                className="w-full"
-                placeholder="Write a review..."
-                name="review"
-              />
-              <Btn
-                className="rounded-md bg-background p-lg text-primary"
-                variant="primary"
-                type="submit"
-              >
-                <ChevronRightIcon width={24} height={24} />
-              </Btn>
-            </form>
-          ) : (
-            <span className="flex w-full items-center justify-center py-md">
-              <LinkBtn
-                variant="tertiary"
-                className="w-fit px-sm"
-                href="/django/google/authorize"
-              >
-                Log in
-              </LinkBtn>{' '}
-              to add a review.
-            </span>
-          )}
+          <WriteReview id={params.id} />
           {isLoading || isValidating ? <Skeleton /> : null}
           {!isLoading && !isValidating
             ? items.map((item, i) => (
