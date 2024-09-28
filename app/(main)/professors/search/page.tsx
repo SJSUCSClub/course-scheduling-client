@@ -24,17 +24,19 @@ export default async function Page({
         <p>Search results for &quot;{searchParams.query}&quot;</p>
       </div>
       <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
-        <div className="w-[250px] max-lg:hidden">
-          <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
-            <p className="pb-md">Filters</p>
-            <p className="pb-sm text-small-lg">Limit</p>
-            <FilterGroup
-              variant="radio"
-              param="limit"
-              values={['3', '10', '20', '50']}
-            />
+        {total_results ? (
+          <div className="w-[250px] max-lg:hidden">
+            <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
+              <p className="pb-md">Filters</p>
+              <p className="pb-sm text-small-lg">Limit</p>
+              <FilterGroup
+                variant="radio"
+                param="limit"
+                values={['3', '10', '20', '50']}
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="flex flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
           <p>{total_results ?? '-'} Professor(s)</p>
 
