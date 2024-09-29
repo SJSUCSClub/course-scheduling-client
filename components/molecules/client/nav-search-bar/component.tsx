@@ -177,7 +177,6 @@ export const NavSearchBar: React.FC = () => {
       action={`/${currentOption}/search`}
       className="relative flex whitespace-nowrap"
     >
-      <input type="hidden" name="navOption" value={currentOption} />
       <SearchBar
         param="navQuery"
         shouldResetPageOnChange={false}
@@ -189,6 +188,7 @@ export const NavSearchBar: React.FC = () => {
         shouldResetPageOnChange={false}
         className="rounded-l-none border-border bg-background"
         defaultValue={currentOption}
+        name="navOption"
       >
         <option value="courses">Courses</option>
         <option value="professors">Professors</option>
