@@ -28,8 +28,14 @@ export const FilterGroup: React.FC<Props> = ({
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const params = new URLSearchParams(searchParams);
-  const currentParam = params.getAll(param);
+  const params = React.useMemo(
+    () => new URLSearchParams(searchParams),
+    [searchParams],
+  );
+  const currentParam = React.useMemo(
+    () => params.getAll(param),
+    [params, param],
+  );
   const [pendingParam, setPendingParam] = React.useState(currentParam);
 
   function handleChange() {
@@ -47,19 +53,25 @@ export const FilterGroup: React.FC<Props> = ({
     setPendingParam(params.getAll(param));
     replace(`${pathname}?${params.toString()}#${scrollTarget || ''}`);
   }
+
+  React.useEffect(() => {
+    formRef.current?.reset();
+    setPendingParam(currentParam);
+  }, [currentParam]);
+
   return (
     <form
       ref={formRef}
       className={cn('flex flex-wrap gap-sm', className)}
       {...props}
     >
-      {values.map((value, i) => (
+      {values.map((value) => (
         <Tag
-          key={i}
+          key={value}
           name="filter"
           value={value}
           type={variant}
-          checked={searchParams.getAll(param).includes(value)}
+          defaultChecked={currentParam.includes(value)}
           onClick={() => handleChange()}
           disabled={currentParam.toString() !== pendingParam.toString()}
         >
