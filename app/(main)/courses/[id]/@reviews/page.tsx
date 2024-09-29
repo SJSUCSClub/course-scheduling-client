@@ -61,30 +61,36 @@ export default function Page({ params }: { params: { id: string } }) {
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
     <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
-      <div className="w-[250px] max-lg:hidden">
-        <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
-          <p className="pb-md">Filters</p>
-          <p className="pb-sm text-small-lg">Limit</p>
-          <FilterGroup
-            variant="radio"
-            param="limit"
-            scrollTarget="reviews"
-            values={['3', '10', '20', '50']}
-            shouldResetPageOnChange={false}
-          />
-          <p className="pb-sm text-small-lg">Tags</p>
-          <FilterGroup
-            variant="checkbox"
-            param="tags"
-            scrollTarget="reviews"
-            values={
-              results?.filters.tags.flatMap((t) => t.tag) ??
-              searchParams.getAll('tags')
-            }
-            shouldResetPageOnChange={false}
-          />
+      {results?.total_results ? (
+        <div className="w-[250px] max-lg:hidden">
+          <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
+            <p className="pb-md">Filters</p>
+            <p className="pb-sm text-small-lg">Limit</p>
+            <FilterGroup
+              variant="radio"
+              param="limit"
+              scrollTarget="reviews"
+              values={['3', '10', '20', '50']}
+              shouldResetPageOnChange={false}
+            />
+            {results?.filters.tags.length ? (
+              <>
+                <p className="pb-sm text-small-lg">Tags</p>
+                <FilterGroup
+                  variant="checkbox"
+                  param="tags"
+                  scrollTarget="reviews"
+                  values={
+                    results?.filters.tags.flatMap((t) => t.tag) ??
+                    searchParams.getAll('tags')
+                  }
+                  shouldResetPageOnChange={false}
+                />
+              </>
+            ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
       <SessionProvider>
         <div className="flex flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
           <p id="reviews">{results?.total_results ?? '-'} Review(s)</p>
@@ -128,18 +134,20 @@ export default function Page({ params }: { params: { id: string } }) {
           {!isLoading && !isValidating && items.length === 0
             ? 'No reviews found.'
             : null}
-          {size !== results?.pages || isLoading || isValidating ? (
-            <div className="flex w-full justify-center pb-md">
-              <Btn
-                className="gap-md"
-                variant="tertiary"
-                disabled={isLoading || isValidating}
-                onClick={() => setSize(size + 1)}
-              >
-                {size !== results?.pages ? 'Load more' : null}
-                {isLoading || isValidating ? <Spinner /> : null}
-              </Btn>
-            </div>
+          {results?.total_results ? (
+            size !== results?.pages || isLoading || isValidating ? (
+              <div className="flex w-full justify-center pb-md">
+                <Btn
+                  className="gap-md"
+                  variant="tertiary"
+                  disabled={isLoading || isValidating}
+                  onClick={() => setSize(size + 1)}
+                >
+                  {size !== results?.pages ? 'Load more' : null}
+                  {isLoading || isValidating ? <Spinner /> : null}
+                </Btn>
+              </div>
+            ) : null
           ) : null}
         </div>
       </SessionProvider>

@@ -49,81 +49,123 @@ export default async function Page({
         <p>Search results for &quot;{searchParams.query}&quot;</p>
       </div>
       <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md pb-lg">
-        <div className="w-[250px] max-lg:hidden">
-          <div className="sticky top-0 flex min-h-[50dvh] w-full flex-col gap-sm pt-lg">
-            <p className="pb-md">Filters</p>
-            <p className="pb-sm text-small-lg">Limit</p>
-            <FilterGroup
-              variant="radio"
-              param="limit"
-              values={['3', '10', '20', '50']}
-            />
-            <p className="pb-sm text-small-lg">Term</p>
-            <FilterGroup
-              variant="radio"
-              param="term"
-              values={filters.term?.flatMap((t) => t.term) ?? []}
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Year</p>
-            <FilterGroup
-              variant="radio"
-              param="year"
-              values={filters.year?.flatMap((y) => y.year.toString()) ?? []}
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Professor</p>
-            <FilterGroup
-              variant="radio"
-              param="professor_name"
-              values={
-                filters.professor_name?.flatMap((p) => p.professor_name) ?? []
-              }
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Course Number</p>
-            <FilterGroup
-              variant="radio"
-              param="course_number"
-              values={
-                filters.course_number?.flatMap((c) => c.course_number) ?? []
-              }
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Department</p>
-            <FilterGroup
-              variant="radio"
-              param="department"
-              values={filters.department?.flatMap((d) => d.department) ?? []}
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Mode of Instruction</p>
-            <FilterGroup
-              variant="radio"
-              param="mode_of_instruction"
-              values={
-                filters.mode_of_instruction?.flatMap(
-                  (m) => m.mode_of_instruction,
-                ) ?? []
-              }
-              className="pb-lg"
-            />
-            <p className="pb-sm text-small-lg">Units</p>
-            <FilterGroup
-              variant="checkbox"
-              param="units"
-              values={filters.units?.flatMap((u) => u.units.toString()) ?? []}
-              className="pb-lg"
-            />
-            <LinkBtn
-              variant="primary"
-              className="flex justify-center bg-background text-primary"
-              href={`/schedules/search?query=${searchParams.query ?? ''}`}
-            >
-              Reset
-            </LinkBtn>
+        {total_results ? (
+          <div className="w-[250px] max-lg:hidden">
+            <div className="sticky top-0 flex min-h-[50dvh] w-full flex-col gap-sm pt-lg">
+              <p className="pb-md">Filters</p>
+              <p className="pb-sm text-small-lg">Limit</p>
+              <FilterGroup
+                variant="radio"
+                param="limit"
+                values={['3', '10', '20', '50']}
+                className="pb-lg"
+              />
+              {filters.term?.length ? (
+                <>
+                  {' '}
+                  <p className="pb-sm text-small-lg">Term</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="term"
+                    values={filters.term?.flatMap((t) => t.term) ?? []}
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.year?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Year</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="year"
+                    values={
+                      filters.year?.flatMap((y) => y.year.toString()) ?? []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.professor_name?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Professor</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="professor_name"
+                    values={
+                      filters.professor_name?.flatMap(
+                        (p) => p.professor_name,
+                      ) ?? []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.course_number?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Course Number</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="course_number"
+                    values={
+                      filters.course_number?.flatMap((c) => c.course_number) ??
+                      []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.department?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Department</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="department"
+                    values={
+                      filters.department?.flatMap((d) => d.department) ?? []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.mode_of_instruction?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Mode of Instruction</p>
+                  <FilterGroup
+                    variant="radio"
+                    param="mode_of_instruction"
+                    values={
+                      filters.mode_of_instruction?.flatMap(
+                        (m) => m.mode_of_instruction,
+                      ) ?? []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+              {filters.units?.length ? (
+                <>
+                  <p className="pb-sm text-small-lg">Units</p>
+                  <FilterGroup
+                    variant="checkbox"
+                    param="units"
+                    values={
+                      filters.units?.flatMap((u) => u.units.toString()) ?? []
+                    }
+                    className="pb-lg"
+                  />
+                </>
+              ) : null}
+
+              <LinkBtn
+                variant="primary"
+                className="flex justify-center bg-background text-primary"
+                href={`/schedules/search?query=${searchParams.query ?? ''}`}
+              >
+                Reset
+              </LinkBtn>
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="flex flex-1 flex-col items-stretch gap-md pt-lg">
           <p>{total_results ?? '-'} Courses(s)</p>
 
