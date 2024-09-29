@@ -92,9 +92,9 @@ export default async function Page({
                     variant="radio"
                     param="professor_name"
                     values={
-                      filters.professor_name?.flatMap(
-                        (p) => p.professor_name,
-                      ) ?? []
+                      filters.professor_name
+                        ?.filter((p) => p.professor_name !== null)
+                        .flatMap((p) => p.professor_name) ?? []
                     }
                     className="pb-lg"
                   />
