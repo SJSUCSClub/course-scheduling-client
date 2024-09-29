@@ -26,7 +26,7 @@ export const SearchBar: React.FC<Props> = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const debouncedReplace = useDebouncedCallback(replace, 100);
+  const debouncedReplace = useDebouncedCallback(replace, 500);
 
   const params = new URLSearchParams(searchParams);
   const currentParam = params.get(param);
