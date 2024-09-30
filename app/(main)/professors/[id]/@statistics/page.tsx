@@ -194,7 +194,7 @@ export default async function Page({
             series={[
               {
                 name: 'Rating Distribution',
-                data: reviewDistribution,
+                data: reviewDistribution.reverse(),
               },
             ]}
             categories={[5, 4, 3, 2, 1]}
