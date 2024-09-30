@@ -8,6 +8,7 @@ import SessionProvider from '@/wrappers/session-provider';
 import { Btn, Spinner } from '@/components/atoms';
 import { FilterGroup } from '@/components/molecules';
 import { useSearchParams } from 'next/navigation';
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 const getKey =
   (id: string, params: string) =>
@@ -60,11 +61,24 @@ export default function Page({ params }: { params: { id: string } }) {
   const results = data ? data[0] : null;
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
-    <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
+    <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
       {results?.total_results ? (
-        <div className="w-[250px] max-lg:hidden">
-          <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
-            <p className="pb-md">Filters</p>
+        <div className="lg:w-[250px] lg:pr-md">
+          <div
+            id="review-filters"
+            popover="auto"
+            className="top-0 max-h-[100dvh] min-h-[50dvh] w-full overflow-y-auto bg-page pb-lg pt-lg max-lg:h-[100dvh] max-lg:px-md lg:sticky lg:flex lg:flex-col lg:gap-sm"
+          >
+            <div className="flex">
+              <p className="flex-1 pb-md">Filters</p>
+              <Btn
+                popoverTarget="review-filters"
+                variant="tertiary"
+                className="rounded-sm p-0 lg:hidden"
+              >
+                <XMarkIcon width={24} height={24} />
+              </Btn>
+            </div>
             <p className="pb-sm text-small-lg">Limit</p>
             <FilterGroup
               variant="radio"
@@ -93,7 +107,18 @@ export default function Page({ params }: { params: { id: string } }) {
       ) : null}
       <SessionProvider>
         <div className="flex flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
-          <p id="reviews">{results?.total_results ?? '-'} Review(s)</p>
+          <div className="flex">
+            <p id="reviews" className="flex-1">
+              {results?.total_results ?? '-'} Review(s)
+            </p>
+            <Btn
+              popoverTarget="review-filters"
+              variant="tertiary"
+              className="rounded-sm p-0 lg:hidden"
+            >
+              <EllipsisVerticalIcon width={24} height={24} />
+            </Btn>
+          </div>
           {isLoading || isValidating ? <Skeleton /> : null}
           {!isLoading && !isValidating
             ? items.map((item, i) => (
