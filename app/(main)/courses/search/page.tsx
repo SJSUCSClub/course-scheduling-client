@@ -1,7 +1,8 @@
-import { Card, LinkBtn } from '@/components/atoms';
+import { Btn, Card, LinkBtn } from '@/components/atoms';
 import { FilterGroup, PaginationBar } from '@/components/molecules';
 import { CoursesSearchResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 
 export default async function Page({
@@ -35,11 +36,24 @@ export default async function Page({
       <div className="mx-auto w-full max-w-content-width px-md py-lg">
         <p>Search results for &quot;{searchParams.query}&quot;</p>
       </div>
-      <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
+      <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
         {total_results ? (
-          <div className="w-[250px] max-lg:hidden">
-            <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
-              <p className="pb-md">Filters</p>
+          <div className="lg:w-[250px] lg:pr-md">
+            <div
+              id="filters"
+              popover="auto"
+              className="top-0 max-h-[100dvh] min-h-[50dvh] w-full overflow-y-auto bg-page pb-lg pt-lg max-lg:h-[100dvh] max-lg:px-md lg:sticky lg:flex lg:flex-col lg:gap-sm"
+            >
+              <div className="flex">
+                <p className="flex-1 pb-md">Filters</p>
+                <Btn
+                  popoverTarget="filters"
+                  variant="tertiary"
+                  className="rounded-sm p-0 lg:hidden"
+                >
+                  <XMarkIcon width={24} height={24} />
+                </Btn>
+              </div>
               <p className="pb-sm text-small-lg">Limit</p>
               <FilterGroup
                 variant="radio"
@@ -94,7 +108,16 @@ export default async function Page({
           </div>
         ) : null}
         <div className="flex flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
-          <p>{total_results ?? '-'} Courses(s)</p>
+          <div className="flex">
+            <p className="flex-1">{total_results ?? '-'} Course(s)</p>
+            <Btn
+              popoverTarget="filters"
+              variant="tertiary"
+              className="rounded-sm p-0 lg:hidden"
+            >
+              <EllipsisVerticalIcon width={24} height={24} />
+            </Btn>
+          </div>
 
           {items && total_results > 0 ? (
             <Card>
