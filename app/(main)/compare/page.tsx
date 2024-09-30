@@ -1,4 +1,4 @@
-import { Card, LinkBtn } from '@/components/atoms';
+import { Btn, Card, LinkBtn } from '@/components/atoms';
 import { CompareItem, FilterGroup, SearchBar } from '@/components/molecules';
 import { BarChart } from '@/components/organisms';
 import {
@@ -8,6 +8,7 @@ import {
 } from '@/types';
 import fetcher from '@/utils/fetcher';
 import roundToTenth from '@/utils/round-to-tenth';
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 export default async function Page({
   searchParams,
@@ -108,12 +109,34 @@ export default async function Page({
 
   return (
     <main>
-      <section className="mx-auto flex w-full max-w-content-width items-stretch gap-md px-md">
-        <div className="w-[250px] max-lg:hidden">
-          <div className="sticky top-0 flex max-h-[100dvh] min-h-[50dvh] w-full flex-col gap-sm overflow-y-auto pb-lg pt-lg">
-            <p className="pb-md">
-              Search and select professors and/or courses to compare
-            </p>
+      <div className="mx-auto flex w-full max-w-content-width px-md py-lg">
+        <p className="flex-1">Grade/Rating Analysis</p>
+        <Btn
+          popoverTarget="filters"
+          variant="tertiary"
+          className="rounded-sm p-0 lg:hidden"
+        >
+          <EllipsisVerticalIcon width={24} height={24} />
+        </Btn>
+      </div>
+      <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
+        <div className="lg:w-[250px] lg:pr-md">
+          <div
+            id="filters"
+            popover="auto"
+            className="top-0 max-h-[100dvh] min-h-[50dvh] w-full overflow-y-auto bg-page pb-lg pt-lg max-lg:h-[100dvh] max-lg:px-md lg:sticky lg:flex lg:flex-col lg:gap-sm"
+          >
+            <div className="flex pb-md">
+              <p className="flex-1">Filters</p>
+              <Btn
+                popoverTarget="filters"
+                variant="tertiary"
+                className="rounded-sm p-0 lg:hidden"
+              >
+                <XMarkIcon width={24} height={24} />
+              </Btn>
+            </div>
+
             <div className="pb-lg pr-md">
               <SearchBar param="compareQuery" shouldResetPageOnChange={false} />
             </div>
@@ -149,41 +172,49 @@ export default async function Page({
           </div>
         </div>
         <div className="flex min-w-0 flex-1 flex-col items-stretch gap-md pb-lg pt-lg">
-          <div className="flex gap-sm overflow-x-auto">
-            {professorStats.map((professor) => (
-              <CompareItem
-                key={professor.id}
-                link={`/professors/${professor.id}`}
-                review={professor.review}
-                takeAgainPercent={professor.takeAgainPercent}
-                avgGrade={professor.avgGrade}
-                totalReviews={professor.totalReviews}
-                id={professor.id}
-              />
-            ))}
-            {courseStats.map((course) => (
-              <CompareItem
-                key={course.id}
-                link={`/courses/${course.id}`}
-                review={course.review}
-                takeAgainPercent={course.takeAgainPercent}
-                avgGrade={course.avgGrade}
-                totalReviews={course.totalReviews}
-                id={course.id}
-              />
-            ))}
-          </div>
+          {professorStats.length + courseStats.length ? (
+            <div className="flex gap-sm overflow-x-auto">
+              {professorStats.map((professor) => (
+                <CompareItem
+                  key={professor.id}
+                  link={`/professors/${professor.id}`}
+                  review={professor.review}
+                  takeAgainPercent={professor.takeAgainPercent}
+                  avgGrade={professor.avgGrade}
+                  totalReviews={professor.totalReviews}
+                  id={professor.id}
+                />
+              ))}
+              {courseStats.map((course) => (
+                <CompareItem
+                  key={course.id}
+                  link={`/courses/${course.id}`}
+                  review={course.review}
+                  takeAgainPercent={course.takeAgainPercent}
+                  avgGrade={course.avgGrade}
+                  totalReviews={course.totalReviews}
+                  id={course.id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="w-full p-lg text-center italic text-neutral">
+              No items selected.
+              <br />
+              Search and select professors/courses to compare.
+            </p>
+          )}
           <Card className="p-lg max-lg:w-full lg:flex-1">
             <p className="pb-sm font-bold">Rating Distribution</p>
             <BarChart
               series={[
                 ...(professorStats.map((professor) => ({
                   name: professor.id,
-                  data: professor.ratingDistribution,
+                  data: professor.ratingDistribution.reverse(),
                 })) ?? []),
                 ...(courseStats.map((course) => ({
                   name: course.id,
-                  data: course.ratingDistribution,
+                  data: course.ratingDistribution.reverse(),
                 })) ?? []),
               ]}
               categories={[5, 4, 3, 2, 1]}
