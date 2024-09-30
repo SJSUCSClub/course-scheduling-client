@@ -93,6 +93,9 @@ export const Navbar: React.FC = () => {
               >
                 Professors
               </LinkBtn>
+              <LinkBtn onClick={toggleMenu} href="/compare" variant="tertiary">
+                Compare
+              </LinkBtn>
               <SessionWrapper>
                 <ProfileBtn />
               </SessionWrapper>
