@@ -39,7 +39,7 @@ function PaginationNumber({
   isActive: boolean;
 }) {
   const className = cn(
-    'flex max-lg:h-6 max-lg:min-w-[24px] w-fit px-1 lg:h-10 lg:min-w-[40px] items-center justify-center max-lg:text-small-sm border-border border-2 transition-all duration-100 ease-in-out',
+    'flex max-lg:h-8 max-lg:min-w-8 w-fit px-1 lg:h-10 lg:min-w-10 items-center justify-center max-lg:text-small-sm border-border border-2 transition-all duration-100 ease-in-out',
     {
       'rounded-l-sm': position === 'first' || position === 'single',
       'rounded-r-sm': position === 'last' || position === 'single',
@@ -68,7 +68,7 @@ const PaginationArrow = ({
   isDisabled?: boolean;
 }) => {
   const className = cn(
-    'flex max-lg:h-6 max-lg:w-6 lg:h-10 lg:w-10 items-center justify-center rounded-sm transition-all duration-100 ease-in-out',
+    'flex max-lg:h-8 max-lg:w-8 lg:h-10 lg:w-10 items-center justify-center rounded-sm transition-all duration-100 ease-in-out',
     {
       'pointer-events-none text-neutral': isDisabled,
       'hover:bg-border': !isDisabled,

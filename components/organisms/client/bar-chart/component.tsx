@@ -6,22 +6,21 @@ import { Props as ChartConfigProps } from 'react-apexcharts';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface Props {
-  name: string;
-  data: number[];
+  series: { name: string; data: number[] }[];
   categories: (string | number)[];
 }
 
-export const BarChart: React.FC<Props> = ({ name, data, categories }) => {
+export const BarChart: React.FC<Props> = ({ series, categories }) => {
   const chartDarkConfig: ChartConfigProps = {
-    series: [
-      {
-        name,
-        data,
-      },
-    ],
+    series,
     type: 'bar',
     height: 350,
     options: {
+      legend: {
+        labels: {
+          colors: '#dddddd',
+        },
+      },
       chart: {
         toolbar: {
           show: false,
@@ -30,11 +29,11 @@ export const BarChart: React.FC<Props> = ({ name, data, categories }) => {
       dataLabels: {
         enabled: false,
       },
-      colors: ['#77A4D7'],
+      colors: ['#77A4D7', '#3e7cb1', '#2a5c8a', '#1a3d63', '#0f2640'],
       plotOptions: {
         bar: {
           columnWidth: '80%',
-          borderRadius: 6,
+          borderRadius: 3,
         },
       },
       xaxis: {
@@ -85,12 +84,7 @@ export const BarChart: React.FC<Props> = ({ name, data, categories }) => {
     },
   };
   const chartLightConfig: ChartConfigProps = {
-    series: [
-      {
-        name,
-        data,
-      },
-    ],
+    series,
     type: 'bar',
     height: 350,
     options: {
@@ -102,11 +96,11 @@ export const BarChart: React.FC<Props> = ({ name, data, categories }) => {
       dataLabels: {
         enabled: false,
       },
-      colors: ['#b7d0ed'],
+      colors: ['#b7d0ed', '#77A4D7', '#3e7cb1', '#2a5c8a', '#1a3d63'],
       plotOptions: {
         bar: {
           columnWidth: '80%',
-          borderRadius: 6,
+          borderRadius: 3,
         },
       },
       xaxis: {
