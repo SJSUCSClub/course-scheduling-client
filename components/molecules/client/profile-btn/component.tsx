@@ -3,7 +3,7 @@
 import { LinkBtn } from '@/components/atoms';
 import { cn } from '@/utils/cn';
 import { useSession } from '@/wrappers/session-provider';
-import { UserIcon } from '@heroicons/react/20/solid';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 
 interface Props
   extends Omit<
@@ -20,8 +20,9 @@ export const ProfileBtn: React.FC<Props> = ({ className, ...props }) => {
         {...props}
         href="/profile"
         variant="tertiary"
+        aria-label="Profile"
       >
-        <UserIcon width={20} height={20} /> Profile
+        <UserCircleIcon width={24} height={24} />{' '}
       </LinkBtn>
     );
   }
