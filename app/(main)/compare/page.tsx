@@ -210,11 +210,11 @@ export default async function Page({
               series={[
                 ...(professorStats.map((professor) => ({
                   name: professor.id,
-                  data: professor.ratingDistribution,
+                  data: professor.ratingDistribution.reverse(),
                 })) ?? []),
                 ...(courseStats.map((course) => ({
                   name: course.id,
-                  data: course.ratingDistribution,
+                  data: course.ratingDistribution.reverse(),
                 })) ?? []),
               ]}
               categories={[5, 4, 3, 2, 1]}
