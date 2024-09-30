@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
     !isOpenMenu && setIsShownSearch(!isShownSearch);
   };
   return (
-    <>
+    <div className="w-full bg-background">
       <header className="mx-auto flex w-full max-w-content-width items-center justify-between gap-xl bg-background max-lg:fixed max-lg:z-50 max-lg:min-h-[80px] max-lg:border-b-2 max-lg:border-border max-lg:px-md max-lg:py-md lg:px-lg lg:py-md">
         <Btn
           className="rounded-sm p-0 lg:hidden"
@@ -93,6 +93,9 @@ export const Navbar: React.FC = () => {
               >
                 Professors
               </LinkBtn>
+              <LinkBtn onClick={toggleMenu} href="/compare" variant="tertiary">
+                Compare
+              </LinkBtn>
               <SessionWrapper>
                 <ProfileBtn />
               </SessionWrapper>
@@ -111,6 +114,6 @@ export const Navbar: React.FC = () => {
       <hr className="w-full border-b-2 border-border max-lg:hidden" />
       {/* Mobile Nav Spacer */}
       <div className="h-[80px] lg:hidden" />
-    </>
+    </div>
   );
 };

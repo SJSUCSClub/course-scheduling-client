@@ -19,12 +19,13 @@ export const LinkBtn: React.FC<Props> = ({
     className={cn(
       'flex items-center gap-xs rounded-lg px-md py-sm text-button animation hover:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 active:opacity-25',
       {
-        'border-2 border-border bg-primary text-background focus:ring-primary':
+        'border-2 border-border bg-primary text-background focus:ring-primary dark:bg-background dark:text-text':
           variant === 'primary',
-        'border-2 border-border bg-secondary text-background focus:ring-secondary':
+        'border-2 border-border bg-secondary text-background focus:ring-secondary dark:text-text':
           variant === 'secondary',
-        'text-primary focus:ring-primary': variant === 'tertiary',
-        'border-2 border-primary text-primary focus:ring-primary':
+        'text-primary focus:ring-primary dark:text-text dark:focus:ring-border':
+          variant === 'tertiary',
+        'border-2 border-primary text-primary focus:ring-primary dark:border-hovered-border dark:text-text':
           variant === 'ghost',
       },
       className,

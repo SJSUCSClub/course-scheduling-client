@@ -62,16 +62,24 @@ export default function Loading() {
         <Card className="p-lg max-lg:w-full lg:flex-1">
           <p className="pb-sm font-bold">Rating Distribution</p>
           <BarChart
-            name="Rating Distribution"
-            data={[]}
+          series={[
+            {
+              name: 'Rating Distribution',
+              data: [],
+            },
+          ]}
             categories={[5, 4, 3, 2, 1]}
           />
         </Card>
         <Card className="p-lg max-lg:w-full lg:flex-1">
           <p className="pb-sm font-bold">Grade Distribution</p>
           <BarChart
-            name="Grade Distribution"
-            data={[]}
+          series={[
+            {
+              name: 'Grade Distribution',
+              data: [],
+            },
+          ]}
             categories={[
               'A+',
               'A',

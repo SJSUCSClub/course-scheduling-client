@@ -27,7 +27,7 @@ export const Schedule: React.FC<Props> = (props) => (
   <LinkBtn
     variant="tertiary"
     className="rounded-lg p-0 text-inherit"
-    href={props.link}
+    href={props.title !== 'TBA' ? props.link : '#'}
   >
     <Card className="flex w-full flex-col gap-sm max-lg:p-sm lg:p-lg">
       <div className="flex max-lg:flex-col max-lg:items-center max-lg:gap-sm max-lg:p-sm lg:items-start lg:justify-between lg:gap-md">

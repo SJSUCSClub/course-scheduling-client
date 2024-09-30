@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
+  darkMode: 'selector',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -102,6 +103,7 @@ const config: Config = {
         secondary: 'rgb(var(--color-secondary))',
         accent: 'rgb(var(--color-accent))',
         background: 'rgb(var(--color-background))',
+        page: 'rgb(var(--color-page))',
         text: 'rgb(var(--color-text))',
         neutral: 'rgb(var(--color-neutral))',
         important: 'rgb(var(--color-important))',
@@ -111,6 +113,22 @@ const config: Config = {
         bad: 'rgb(var(--color-bad))',
         border: 'rgb(var(--color-border)/ 0.5)',
         'hovered-border': 'rgb(var(--color-hovered-border)/ 0.5)',
+        dark: {
+          primary: 'rgb(var(--color-dark-primary))',
+          secondary: 'rgb(var(--color-dark-secondary))',
+          accent: 'rgb(var(--color-dark-accent))',
+          background: 'rgb(var(--color-dark-background))',
+          page: 'rgb(var(--color-dark-page))',
+          text: 'rgb(var(--color-dark-text))',
+          neutral: 'rgb(var(--color-dark-neutral))',
+          important: 'rgb(var(--color-dark-important))',
+          highlight: 'rgb(var(--color-dark-highlight))',
+          good: 'rgb(var(--color-dark-good))',
+          ok: 'rgb(var(--color-dark-ok))',
+          bad: 'rgb(var(--color-dark-bad))',
+          border: 'rgb(var(--color-dark-border)/ 0.5)',
+          'hovered-border': 'rgb(var(--color-dark-hovered-border)/ 0.5)',
+        },
       },
     },
   },

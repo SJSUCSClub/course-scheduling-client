@@ -191,16 +191,24 @@ export default async function Page({
         <Card className="p-lg max-lg:w-full lg:flex-1">
           <p className="pb-sm font-bold">Rating Distribution</p>
           <BarChart
-            name="Rating Distribution"
-            data={reviewDistribution}
+            series={[
+              {
+                name: 'Rating Distribution',
+                data: reviewDistribution.reverse(),
+              },
+            ]}
             categories={[5, 4, 3, 2, 1]}
           />
         </Card>
         <Card className="p-lg max-lg:w-full lg:flex-1">
           <p className="pb-sm font-bold">Grade Distribution</p>
           <BarChart
-            name="Grade Distribution"
-            data={grade_distribution}
+            series={[
+              {
+                name: 'Grade Distribution',
+                data: grade_distribution,
+              },
+            ]}
             categories={[
               'A+',
               'A',
