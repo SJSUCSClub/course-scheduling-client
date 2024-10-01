@@ -195,7 +195,7 @@ export const NavSearchBar: React.FC = () => {
         <option value="schedules">Schedules</option>
       </ParamSelect>
       {currentQuery ? (
-        <Card className="absolute left-0 top-[50px] z-50 hidden w-[500px] max-w-[100dvw] shadow-paper hover:block peer-focus-within:block peer-has-[:placeholder-shown]:hidden max-lg:hidden">
+        <Card className="absolute top-[50px] z-50 hidden max-w-[100dvw] shadow-paper hover:block peer-focus-within:block peer-has-[:placeholder-shown]:hidden max-lg:left-[50%] max-lg:hidden max-lg:w-[80dvw] max-lg:-translate-x-[50%] lg:left-0 lg:w-[500px]">
           <SWRConfigProvider>
             {currentOption === 'courses' ? (
               <CourseSearchResults />
