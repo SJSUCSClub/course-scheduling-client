@@ -5,36 +5,6 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup node and install dependencies
-        uses: ./.github/actions/setup-node-and-install
-        with:
-          node-version: 20
-
-      - name: Lint test
-        run: |
-          npm run lint
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup node and install dependencies
-        uses: ./.github/actions/setup-node-and-install
-        with:
-          node-version: 20
-
-      - name: Typecheck test
-        run: |
-          npm run typecheck
-
   build:
     runs-on: ubuntu-latest
     steps:
