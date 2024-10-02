@@ -13,8 +13,13 @@ export const ColorModePicker: React.FC = () => {
 };
 
 const ColorModePickerWithoutCookies: React.FC = () => {
-  const [theme, setTheme] = React.useState<string | null>(localStorage.theme);
+  const [isClient, setIsClient] = React.useState(false);
+  const [theme, setTheme] = React.useState<string | null>(null);
   const [_, setCookie] = useCookies(['theme']);
+  React.useEffect(() => {
+    setIsClient(true);
+    setTheme(localStorage.theme);
+  }, []);
   React.useEffect(() => {
     if (theme) {
       localStorage.theme = theme;
