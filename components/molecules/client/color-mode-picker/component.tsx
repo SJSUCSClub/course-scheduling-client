@@ -21,6 +21,9 @@ const ColorModePickerWithoutCookies: React.FC = () => {
     setTheme(localStorage.theme);
   }, []);
   React.useEffect(() => {
+    if (!isClient) {
+      return;
+    }
     if (theme) {
       localStorage.theme = theme;
     } else {
@@ -37,10 +40,13 @@ const ColorModePickerWithoutCookies: React.FC = () => {
       document.documentElement.classList.remove('dark');
       setCookie('theme', 'light', { path: '/' });
     }
-  }, [theme, setCookie]);
+  }, [theme, isClient, setCookie]);
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const theme = e.target.value;
     setTheme(theme);
+  }
+  if (!isClient) {
+    return null;
   }
   return (
     <Select defaultValue={theme ?? ''} onChange={handleChange}>
