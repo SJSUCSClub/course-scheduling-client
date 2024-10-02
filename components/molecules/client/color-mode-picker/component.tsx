@@ -15,7 +15,7 @@ export const ColorModePicker: React.FC = () => {
 const ColorModePickerWithoutCookies: React.FC = () => {
   const [isClient, setIsClient] = React.useState(false);
   const [theme, setTheme] = React.useState<string | null>(null);
-  const [_, setCookie] = useCookies(['theme']);
+  const cookies = useCookies(['theme']);
   React.useEffect(() => {
     setIsClient(true);
     setTheme(localStorage.theme);
@@ -35,12 +35,12 @@ const ColorModePickerWithoutCookies: React.FC = () => {
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
       document.documentElement.classList.add('dark');
-      setCookie('theme', 'dark', { path: '/' });
+      cookies[1]('theme', 'dark', { path: '/' });
     } else {
       document.documentElement.classList.remove('dark');
-      setCookie('theme', 'light', { path: '/' });
+      cookies[1]('theme', 'light', { path: '/' });
     }
-  }, [theme, isClient, setCookie]);
+  }, [theme, isClient, cookies]);
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const theme = e.target.value;
     setTheme(theme);
