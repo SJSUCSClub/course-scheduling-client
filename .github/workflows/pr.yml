@@ -33,7 +33,7 @@ jobs:
 
       - name: Typecheck test
         run: |
-          npm run typecheck
+          npm run type-check
 
   build:
     runs-on: ubuntu-latest
@@ -48,9 +48,9 @@ jobs:
 
       - name: Build app
         run: |
-          touch .env
-          echo NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} >> .env
-          echo BASE_API_URL=${{ secrets.BASE_API_URL }} >> .env
+          touch .env.local
+          echo NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} >> .env.local
+          echo BASE_API_URL=${{ secrets.BASE_API_URL }} >> .env.local
           npm run build
 
       - name: Upload build artifact
