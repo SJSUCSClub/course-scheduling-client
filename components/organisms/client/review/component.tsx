@@ -261,6 +261,7 @@ export const ReviewWithoutProviders: React.FC<Props> = ({
     setIsUpvoted(false);
   };
   React.useEffect(() => {
+    if (!isAuthenticated) return;
     fetch(`/django/core/users/vote`, {
       method: 'POST',
       headers: {
