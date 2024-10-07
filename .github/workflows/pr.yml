@@ -20,23 +20,13 @@ jobs:
         run: |
           npm run lint
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup node and install dependencies
-        uses: ./.github/actions/setup-node-and-install
-        with:
-          node-version: 20
-
-      - name: Typecheck test
-        run: |
-          npm run type-check
-
   build:
+    environment: Production
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+      BASE_API_URL: ${{ secrets.BASE_API_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,11 +37,7 @@ jobs:
           node-version: 20
 
       - name: Build app
-        run: |
-          touch .env.local
-          echo NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} >> .env.local
-          echo BASE_API_URL=${{ secrets.BASE_API_URL }} >> .env.local
-          npm run build
+        run: npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

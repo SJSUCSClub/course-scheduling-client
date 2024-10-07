@@ -5,7 +5,7 @@ import { Footer } from '@/components/organisms';
 import { cookies } from 'next/headers';
 
 const inter = Inter({ subsets: ['latin'] });
-
+console.log(process.env.NEXT_PUBLIC_BASE_URL);
 export const metadata: Metadata = {
   title: {
     template: '%s | Course Scheduler',
