@@ -277,7 +277,7 @@ export const ReviewWithoutProviders: React.FC<Props> = ({
         setError(true);
       }
     });
-  }, [isUpvoted, isDownvoted, cookies.csrftoken, props.id]);
+  }, [isUpvoted, isDownvoted, cookies.csrftoken, props.id, isAuthenticated]);
   const handleDelete = () => {
     fetch(`/django/core/users/reviews/${props.id}`, {
       method: 'DELETE',

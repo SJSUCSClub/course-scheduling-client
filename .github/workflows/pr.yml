@@ -19,7 +19,6 @@ jobs:
       - name: Lint test
         run: |
           npm run lint
-
   build:
     environment: Preview
     runs-on: ubuntu-latest
@@ -36,6 +35,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Check current directory
+        run: pwd
+
+      - name: List all files
+        run: ls -la
+
       - name: Build app
         run: npm run build
 
@@ -44,3 +49,11 @@ jobs:
         with:
           name: next-build
           path: .next/
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
