@@ -10,6 +10,7 @@ export default async function Page({
   searchParams,
 }: {
   searchParams: {
+    review_id: string;
     professor_id: string;
     course_number: string;
     department: string;
@@ -17,7 +18,7 @@ export default async function Page({
     quality: number;
     ease: number;
     grade?: string;
-    take_again?: boolean;
+    take_again?: string;
     tags: string[] | string;
     is_user_anonymous: boolean;
   };
@@ -27,7 +28,7 @@ export default async function Page({
     redirect(process.env.BASE_API_URL + '/google/authorize');
   }
   const userId = session?.email.split('@')[0] ?? null;
-  const body = JSON.stringify({
+  const body = {
     professor_id: searchParams.professor_id,
     course_number: searchParams.course_number,
     department: searchParams.department,
@@ -42,17 +43,21 @@ export default async function Page({
         : [],
     take_again: searchParams.take_again,
     is_user_anonymous: searchParams.is_user_anonymous,
-  });
+  };
   try {
-    await fetcher(process.env.BASE_API_URL + '/core/users/reviews', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: cookies().toString(),
-        'X-CSRFToken': cookies().get('csrftoken')?.value ?? '',
+    await fetcher(
+      process.env.BASE_API_URL +
+        `/core/users/reviews${searchParams.review_id ? '/' + searchParams.review_id : ''}`,
+      {
+        method: searchParams.review_id ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: cookies().toString(),
+          'X-CSRFToken': cookies().get('csrftoken')?.value ?? '',
+        },
+        body: JSON.stringify(body),
       },
-      body,
-    });
+    );
   } catch (error) {
     if (error instanceof FetchError) {
       const info = error.info as { message: string };
@@ -77,13 +82,15 @@ export default async function Page({
       );
     }
   }
+  //log all searchParams
+  console.log(searchParams);
   return (
     <main>
       <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
         <div className="flex w-full flex-col items-center gap-xxl py-xxl">
           <div className="flex flex-col items-stretch">
             <h1 className="pb-sm text-center max-lg:text-h1-mobile-sm lg:text-h1-desktop-sm">
-              Review Submitted!
+              Review {searchParams.review_id ? 'Updated' : 'Submitted'}!
             </h1>
             <p className="pb-xxl text-center lg:text-h5-desktop">
               Thank you for reviewing Professor{' '}
@@ -120,12 +127,20 @@ export default async function Page({
                       ? [searchParams.tags]
                       : []
                 }
-                takeAgain={searchParams.take_again ?? null}
+                takeAgain={
+                  searchParams.take_again === 'true'
+                    ? true
+                    : searchParams.take_again === 'false'
+                      ? false
+                      : null
+                }
                 votes={{ upvotes: 0, downvotes: 0 }}
-                comments={null}
                 userId={userId}
                 id="1"
                 isShownInteractions={false}
+                userVote={null}
+                professorId={searchParams.professor_id}
+                courseId={`${searchParams.department}-${searchParams.course_number}`}
               />
             </SessionProvider>
           </div>

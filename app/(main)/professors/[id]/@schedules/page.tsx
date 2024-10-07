@@ -17,7 +17,9 @@ const getKey =
 
 export default function Page({ params }: { params: { id: string } }) {
   const { data, error, isLoading, isValidating, size, setSize } =
-    useSWRInfinite<ProfessorsIDSchedulesResponse>(getKey(params.id), fetcher);
+    useSWRInfinite<ProfessorsIDSchedulesResponse>(getKey(params.id), fetcher, {
+      revalidateOnFocus: false,
+    });
   if (isLoading) return <Loading />;
   if (error || !data) throw error;
   const { total_results, pages } = data[0];

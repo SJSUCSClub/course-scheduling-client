@@ -9,10 +9,17 @@ export default async function Page({
   searchParams,
 }: {
   searchParams: {
+    review_id: string;
+    course_query: string;
     professor_id: string;
     course_id: string;
-    course_query: string;
     review: string;
+    quality: number;
+    ease: number;
+    grade: string;
+    take_again: boolean;
+    tags: string[];
+    is_user_anonymous: boolean;
   };
 }) {
   const session = getServerSession();
@@ -81,6 +88,11 @@ export default async function Page({
           <Card className="flex flex-col gap-md p-lg">
             <input
               type="hidden"
+              name="review_id"
+              value={searchParams.review_id}
+            />
+            <input
+              type="hidden"
               name="professor_id"
               value={searchParams.professor_id}
             />
@@ -113,6 +125,7 @@ export default async function Page({
                 max="5"
                 list="ease-values"
                 className="w-full"
+                defaultValue={searchParams.ease ?? 3}
                 required
               />
               <datalist className="flex justify-between" id="ease-values">
@@ -134,6 +147,7 @@ export default async function Page({
                 max="5"
                 list="quality-values"
                 className="w-full"
+                defaultValue={searchParams.quality ?? 3}
                 required
               />
               <datalist className="flex justify-between" id="quality-values">
@@ -150,17 +164,37 @@ export default async function Page({
                 <span className="pl-xs text-important">*</span>
               </p>
               <div className="flex w-full gap-sm">
-                <Tag required name="take_again" value="true" type="radio">
+                <Tag
+                  required
+                  name="take_again"
+                  value="true"
+                  type="radio"
+                  defaultChecked={
+                    searchParams.take_again === true ? true : false
+                  }
+                >
                   Yes
                 </Tag>
-                <Tag required name="take_again" value="false" type="radio">
+                <Tag
+                  required
+                  name="take_again"
+                  value="false"
+                  type="radio"
+                  defaultChecked={
+                    searchParams.take_again === false ? true : false
+                  }
+                >
                   No
                 </Tag>
               </div>
             </label>
             <label className="pb-md">
               <p className="pb-sm">Grade</p>
-              <Select name="grade" className="w-full">
+              <Select
+                name="grade"
+                className="w-full"
+                defaultValue={searchParams.grade ?? ''}
+              >
                 <option value="A+">A+</option>
                 <option value="A">A</option>
                 <option value="A-">A-</option>
@@ -201,7 +235,19 @@ export default async function Page({
                   'Accessible outside class',
                   'Online savvy',
                 ].map((tag) => (
-                  <Tag key={tag} name="tags" value={tag} type="checkbox">
+                  <Tag
+                    key={tag}
+                    name="tags"
+                    value={tag}
+                    type="checkbox"
+                    defaultChecked={
+                      searchParams.tags
+                        ? Array.isArray(searchParams.tags)
+                          ? searchParams.tags?.includes(tag)
+                          : searchParams.tags === tag
+                        : false
+                    }
+                  >
                     {tag}
                   </Tag>
                 ))}
@@ -238,6 +284,11 @@ export default async function Page({
                   name="is_user_anonymous"
                   value="false"
                   type="radio"
+                  defaultChecked={
+                    searchParams.is_user_anonymous
+                      ? !searchParams.is_user_anonymous
+                      : false
+                  }
                 >
                   No
                 </Tag>
@@ -246,6 +297,11 @@ export default async function Page({
                   name="is_user_anonymous"
                   value="true"
                   type="radio"
+                  defaultChecked={
+                    searchParams.is_user_anonymous
+                      ? searchParams.is_user_anonymous
+                      : false
+                  }
                 >
                   Yes
                 </Tag>
