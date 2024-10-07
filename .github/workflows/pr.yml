@@ -21,7 +21,7 @@ jobs:
           npm run lint
 
   build:
-    environment: Production
+    environment: Preview
     runs-on: ubuntu-latest
     env:
       NODE_ENV: production
