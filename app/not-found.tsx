@@ -12,7 +12,7 @@ export default function NotFound() {
       <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
         <div className="flex w-full flex-col items-center gap-xxl py-xxl">
           <div className="flex flex-col items-center">
-            <h1 className="max-lg:text-h1-mobile pb-sm text-center lg:text-h1-desktop-lg">
+            <h1 className="pb-sm text-center max-lg:text-h1-mobile-lg lg:text-h1-desktop-lg">
               404.
             </h1>
             <p className="pb-lg text-center lg:text-h5-desktop">

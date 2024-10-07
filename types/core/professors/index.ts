@@ -47,8 +47,8 @@ export interface ProfessorsIDReviewsResponse {
     id: number;
     created_at: string;
     updated_at: string | null;
-    name: string | null;
-    username: string | null;
+    reviewer_name: string | null;
+    reviewer_username: string | null;
     course_number: string;
     department: string;
     professor_id: string | null;

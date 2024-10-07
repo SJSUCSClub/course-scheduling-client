@@ -55,7 +55,10 @@ const WriteReview = ({ id }: { id: string }) => {
         className="w-full"
         placeholder="Write a review..."
         name="review"
+        minLength={40}
+        required
       />
+
       <Btn
         className="rounded-md bg-background p-lg text-primary"
         variant="primary"
@@ -91,11 +94,12 @@ export default function Page({ params }: { params: { id: string } }) {
     useSWRInfinite<ProfessorsIDReviewsResponse>(
       getKey(params.id, requestParams.toString()),
       fetcher,
+      {
+        revalidateOnFocus: false,
+      },
     );
   if (error) throw error;
   const results = data ? data[0] : null;
-  // TODO: Add has_reviewed to the response and check if the user has already reviewed the professor
-  // const hasReviewed = results?.has_reviewed;
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
     <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
@@ -164,7 +168,11 @@ export default function Page({ params }: { params: { id: string } }) {
                   key={i}
                   link={`/courses/${item.department}-${item.course_number}`}
                   title={`${item.department} ${item.course_number}`}
-                  name={item.name ?? item.username ?? 'Anonymous User'}
+                  name={
+                    item.reviewer_name ??
+                    item.reviewer_username ??
+                    'Anonymous User'
+                  }
                   createdAt={item.created_at}
                   updatedAt={item.updated_at}
                   content={item.content}

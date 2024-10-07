@@ -54,8 +54,8 @@ export interface CoursesIDReviewsResponse {
     department: string;
     created_at: string;
     updated_at: string | null;
-    name: string | null;
-    username: string | null;
+    reviewer_name: string | null;
+    reviewer_username: string | null;
     professor_id: string | null;
     professor_name: string;
     professor_email: string;

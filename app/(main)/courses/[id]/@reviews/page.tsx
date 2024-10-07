@@ -56,6 +56,9 @@ export default function Page({ params }: { params: { id: string } }) {
     useSWRInfinite<CoursesIDReviewsResponse>(
       getKey(params.id, requestParams.toString()),
       fetcher,
+      {
+        revalidateOnFocus: false,
+      },
     );
   if (error) throw error;
   const results = data ? data[0] : null;
@@ -126,7 +129,11 @@ export default function Page({ params }: { params: { id: string } }) {
                   key={i}
                   link={`/professors/${item.professor_id}`}
                   title={item.professor_name}
-                  name={item.name ?? item.username ?? 'Anonymous User'}
+                  name={
+                    item.reviewer_name ??
+                    item.reviewer_username ??
+                    'Anonymous User'
+                  }
                   createdAt={item.created_at}
                   updatedAt={item.updated_at}
                   content={item.content}
