@@ -39,8 +39,10 @@ const Skeleton = () =>
         votes={{ upvotes: 0, downvotes: 0 }}
         userId={null}
         takeAgain={null}
-        comments={null}
         tags={[]}
+        userVote={null}
+        professorId="0"
+        courseId="0"
       />
     </div>
   ));
@@ -55,7 +57,10 @@ const WriteReview = ({ id }: { id: string }) => {
         className="w-full"
         placeholder="Write a review..."
         name="review"
+        minLength={40}
+        required
       />
+
       <Btn
         className="rounded-md bg-background p-lg text-primary"
         variant="primary"
@@ -81,7 +86,6 @@ const WriteReview = ({ id }: { id: string }) => {
 export default function Page({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams();
   const requestParams = new URLSearchParams();
-  requestParams.append('comments', 'true');
   requestParams.append('limit', searchParams.get('limit') ?? '3');
   searchParams
     .getAll('tags')
@@ -91,11 +95,12 @@ export default function Page({ params }: { params: { id: string } }) {
     useSWRInfinite<ProfessorsIDReviewsResponse>(
       getKey(params.id, requestParams.toString()),
       fetcher,
+      {
+        revalidateOnFocus: false,
+      },
     );
   if (error) throw error;
   const results = data ? data[0] : null;
-  // TODO: Add has_reviewed to the response and check if the user has already reviewed the professor
-  // const hasReviewed = results?.has_reviewed;
   const items = data ? data.flatMap((d) => d.items) : [];
   return (
     <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
@@ -164,7 +169,11 @@ export default function Page({ params }: { params: { id: string } }) {
                   key={i}
                   link={`/courses/${item.department}-${item.course_number}`}
                   title={`${item.department} ${item.course_number}`}
-                  name={item.name ?? item.username ?? 'Anonymous User'}
+                  name={
+                    item.reviewer_name ??
+                    item.reviewer_username ??
+                    'Anonymous User'
+                  }
                   createdAt={item.created_at}
                   updatedAt={item.updated_at}
                   content={item.content}
@@ -174,23 +183,11 @@ export default function Page({ params }: { params: { id: string } }) {
                   tags={item.tags}
                   takeAgain={item.take_again}
                   votes={item.votes}
-                  comments={
-                    item.comments
-                      ? item.comments.map((comment) => ({
-                          id: comment.id,
-                          userId: comment.user_id,
-                          name:
-                            comment.name ??
-                            comment.username ??
-                            'Anonymous User',
-                          createdAt: comment.created_at,
-                          updatedAt: comment.updated_at,
-                          content: comment.content,
-                        }))
-                      : null
-                  }
                   userId={item.user_id}
                   id={item.id.toString()}
+                  userVote={item.user_vote}
+                  professorId={item.professor_id}
+                  courseId={`${item.department}-${item.course_number}`}
                 />
               ))
             : null}

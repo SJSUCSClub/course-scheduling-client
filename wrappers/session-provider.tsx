@@ -1,16 +1,10 @@
 'use client';
 
+import { SessionType } from '@/types';
 import React from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
 
-type SessionContext =
-  | {
-      email: string;
-      first_name: string;
-      last_name: string;
-    }
-  | null
-  | undefined;
+type SessionContext = SessionType;
 
 // initialize to undefined since null is a possible value and undefined
 // will only happen if there is no above context

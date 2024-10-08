@@ -1,9 +1,12 @@
 'use client';
 
-import { Btn, Card, LinkBtn, Tag, Textarea } from '@/components/atoms';
+import { Btn, Card, LinkBtn, Spinner, Tag, Textarea } from '@/components/atoms';
+import { SessionType } from '@/types';
+import { ReviewsIDCommentsResponse } from '@/types/core/reviews';
 import { cn } from '@/utils/cn';
 import getEvaluation from '@/utils/get-evaluation';
-import { useSession } from '@/wrappers/session-provider';
+import SessionProvider, { useSession } from '@/wrappers/session-provider';
+import SWRConfigProvider from '@/wrappers/swr-config';
 import {
   HandThumbDownIcon,
   HandThumbUpIcon,
@@ -13,7 +16,6 @@ import {
 import {
   HandThumbDownIcon as HandThumbDownIconSolid,
   HandThumbUpIcon as HandThumbUpIconSolid,
-  FlagIcon as FlagIconSolid,
   ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconSolid,
   ChevronRightIcon,
   PencilIcon,
@@ -22,38 +24,198 @@ import {
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import useSWR from 'swr';
 
 interface Props {
-  id: string;
-  userId: string | null;
   link: string;
-  title: string;
-  name: string;
+  userId: string | null;
+  id: string;
   createdAt: string | null;
   updatedAt: string | null;
+  name: string;
+  courseId: string;
+  professorId: string | null;
+  title: string;
   content: string;
   quality: number;
   ease: number;
   grade: string | null;
   tags: string[];
   takeAgain: boolean | null;
+  userVote: boolean | null;
   votes: {
     upvotes: number;
     downvotes: number;
   };
-  comments:
-    | {
-        id: number;
-        userId: string | null;
-        name: string;
-        createdAt: string;
-        updatedAt: string | null;
-        content: string;
-      }[]
-    | null;
+  isShownInteractions?: boolean;
 }
 
-export const Review: React.FC<Props> = (props) => {
+export const Review: React.FC<Props> = (props) => (
+  <SWRConfigProvider>
+    <SessionProvider>
+      <ReviewWithoutProviders {...props} />
+    </SessionProvider>
+  </SWRConfigProvider>
+);
+
+interface CommentsProps {
+  reviewId: string;
+  userId: string | null;
+  isAuthenticated: boolean;
+  session: SessionType | null;
+}
+
+const CommentsWithoutProviders: React.FC<CommentsProps> = (props) => {
+  const { data, error, isLoading, isValidating, mutate } =
+    useSWR<ReviewsIDCommentsResponse>(
+      `/django/core/reviews/${props.reviewId}/comments`,
+    );
+  const [cookies] = useCookies(['csrftoken']);
+  const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const comment = formData.get('comment') as string;
+    if (!comment) return;
+    const newComment = {
+      id: 0,
+      user_id: props.userId,
+      review_id: parseInt(props.reviewId),
+      created_at: new Date().toISOString(),
+      updated_at: null,
+      content: comment,
+    };
+    const newData = data ? [...data, newComment] : [newComment];
+    mutate(
+      async () => {
+        await fetch(`/django/core/users/comments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': cookies.csrftoken,
+          },
+          body: JSON.stringify({
+            review_id: props.reviewId,
+            content: comment,
+          }),
+        });
+        return newData;
+      },
+      {
+        optimisticData: newData,
+      },
+    );
+    // Reset form
+    e.currentTarget.reset();
+  };
+  const handleDeleteComment = (comment_id: number) => {
+    const newData = data
+      ? data.filter((comment) => comment.id !== comment_id)
+      : [];
+    const requestParams = new URLSearchParams();
+    requestParams.set('review_id', props.reviewId);
+    requestParams.set('comment_id', comment_id.toString());
+    mutate(
+      async () => {
+        await fetch(
+          `/django/core/users/reviews/comments?${requestParams.toString()}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'X-CSRFToken': cookies.csrftoken,
+            },
+          },
+        );
+        return newData;
+      },
+      {
+        optimisticData: newData,
+      },
+    );
+  };
+  return (
+    <>
+      {data ? (
+        data.length ? (
+          <div className="px-sm pt-md">
+            {data.map((comment, i) => (
+              <div className="flex flex-col gap-md" key={i}>
+                {i > 0 ? <hr /> : null}
+                <div className="flex items-center px-md pb-md">
+                  <div className="flex-1">
+                    <p>
+                      <span className="font-bold">{comment.user_id}</span>{' '}
+                      <span className="text-neutral">
+                        {comment.updated_at
+                          ? `updated on ${dayjs(comment.updated_at).format('MMMM D, YYYY')}`
+                          : `commented on ${dayjs(comment.created_at).format('MMMM D, YYYY')}`}
+                      </span>
+                    </p>
+                    <p>{comment.content}</p>
+                  </div>
+                  {props.userId == comment.user_id ? (
+                    <div>
+                      <Btn
+                        className="gap-sm rounded-sm p-0"
+                        variant="tertiary"
+                        onClick={() => handleDeleteComment(comment.id)}
+                      >
+                        <TrashIcon width={24} height={24} />
+                      </Btn>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="px-sm py-md text-center">No comments yet.</p>
+        )
+      ) : null}
+      {error ? (
+        <p className="px-sm py-md text-center text-important">
+          There was an error loading comments.
+        </p>
+      ) : null}
+      {isLoading || isValidating ? (
+        <Spinner className="flex w-full justify-center pb-lg" />
+      ) : null}
+      {props.isAuthenticated ? (
+        <form className="flex gap-sm pt-sm" onSubmit={handleAddComment}>
+          <Textarea
+            className="w-full"
+            placeholder="Add your comment here..."
+            name="comment"
+          />
+          <Btn
+            disabled={isLoading || isValidating}
+            className="rounded-md bg-background p-lg text-primary"
+            variant="primary"
+            type="submit"
+          >
+            <ChevronRightIcon width={24} height={24} />
+          </Btn>
+        </form>
+      ) : (
+        <span className="flex w-full items-center justify-center py-md">
+          <LinkBtn
+            variant="tertiary"
+            className="w-fit px-sm"
+            href="/django/google/authorize"
+          >
+            Log in
+          </LinkBtn>{' '}
+          to add a comment.
+        </span>
+      )}
+    </>
+  );
+};
+
+export const ReviewWithoutProviders: React.FC<Props> = ({
+  isShownInteractions = true,
+  ...props
+}) => {
   const session = useSession();
   const isAuthenticated = session !== null;
   const userId = session?.email.split('@')[0] ?? null;
@@ -62,43 +224,27 @@ export const Review: React.FC<Props> = (props) => {
     isAuthenticated && props.userId !== null && userId === props.userId;
   const [isShownComments, setIsShownComments] = React.useState(false);
   const toggleComments = () => setIsShownComments(!isShownComments);
-  const [optimisticComments, setOptimisticComments] = React.useState<
-    {
-      id: number;
-      userId: string | null;
-      name: string;
-      createdAt: string;
-      updatedAt: string | null;
-      content: string;
-    }[]
-  >([]);
-  const [isUpvoted, setIsUpvoted] = React.useState(false);
-  const [isDownvoted, setIsDownvoted] = React.useState(false);
-  const [isFlagged, setIsFlagged] = React.useState(false);
-  const rating = Math.round(((props.quality + props.ease) / 2) * 10) / 10;
-  const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
-    // TODO: Implement add comment
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const comment = formData.get('comment') as string;
-    console.log(comment);
-    if (comment) {
-      setOptimisticComments([
-        ...optimisticComments,
-        {
-          id: optimisticComments.length + 1,
-          userId: userId,
-          name: `${session?.first_name} ${session?.last_name}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: null,
-          content: comment,
-        },
-      ]);
-      e.currentTarget.reset();
-    }
-  };
+  const [isUpvoted, setIsUpvoted] = React.useState(
+    props.userVote === true ? true : false,
+  );
+  const [isDownvoted, setIsDownvoted] = React.useState(
+    props.userVote === false ? true : false,
+  );
+  const [hasFlagged, setHasFlagged] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  let quality = props.quality;
+  if (typeof props.quality !== 'number') quality = parseInt(props.quality);
+  let ease = props.ease;
+  if (typeof props.ease !== 'number') ease = parseInt(props.ease);
+  const rating = Math.round(((quality + ease) / 2) * 10) / 10;
+  const upvotes =
+    props.userVote === true ? props.votes.upvotes - 1 : props.votes.upvotes;
+  const downvotes =
+    props.userVote === false
+      ? props.votes.downvotes - 1
+      : props.votes.downvotes;
+  const [cookies] = useCookies(['csrftoken']);
   const handleUpvote = () => {
-    // TODO: Implement upvote
     if (!isAuthenticated) {
       router.push('/django/google/authorize');
       return;
@@ -107,7 +253,6 @@ export const Review: React.FC<Props> = (props) => {
     setIsDownvoted(false);
   };
   const handleDownvote = () => {
-    // TODO: Implement downvote
     if (!isAuthenticated) {
       router.push('/django/google/authorize');
       return;
@@ -115,20 +260,82 @@ export const Review: React.FC<Props> = (props) => {
     setIsDownvoted(!isDownvoted);
     setIsUpvoted(false);
   };
+  React.useEffect(() => {
+    if (!isAuthenticated) return;
+    fetch(`/django/core/users/vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': cookies.csrftoken,
+      },
+      body: JSON.stringify({
+        review_id: props.id,
+        vote: isUpvoted ? true : isDownvoted ? false : null,
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      }
+    });
+  }, [isUpvoted, isDownvoted, cookies.csrftoken, props.id, isAuthenticated]);
   const handleDelete = () => {
-    // TODO: Implement delete
+    fetch(`/django/core/users/reviews/${props.id}`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRFToken': cookies.csrftoken,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      }
+      location.reload();
+    });
   };
-  const handleReport = () => {
-    // TODO: Implement report
+  const handleReport = (e: React.FormEvent<HTMLFormElement>) => {
     if (!isAuthenticated) {
       router.push('/django/google/authorize');
       return;
     }
-    setIsFlagged(!isFlagged);
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const reason = formData.get('reason') as string;
+    const body = {
+      review_id: props.id,
+      reason,
+    };
+    fetch(`/django/core/users/flagged_reviews`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': cookies.csrftoken,
+      },
+      body: JSON.stringify(body),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      }
+      setHasFlagged(true);
+    });
   };
-  const handleDeleteComment = () => {
-    // TODO: Implement delete comment
-  };
+
+  const editParams = new URLSearchParams();
+  editParams.set('review_id', props.id);
+  editParams.set('professor_id', props.professorId ?? '');
+  editParams.set('course_id', props.courseId);
+  editParams.set('review', props.content);
+  editParams.set('quality', quality.toString());
+  editParams.set('ease', ease.toString());
+  editParams.set('grade', props.grade ?? '');
+  editParams.set('take_again', props.takeAgain?.toString() ?? '');
+  if (Array.isArray(props.tags)) {
+    props.tags.forEach((tag) => {
+      editParams.append('tags', tag);
+    });
+  } else if (props.tags) {
+    editParams.append('tags', props.tags);
+  }
+  editParams.set('is_user_anonymous', props.userId === null ? 'true' : 'false');
+
   return (
     <Card className="p-sm">
       <div className="flex gap-xl max-lg:flex-col">
@@ -222,7 +429,7 @@ export const Review: React.FC<Props> = (props) => {
               <p className="text-neutral">•</p>
               <p>
                 Take again:{' '}
-                {props.takeAgain !== null || props.takeAgain !== null ? (
+                {props.takeAgain === true || props.takeAgain === false ? (
                   <span
                     className={cn('font-bold', {
                       'text-good': props.takeAgain,
@@ -241,11 +448,17 @@ export const Review: React.FC<Props> = (props) => {
             <hr className="pb-md" />
 
             {/* Content */}
-            <p className="pb-lg">{props.content}</p>
+            <p className="hyphens-auto pb-lg [overflow-wrap:anywhere]">
+              {props.content}
+            </p>
 
             {/* Tags */}
             {props.tags.length > 0 ? (
-              <div className="flex min-w-min flex-wrap gap-md pb-lg text-neutral">
+              <div
+                className={cn('flex min-w-min flex-wrap gap-md text-neutral', {
+                  'pb-lg': isShownInteractions,
+                })}
+              >
                 {props.tags.map((tag, i) => (
                   <Tag
                     key={i}
@@ -260,104 +473,163 @@ export const Review: React.FC<Props> = (props) => {
           </div>
 
           {/* Interactions */}
-          <div className="flex items-center justify-between gap-md">
-            <div className="flex gap-sm">
-              <Btn
-                className="gap-sm rounded-sm p-0"
-                variant="tertiary"
-                onClick={handleUpvote}
-              >
-                {isUpvoted ? (
-                  <HandThumbUpIconSolid width={24} height={24} />
-                ) : (
-                  <HandThumbUpIcon width={24} height={24} />
-                )}
-                {isUpvoted ? props.votes.upvotes + 1 : props.votes.upvotes}
-              </Btn>
-              <Btn
-                className="gap-sm rounded-sm p-0"
-                variant="tertiary"
-                onClick={handleDownvote}
-              >
-                {isDownvoted ? (
-                  <HandThumbDownIconSolid width={24} height={24} />
-                ) : (
-                  <HandThumbDownIcon width={24} height={24} />
-                )}
-                {isDownvoted
-                  ? props.votes.downvotes + 1
-                  : props.votes.downvotes}
-              </Btn>
-            </div>
-            <div className="flex gap-sm">
-              {isOwner ? (
-                <>
-                  <LinkBtn
-                    className="gap-sm rounded-sm p-0"
-                    variant="tertiary"
-                    href={`/professors/review/${props.id}`}
-                  >
-                    <PencilIcon width={24} height={24} />
-                  </LinkBtn>
-                  <Btn
-                    className="gap-sm rounded-sm p-0"
-                    variant="tertiary"
-                    popoverTarget="delete-review"
-                  >
-                    <TrashIcon width={24} height={24} />
-                  </Btn>
-                  <dialog
-                    popover="auto"
-                    id="delete-review"
-                    className="bg-[#00000000] backdrop:bg-text backdrop:opacity-25"
-                  >
-                    <Card className="w-min p-md">
-                      <p className="pb-sm font-bold">Delete Review</p>
-                      <p>Are you sure you want to delete this review?</p>
-                      <div className="flex w-full gap-sm pt-md">
-                        <Btn
-                          className="bg-important text-background"
-                          variant="primary"
-                          onClick={handleDelete}
-                        >
-                          Delete
-                        </Btn>
-                        <Btn
-                          className="bg-background text-primary"
-                          variant="primary"
-                          popoverTarget="delete-review"
-                        >
-                          Cancel
-                        </Btn>
-                      </div>
-                    </Card>
-                  </dialog>
-                </>
-              ) : null}
-              <Btn
-                className="gap-sm rounded-sm p-0"
-                variant="tertiary"
-                onClick={toggleComments}
-              >
-                {isShownComments ? (
-                  <ChatBubbleOvalLeftIconSolid width={24} height={24} />
-                ) : (
-                  <ChatBubbleOvalLeftIcon width={24} height={24} />
-                )}
-              </Btn>
-              <Btn
-                className="gap-sm rounded-sm p-0"
-                variant="tertiary"
-                onClick={handleReport}
-              >
-                {isFlagged ? (
-                  <FlagIconSolid width={24} height={24} />
-                ) : (
+          {isShownInteractions ? (
+            <div className="flex items-center justify-between gap-md">
+              <div className="flex gap-sm">
+                <Btn
+                  className="gap-sm rounded-sm p-0"
+                  variant="tertiary"
+                  onClick={handleUpvote}
+                >
+                  {isUpvoted ? (
+                    <HandThumbUpIconSolid width={24} height={24} />
+                  ) : (
+                    <HandThumbUpIcon width={24} height={24} />
+                  )}
+                  {isUpvoted ? upvotes + 1 : upvotes}
+                </Btn>
+                <Btn
+                  className="gap-sm rounded-sm p-0"
+                  variant="tertiary"
+                  onClick={handleDownvote}
+                >
+                  {isDownvoted ? (
+                    <HandThumbDownIconSolid width={24} height={24} />
+                  ) : (
+                    <HandThumbDownIcon width={24} height={24} />
+                  )}
+                  {isDownvoted ? downvotes + 1 : downvotes}
+                </Btn>
+              </div>
+              <div className="flex gap-sm">
+                {isOwner ? (
+                  <>
+                    <LinkBtn
+                      className="gap-sm rounded-sm p-0"
+                      variant="tertiary"
+                      href={`/professors/review?${editParams.toString()}`}
+                    >
+                      <PencilIcon width={24} height={24} />
+                    </LinkBtn>
+                    <Btn
+                      className="gap-sm rounded-sm p-0"
+                      variant="tertiary"
+                      popoverTarget={`delete-review-${props.id}`}
+                    >
+                      <TrashIcon width={24} height={24} />
+                    </Btn>
+                    <dialog
+                      popover="auto"
+                      id={`delete-review-${props.id}`}
+                      className="bg-[#00000000] backdrop:bg-text backdrop:opacity-25"
+                    >
+                      <Card className="w-min p-md">
+                        <p className="pb-sm font-bold">Delete Review</p>
+                        <p>Are you sure you want to delete this review?</p>
+                        <div className="flex w-full gap-sm pt-md">
+                          <Btn
+                            className="!bg-important text-background"
+                            variant="primary"
+                            onClick={handleDelete}
+                            popoverTarget={`delete-review-${props.id}`}
+                          >
+                            Delete
+                          </Btn>
+                          <Btn
+                            className="bg-background text-primary"
+                            variant="primary"
+                            popoverTarget={`delete-review-${props.id}`}
+                          >
+                            Cancel
+                          </Btn>
+                        </div>
+                      </Card>
+                    </dialog>
+                  </>
+                ) : null}
+                <Btn
+                  className="gap-sm rounded-sm p-0"
+                  variant="tertiary"
+                  onClick={toggleComments}
+                >
+                  {isShownComments ? (
+                    <ChatBubbleOvalLeftIconSolid width={24} height={24} />
+                  ) : (
+                    <ChatBubbleOvalLeftIcon width={24} height={24} />
+                  )}
+                </Btn>
+                <Btn
+                  className="gap-sm rounded-sm p-0"
+                  variant="tertiary"
+                  popoverTarget={`report-review-${props.id}`}
+                >
                   <FlagIcon width={24} height={24} />
-                )}
-              </Btn>
+                </Btn>
+                <dialog
+                  popover="auto"
+                  id={`report-review-${props.id}`}
+                  className="bg-[#00000000] backdrop:bg-text backdrop:opacity-25"
+                  onClose={() => setHasFlagged(false)}
+                >
+                  <Card className="w-[300px] p-md">
+                    {!hasFlagged ? (
+                      <>
+                        <p className="pb-md font-bold">Reason:</p>
+                        <form onSubmit={handleReport}>
+                          <Textarea
+                            required
+                            minLength={10}
+                            className="w-full"
+                            placeholder="Please provide a reason..."
+                            name="reason"
+                          />
+                          <div className="flex w-full gap-sm pt-md">
+                            <Btn
+                              className="!bg-important text-background"
+                              variant="primary"
+                              type="submit"
+                              popoverTarget={`report-review-${props.id}`}
+                            >
+                              Report
+                            </Btn>
+                            <Btn
+                              className="bg-background text-primary"
+                              variant="primary"
+                              type="button"
+                              popoverTarget={`report-review-${props.id}`}
+                            >
+                              Cancel
+                            </Btn>
+                          </div>
+                        </form>
+                        {error ? (
+                          <p className="pt-md text-important">
+                            There was an error making your request.
+                          </p>
+                        ) : null}
+                      </>
+                    ) : (
+                      <>
+                        <p className="pb-md text-center">
+                          Thank you for providing your feedback. We will review
+                          this report.
+                        </p>
+                        <div className="flex w-full justify-center">
+                          <Btn
+                            className="w-min"
+                            variant="primary"
+                            popoverTarget={`report-review-${props.id}`}
+                          >
+                            Close
+                          </Btn>
+                        </div>
+                      </>
+                    )}
+                  </Card>
+                </dialog>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
         <div
           className={cn(
@@ -379,102 +651,17 @@ export const Review: React.FC<Props> = (props) => {
         </div>
       </div>
       {isShownComments ? (
-        <>
-          {(props.comments && props.comments.length) ||
-          optimisticComments.length ? (
-            <div className="px-sm pt-md">
-              {props.comments
-                ? props.comments.map((comment, i) => (
-                    <div className="flex flex-col gap-md" key={i}>
-                      <div className="flex items-center px-md">
-                        <div className="flex-1">
-                          <p>
-                            <span className="font-bold">{comment.name}</span>{' '}
-                            <span className="text-neutral">
-                              {comment.updatedAt
-                                ? `updated on ${dayjs(comment.updatedAt).format('MMMM D, YYYY')}`
-                                : `commented on ${dayjs(comment.createdAt).format('MMMM D, YYYY')}`}
-                            </span>
-                          </p>
-                          <p>{comment.content}</p>
-                        </div>
-                        {userId == comment.userId ? (
-                          <div>
-                            <Btn
-                              className="gap-sm rounded-sm p-0"
-                              variant="tertiary"
-                              onClick={handleDeleteComment}
-                            >
-                              <TrashIcon width={24} height={24} />
-                            </Btn>
-                          </div>
-                        ) : null}
-                      </div>
-                      <hr className="pb-md" />
-                    </div>
-                  ))
-                : null}
-              {optimisticComments.map((comment, i) => (
-                <div className="flex flex-col gap-md" key={i}>
-                  <div className="flex items-center px-md">
-                    <div className="flex-1">
-                      <p>
-                        <span className="font-bold">{comment.name}</span>{' '}
-                        <span className="text-neutral">
-                          {comment.updatedAt
-                            ? `updated on ${dayjs(comment.updatedAt).format('MMMM D, YYYY')}`
-                            : `commented on ${dayjs(comment.createdAt).format('MMMM D, YYYY')}`}
-                        </span>
-                      </p>
-                      <p>{comment.content}</p>
-                    </div>
-                    {userId == comment.userId ? (
-                      <div>
-                        <Btn
-                          className="gap-sm rounded-sm p-0"
-                          variant="tertiary"
-                          onClick={handleDeleteComment}
-                        >
-                          <TrashIcon width={24} height={24} />
-                        </Btn>
-                      </div>
-                    ) : null}
-                  </div>
-                  <hr className="pb-md" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="px-sm py-md text-center">No comments yet.</p>
-          )}
-          {isAuthenticated ? (
-            <form className="flex gap-sm pt-sm" onSubmit={handleAddComment}>
-              <Textarea
-                className="w-full"
-                placeholder="Add your comment here..."
-                name="comment"
-              />
-              <Btn
-                className="rounded-md bg-background p-lg text-primary"
-                variant="primary"
-                type="submit"
-              >
-                <ChevronRightIcon width={24} height={24} />
-              </Btn>
-            </form>
-          ) : (
-            <span className="flex w-full items-center justify-center py-md">
-              <LinkBtn
-                variant="tertiary"
-                className="w-fit px-sm"
-                href="/django/google/authorize"
-              >
-                Log in
-              </LinkBtn>{' '}
-              to add a comment.
-            </span>
-          )}
-        </>
+        <CommentsWithoutProviders
+          reviewId={props.id}
+          userId={userId}
+          isAuthenticated={isAuthenticated}
+          session={session}
+        />
+      ) : null}
+      {error ? (
+        <p className="w-full p-md text-center text-important">
+          There was an error making your request.
+        </p>
       ) : null}
     </Card>
   );

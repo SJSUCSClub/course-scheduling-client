@@ -47,11 +47,13 @@ export interface ProfessorsIDReviewsResponse {
     id: number;
     created_at: string;
     updated_at: string | null;
-    name: string | null;
-    username: string | null;
+    reviewer_name: string | null;
+    reviewer_username: string | null;
     course_number: string;
     department: string;
     professor_id: string | null;
+    professor_name: string;
+    professor_email: string;
     content: string;
     quality: number;
     ease: number;
@@ -59,22 +61,11 @@ export interface ProfessorsIDReviewsResponse {
     tags: string[];
     take_again: boolean;
     is_user_anonymous: boolean;
+    user_vote: boolean | null;
     votes: {
       upvotes: number;
       downvotes: number;
     };
-    comments:
-      | {
-          id: number;
-          review_id: number;
-          user_id: string | null;
-          name: string;
-          username: string;
-          created_at: string;
-          updated_at: string | null;
-          content: string;
-        }[]
-      | null;
   }[];
 }
 export interface ProfessorsIDReviewStatsResponse {
