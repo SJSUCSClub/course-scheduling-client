@@ -1,5 +1,5 @@
 // Custom error class to handle fetch errors
-class FetchError extends Error {
+export class FetchError extends Error {
   info: unknown;
   status: number;
 
@@ -13,8 +13,8 @@ class FetchError extends Error {
 }
 
 // From the SWR docs
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
+const fetcher = async (input: RequestInfo | URL, init?: RequestInit) => {
+  const res = await fetch(input, init);
   // artificial timeout to see loading state
   // await new Promise((resolve) => setTimeout(resolve, 2000));
   // If the status code is not in the range 200-299,

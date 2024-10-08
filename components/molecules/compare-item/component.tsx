@@ -34,7 +34,7 @@ export const CompareItem: React.FC<Props> = (props) => (
           <div className="w-[100px]">
             <Stars rating={props.review ?? 0} />
           </div>
-          <p className="text-small-sm text-neutral">
+          <p className="text-nowrap text-small-sm text-neutral">
             {props.totalReviews} Reviews
           </p>
         </div>
