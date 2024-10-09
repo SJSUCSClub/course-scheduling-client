@@ -33,7 +33,7 @@ export const LastNameDisplay: React.FC<LastNameDisplayProps> = ({
   const pages = data ? data[0].pages : 0;
   const items = data?.flatMap((d) => d.items) ?? [];
   return (
-    <div>
+    <Card className="flex flex-col p-[20px]">
       {/** Render title and count **/}
       <div
         id={startswith}
@@ -57,7 +57,7 @@ export const LastNameDisplay: React.FC<LastNameDisplayProps> = ({
               <Card className="items-center" key={professor.id}>
                 <Link
                   href={`/professors/${professor.id}`}
-                  className="flex w-[250px] flex-col items-center py-md animation hover:bg-[rgb(var(--color-primary)/0.15)] focus:bg-[rgb(var(--color-primary)/0.15)]"
+                  className="flex w-[250px] flex-col items-center py-md animation hover:bg-[rgb(var(--color-secondary)/0.15)] focus:bg-[rgb(var(--color-secondary)/0.15)]"
                 >
                   <span className="overflow-ellipsis text-small-lg text-neutral">
                     {professor.email}
@@ -82,6 +82,6 @@ export const LastNameDisplay: React.FC<LastNameDisplayProps> = ({
           ) : null}
         </div>
       ) : null}
-    </div>
+    </Card>
   );
 };
