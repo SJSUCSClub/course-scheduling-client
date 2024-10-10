@@ -28,8 +28,10 @@ export default async function Page() {
   });
 
   return (
-    <main className="mx-auto w-full max-w-content-width px-md">
-      <div className="py-lg text-h2-mobile lg:text-h2-desktop">Courses</div>
+    <>
+      <div className="py-lg text-h2-mobile lg:text-h2-desktop">
+        Courses <span className="text-primary">by Department</span>
+      </div>
 
       <div className="flex flex-col gap-[20px]">
         {components.map(({ letter, departments }) => (
@@ -67,6 +69,6 @@ export default async function Page() {
           </Card>
         ))}
       </div>
-    </main>
+    </>
   );
 }
