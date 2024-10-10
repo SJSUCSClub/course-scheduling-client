@@ -1,25 +1,25 @@
 import { Card } from '@/components/atoms';
-import { CoursesSearchResponse } from '@/types';
+import { DepartmentsResponse } from '@/types/core/departments';
 import Link from 'next/link';
 
 export default async function Page() {
-  const data: CoursesSearchResponse = await fetch(
-    process.env.BASE_API_URL + '/core/courses/search',
+  const data: DepartmentsResponse = await fetch(
+    process.env.BASE_API_URL + '/core/departments',
   ).then((resp) => resp.json());
 
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const map: Map<string, { department: string; count: number }[]> = new Map();
+  const map: Map<string, DepartmentsResponse['departments']> = new Map();
   for (const letter of letters) {
     map.set(letter, []);
   }
 
-  data.filters.departments.forEach(({ department, count }) =>
-    map.get(department[0])?.push({ department, count }),
+  data.departments.forEach(({ abbr_dept, count, name }) =>
+    map.get(abbr_dept[0])?.push({ abbr_dept, count, name }),
   );
 
   const components: {
     letter: string;
-    departments: { department: string; count: number }[];
+    departments: DepartmentsResponse['departments'];
   }[] = [];
   map.forEach((value, key) => {
     if (value.length > 0) {
@@ -44,15 +44,20 @@ export default async function Page() {
             </div>
             <div className="flex flex-row flex-wrap justify-center gap-[20px]">
               {departments.map((department) => (
-                <Card className="items-center" key={department.department}>
+                <Card className="items-center" key={department.abbr_dept}>
                   <Link
-                    href={`/courses/search?department=${department.department}`}
-                    className="flex w-[250px] flex-row items-center justify-between px-md py-md animation hover:bg-[rgb(var(--color-secondary)/0.15)] focus:bg-[rgb(var(--color-secondary)/0.15)]"
+                    href={`/courses/search?department=${department.abbr_dept}`}
+                    className="flex h-full w-[300px] flex-row items-center justify-between px-md py-md animation hover:bg-[rgb(var(--color-secondary)/0.15)] focus:bg-[rgb(var(--color-secondary)/0.15)]"
                   >
-                    <span className="overflow-ellipsis text-p font-bold">
-                      {department.department}
-                    </span>
-                    <span className="overflow-ellipsis text-small-lg text-neutral">
+                    <div className="flex flex-col pr-4">
+                      <span className="text-p font-bold">
+                        {department.name}
+                      </span>
+                      <span className="text-small-lg text-neutral">
+                        {department.abbr_dept}
+                      </span>
+                    </div>
+                    <span className="text-right text-small-lg text-neutral">
                       {department.count} Courses
                     </span>
                   </Link>
