@@ -1,5 +1,17 @@
 import { BreadcrumbMenu } from '@/components/atoms';
+import { formatName } from '@/utils/format-name';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  return {
+    title: `${formatName(params.id)}`,
+  };
+}
 
 export default function Layout({
   statistics,

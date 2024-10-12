@@ -1,5 +1,10 @@
 import { LastNameDisplay } from '@/app/(main)/professors/(page)/lastname';
 import SWRConfigProvider from '@/wrappers/swr-config';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Professors',
+};
 
 export default function Page() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

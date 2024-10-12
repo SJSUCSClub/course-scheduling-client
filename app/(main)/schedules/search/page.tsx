@@ -4,6 +4,11 @@ import { Schedule } from '@/components/organisms';
 import { SchedulesSearchResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
 import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Schedules Search',
+};
 
 export default async function Page({
   searchParams,
