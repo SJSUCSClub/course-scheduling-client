@@ -3,13 +3,14 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Footer } from '@/components/organisms';
 import { cookies } from 'next/headers';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Course Scheduler',
-    default: 'SJSU Course Scheduler',
+    template: '%s | Lenses',
+    default: 'Lenses',
   },
   description: 'Find the best professors and courses at SJSU.',
   authors: [
@@ -48,6 +49,8 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID ?? ''} />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
     </html>
   );
 }

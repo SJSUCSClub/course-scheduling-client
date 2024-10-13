@@ -2,8 +2,13 @@
 
 import NotFoundImage from '@/assets/not-found.png';
 import { Btn } from '@/components/atoms';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: '404 Not Found',
+};
 
 export default function NotFound() {
   const router = useRouter();

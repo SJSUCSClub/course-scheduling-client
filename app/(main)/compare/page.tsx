@@ -9,6 +9,11 @@ import {
 import fetcher from '@/utils/fetcher';
 import roundToTenth from '@/utils/round-to-tenth';
 import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Compare',
+};
 
 export default async function Page({
   searchParams,

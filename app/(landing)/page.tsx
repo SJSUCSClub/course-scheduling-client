@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/solid';
 
 const titlingGothicFB = localFont({
-  src: './TitlingGothicFB.woff2',
+  src: '../fonts/TitlingGothicFB.woff2',
   display: 'swap',
 });
 

@@ -1,6 +1,11 @@
 import { Card } from '@/components/atoms';
 import { DepartmentsResponse } from '@/types/core/departments';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Courses',
+};
 
 export default async function Page() {
   const data: DepartmentsResponse = await fetch(

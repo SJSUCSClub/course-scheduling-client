@@ -2,8 +2,20 @@ import { Btn, Card, Select, Tag, Textarea } from '@/components/atoms';
 import { FilterGroup, SearchBar } from '@/components/molecules';
 import { CoursesSearchResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
+import { formatName } from '@/utils/format-name';
 import { getServerSession } from '@/utils/get-server-session';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { professor_id: string };
+}): Promise<Metadata> {
+  return {
+    title: `Review ${formatName(searchParams.professor_id)}`,
+  };
+}
 
 export default async function Page({
   searchParams,
