@@ -3,7 +3,12 @@ import { FilterGroup, PaginationBar } from '@/components/molecules';
 import { CoursesSearchResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
 import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Courses Search',
+};
 
 export default async function Page({
   searchParams,

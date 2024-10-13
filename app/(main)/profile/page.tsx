@@ -2,7 +2,12 @@ import { ParamSelect } from '@/components/molecules';
 import { Review } from '@/components/organisms';
 import { UsersProfileResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
+import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+
+export const metadata: Metadata = {
+  title: 'My Profile',
+};
 
 export default async function Page({
   searchParams,
