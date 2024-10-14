@@ -97,7 +97,6 @@ export interface CoursesIDSummaryResponse {
   satisfies_area: string | null;
 }
 
-export interface CoursesMostVisitedResponse {
-  most_visited: (CoursesIDReviewStatsResponse &
-    CoursesIDSummaryResponse & { visits: number })[];
+export interface CoursesHighestRatedResponse {
+  highest_rated: (CoursesIDReviewStatsResponse & CoursesIDSummaryResponse)[];
 }

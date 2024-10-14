@@ -82,7 +82,7 @@ export interface ProfessorsIDReviewStatsResponse {
   tags: { tag: string; count: number }[];
 }
 
-export interface ProfessorsMostVisitedResponse {
-  most_visited: (ProfessorsIDReviewStatsResponse &
-    ProfessorsIDSummaryResponse & { visits: number })[];
+export interface ProfessorsHighestRatedResponse {
+  highest_rated: (ProfessorsIDReviewStatsResponse &
+    ProfessorsIDSummaryResponse)[];
 }
