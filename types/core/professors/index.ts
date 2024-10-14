@@ -81,3 +81,8 @@ export interface ProfessorsIDReviewStatsResponse {
   take_again_percent: number | null;
   tags: { tag: string; count: number }[];
 }
+
+export interface ProfessorsHighestRatedResponse {
+  highest_rated: (ProfessorsIDReviewStatsResponse &
+    ProfessorsIDSummaryResponse)[];
+}

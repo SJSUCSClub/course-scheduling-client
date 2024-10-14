@@ -96,3 +96,7 @@ export interface CoursesIDSummaryResponse {
   prereqs: string | null;
   satisfies_area: string | null;
 }
+
+export interface CoursesHighestRatedResponse {
+  highest_rated: (CoursesIDReviewStatsResponse & CoursesIDSummaryResponse)[];
+}

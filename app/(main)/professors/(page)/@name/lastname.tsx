@@ -35,7 +35,7 @@ export const LastNameDisplay: React.FC<LastNameDisplayProps> = ({
   return (
     <Card className="flex flex-col p-[20px]">
       {/** Render title and count **/}
-      <div
+      <button
         id={startswith}
         className="flex flex-row items-center gap-[20px]"
         onClick={() => setActive(!active)}
@@ -47,7 +47,7 @@ export const LastNameDisplay: React.FC<LastNameDisplayProps> = ({
         ) : (
           <ChevronRightIcon className="h-4 w-4" />
         )}
-      </div>
+      </button>
 
       {/** Render items */}
       {active ? (
