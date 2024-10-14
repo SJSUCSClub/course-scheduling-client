@@ -14,9 +14,9 @@ export default async function Page() {
 
   return (
     <>
-      <div className="py-lg text-h2-mobile lg:text-h2-desktop">
+      <h1 className="pb-md pt-xl max-lg:text-h2-mobile lg:text-h2-desktop">
         <span className="text-primary">Top Rated</span> Courses
-      </div>
+      </h1>
 
       <div className="flex w-full flex-row flex-wrap items-center justify-around gap-[20px]">
         {data.highest_rated.map(
