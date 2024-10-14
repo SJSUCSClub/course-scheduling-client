@@ -1,5 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /
-
-Sitemap: https://lenses.acmsjsu.org/sitemap.xml

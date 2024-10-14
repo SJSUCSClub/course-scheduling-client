@@ -20,5 +20,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/compare`,
+      lastModified: new Date().toISOString(),
+      // changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/privacy`,
+      lastModified: new Date().toISOString(),
+      // changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/terms`,
+      lastModified: new Date().toISOString(),
+      // changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }

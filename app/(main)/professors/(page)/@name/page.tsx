@@ -16,10 +16,9 @@ export default function Page() {
   }
   return (
     <>
-      <div className="py-lg text-h2-mobile lg:text-h2-desktop">
+      <h1 className="pb-md pt-xl max-lg:text-h2-mobile lg:text-h2-desktop">
         Professors <span className="text-primary">by Last Name</span>
-      </div>
-
+      </h1>
       <div className="flex flex-col">
         <SWRConfigProvider>
           <div className="flex flex-col gap-[20px]">{components}</div>

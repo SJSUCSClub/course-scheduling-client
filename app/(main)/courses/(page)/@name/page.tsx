@@ -34,10 +34,9 @@ export default async function Page() {
 
   return (
     <>
-      <div className="py-lg text-h2-mobile lg:text-h2-desktop">
+      <h1 className="pb-md pt-xl max-lg:text-h2-mobile lg:text-h2-desktop">
         Courses <span className="text-primary">by Department</span>
-      </div>
-
+      </h1>
       <div className="flex flex-col gap-[20px]">
         {components.map(({ letter, departments }) => (
           <Card key={letter} className="flex flex-col gap-[20px] p-[20px]">

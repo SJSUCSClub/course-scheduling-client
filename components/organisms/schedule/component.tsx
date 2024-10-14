@@ -62,7 +62,7 @@ export const Schedule: React.FC<Props> = (props) => (
             </span>
           ))}
         </div>
-        <div className="flex flex-col items-end justify-center">
+        <div className="flex flex-col justify-center max-lg:items-center lg:items-end">
           <p className="text-small-lg font-bold">
             {props.times.split('-').join(' - ')}
           </p>
