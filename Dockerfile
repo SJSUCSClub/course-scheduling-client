@@ -14,7 +14,6 @@ COPY components components
 COPY types types
 COPY utils utils
 COPY wrappers wrappers
-COPY public public
 COPY .eslintrc.json .eslintrc.json
 COPY postcss.config.mjs postcss.config.mjs
 COPY tailwind.config.ts tailwind.config.ts
