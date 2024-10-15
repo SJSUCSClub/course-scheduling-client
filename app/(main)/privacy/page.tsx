@@ -1,11 +1,8 @@
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import React from 'react';
+import fs from 'fs';
 
 export default async function Page() {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + '/privacy-policy.md',
-  );
-  const markdown = await res.text();
+  const markdown = fs.readFileSync('app/privacy-policy.md', 'utf8');
   return (
     <main>
       <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">
