@@ -5,7 +5,6 @@ import {
 import fetcher from '@/utils/fetcher';
 import getEvaluation from '@/utils/get-evaluation';
 import roundToTenth from '@/utils/round-to-tenth';
-import { ClipboardDocumentListIcon } from '@heroicons/react/16/solid';
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
