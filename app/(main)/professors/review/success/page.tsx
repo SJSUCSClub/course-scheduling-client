@@ -54,6 +54,7 @@ export default async function Page({
           'Content-Type': 'application/json',
           Cookie: cookies().toString(),
           'X-CSRFToken': cookies().get('csrftoken')?.value ?? '',
+          Referer: process.env.NEXT_PUBLIC_BASE_URL || '',
         },
         body: JSON.stringify(body),
       },
