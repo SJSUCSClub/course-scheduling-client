@@ -97,7 +97,7 @@ export const Navbar: React.FC = () => {
                 Compare
               </LinkBtn>
               <SessionWrapper>
-                <ProfileBtn />
+                <ProfileBtn onClick={toggleMenu} />
               </SessionWrapper>
             </nav>
           </li>

@@ -82,8 +82,6 @@ export default async function Page({
       );
     }
   }
-  //log all searchParams
-  console.log(searchParams);
   return (
     <main>
       <section className="mx-auto flex w-full max-w-content-width items-stretch px-md">

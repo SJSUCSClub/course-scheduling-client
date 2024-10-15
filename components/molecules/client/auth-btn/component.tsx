@@ -16,7 +16,12 @@ export const AuthBtn: React.FC<Props> = ({ ...props }) => {
   const session = useSession();
   if (session) {
     return (
-      <LinkBtn {...props} href="/django/google/logout" variant="ghost">
+      <LinkBtn
+        prefetch={false}
+        {...props}
+        href="/django/google/logout"
+        variant="ghost"
+      >
         Sign out
       </LinkBtn>
     );
@@ -24,6 +29,7 @@ export const AuthBtn: React.FC<Props> = ({ ...props }) => {
   return (
     <LinkBtn
       {...props}
+      prefetch={false}
       href="/django/google/authorize"
       className="!gap-sm bg-background text-text"
       variant="primary"
