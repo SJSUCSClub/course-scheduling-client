@@ -2,6 +2,8 @@ import { CoursesSearchResponse } from '@/types';
 import fetcher from '@/utils/fetcher';
 import { MetadataRoute } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 const sitemapLinksLimit = 50000;
 
 export async function generateSitemaps() {
