@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <main className="relative">
       <section className="mx-auto w-full max-w-content-width px-md py-xxl">
-        <Card className="flex items-center justify-center gap-[3rem] overflow-visible bg-[rgb(var(--color-background)/0.85)] px-[3.5rem] py-[3.5rem] backdrop-blur-lg max-lg:flex-col">
+        <Card className="flex items-center justify-center gap-[3rem] overflow-visible bg-[rgb(var(--color-background)/0.85)] backdrop-blur-lg max-lg:flex-col max-lg:px-xl max-lg:py-xl lg:px-[56px] lg:py-[56px]">
           <div className="flex flex-col gap-lg max-lg:items-center">
             <div className="flex flex-col gap-sm max-lg:items-center">
               <Image src={logo} alt="logo" width={60} height={60} />
