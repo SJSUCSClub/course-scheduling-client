@@ -67,7 +67,7 @@ export default async function Page({
               ))
             ) : (
               <p className="w-full p-md text-center italic text-neutral">
-                You haven&apos;t written any reviews.
+                You haven&apos;t interacted with any reviews.
               </p>
             )
           ) : data.reviews.length > 0 ? (
@@ -99,7 +99,7 @@ export default async function Page({
             ))
           ) : (
             <p className="w-full p-md text-center italic text-neutral">
-              You haven&apos;t interacted with any reviews.
+              You haven&apos;t written any reviews.
             </p>
           )}
         </div>
